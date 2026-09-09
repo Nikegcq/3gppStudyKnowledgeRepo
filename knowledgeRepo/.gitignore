@@ -1,0 +1,10 @@
+.DS_Store
+*.deb
+*.tmp
+*.bak
+.trash/
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+90-Attachments/*
+!90-Attachments/.gitkeep
