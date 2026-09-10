@@ -2,7 +2,7 @@
 type: moc
 tags: [RF, 射频, 硬件]
 created: 2026-09-03
-updated: 2026-09-03
+updated: 2026-09-10
 status: active
 ---
 
@@ -26,6 +26,11 @@ status: active
 - 时频同步、IQ 数据接口
 - DDC/DUC 与数字预失真（DPD）概念
 
+## 驱动与软件栈
+
+- [[概念-物理层射频驱动全景]]：RFIC 内核驱动 → FPGA/JESD 数据面 → 用户态框架（libiio/UHD/SoapySDR）→ RAN radio 后端
+- 实例：[[学习-Linux-驱动开发-AD9361-从dtsi到驱动调用流程]]（Pluto/AD9361）
+
 ## 规范速查
 
 - 3GPP TS 38.104（gNB 射频）
@@ -35,4 +40,3 @@ status: active
 
 - [[领域-L1物理层]]
 - [[MOC-FPGA]]（数字侧实现）
-

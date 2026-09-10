@@ -2,7 +2,7 @@
 type: moc
 tags: [主页]
 created: 2026-09-03
-updated: 2026-09-04
+updated: 2026-09-10
 status: active
 ---
 
@@ -22,6 +22,8 @@ status: active
 - [[MOC-射频]]
 - [[MOC-C++与软件]]
 - [[MOC-O-RAN开源]]
+- [[MOC-Linux]]（Linux：u-boot / 内核 / 驱动 / DMA）
+- [[MOC-RTOS]]（RTOS：FreeRTOS 内核）
 
 ## 素材来源
 
@@ -29,7 +31,7 @@ status: active
 - 开源仓库笔记：`30-Resources/开源仓库`
 - 3GPP 规范：`30-Resources/3GPP规范`（PDF 在 `90-Attachments/3GPP规范/`，地图见 [[3GPP-38系列-NR物理层规范]]）
 - 参考网站：[[ShareTechnote-5G手册]]（ShareTechnote 5G/NR 手册，L1 图解参考）
-- 今日日记：[[2026-09-04]]
+- 今日日记：[[2026-09-10]]
 
 ## 常用操作
 
