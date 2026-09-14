@@ -1,0 +1,21 @@
+{
+  "id": "609fc6c7-12b4-4942-933e-e411c43f70cf",
+  "state": "committed",
+  "createdAt": "2026-09-11T03:15:25.113Z",
+  "snapshots": [
+    {
+      "path": "30-Resources/嵌入式Linux/学习-Linux-学习路线.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "2d4d65c8f74bc2540d2d7af5f20e03fd699c575f013e3c3a8659e271d31f3158",
+      "recoverable": true,
+      "existed": true,
+      "mode": 33206,
+      "etag": "736d16602bc4ad62bb68e852265a73254922f7b48b31f85b2749ef5799e96239",
+      "snapshot": "0.bin",
+      "committedEtag": "2d4d65c8f74bc2540d2d7af5f20e03fd699c575f013e3c3a8659e271d31f3158"
+    }
+  ],
+  "completedAt": "2026-09-11T03:15:25.131Z"
+}

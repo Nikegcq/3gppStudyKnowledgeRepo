@@ -47,11 +47,11 @@ repo: /home/congqiang/work/repo/plutosdr-fw
 
 ## 3 复现命令
 
-脚本已固化到仓库 `scripts/kernel-lab/`：
+脚本已固化到 `plutosdr-fw/kernel-lab/`（2026-09-11 从知识库迁入 WSL）：
 
 ```bash
 cd /home/congqiang/work/repo/plutosdr-fw
-export LAB=/mnt/c/Users/gaooocon/study/3gppStudyKnowledgeRepo/knowledgeRepo/scripts/kernel-lab
+export LAB=/home/congqiang/work/repo/plutosdr-fw/kernel-lab
 
 source $LAB/env.sh
 bash $LAB/make_initramfs.sh

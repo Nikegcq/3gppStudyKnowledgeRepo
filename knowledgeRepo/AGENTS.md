@@ -17,7 +17,7 @@
 - `50-Journal`：日记，`YYYY-MM-DD.md`
 - `60-Templates`：模板
 - `90-Attachments`：附件
-- `scripts`：`backup.sh`、`check-links.py`
+- `scripts`：`backup.sh`、`check-links.py`、`audit.py`
 - `Home.md`：首页导航
 
 ## 主题地图（分类骨架）
@@ -87,6 +87,48 @@
 
 - 备份：`bash scripts/backup.sh`
 - 改动过链接时：`python3 scripts/check-links.py`
+- 结构审计：`python3 scripts/audit.py`（或 `python scripts/audit.py`）
+
+### 定期梳理
+
+清理不是「删得多」，而是让每条笔记都有**入口、归属、状态**。多余信息分三类：
+
+| 类型 | 表现 | 处置 |
+| --- | --- | --- |
+| 重复 | 同一概念写了两篇 | 合并，保留一篇；另一篇 Archive + 「见 [[主笔记]]」 |
+| 孤岛 | 无反链，MOC/领域页也没挂 | 挂上入口；挂不上则 Archive |
+| 过时 | `status: draft` 超期、链接失效 | 补全为 active，或 Archive |
+
+**不直接物理删除**：先移入 `40-Archive`，确认无用再删。
+
+#### 节奏
+
+- **每周（10–15 分钟）**：清空 `00-Inbox`（每条三选一：归入 Resources / Projects / Archive）；扫 Journal 可展开碎片；跑 `check-links.py`。
+- **每月（30–60 分钟）**：跑 `python3 scripts/audit.py -o 40-Archive/audit-YYYY-MM.md`，得到待处理列表后再批量改，用户确认处置。
+- **每季（1–2 小时）**：选一个主题（如 SSB）做收敛——散落笔记收成 1 篇综述 + 若干细节；淘汰过时实现 → Archive；更新领域页/MOC「当前理解」。
+
+#### 判定规则
+
+- 有反链且近 90 天仍相关 → 保留。
+- 有反链但内容空/过时 → 补全或降级为索引。
+- 无反链且无 MOC 挂载 → 挂上；挂不上 → `40-Archive`。
+- 两篇高度相似 → 合并，另一篇 Archive 并加「见 [[主笔记]]」。
+- 纯过程笔记（旧 Journal）→ 默认 Archive，有价值摘录抽走。
+
+#### 状态流转
+
+```text
+Inbox → Active（分类归入）
+Active → Review（超期未动 / 主题收敛）
+Review → Active（补全挂链）或 Archive（过时/被合并）
+Archive → Active（又需要）或 确认后删除
+```
+
+#### 命令入口
+
+- 审计报告：`python3 scripts/audit.py`（stdout）或 `-o <路径>` 写文件
+- 可调参数：`--stale-days 30`、`--similar-threshold 0.55`
+- 对 AI 说「跑月度梳理」时：先跑 audit，列出报告要点，**用户确认后再改库**；处置默认合并或 Archive，不物理删除；处理完刷新 `updated` 并同步 MOC。
 
 ## 边界
 
