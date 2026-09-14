@@ -1,0 +1,18 @@
+{
+  "id": "e3435e34-249e-45ca-87cd-a25c4ba43d85",
+  "state": "committed",
+  "createdAt": "2026-09-11T02:21:32.153Z",
+  "snapshots": [
+    {
+      "path": "00-Inbox/MCP写入测试.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "9d56b44d67585567a08c8fdc6d2de0d62ff39ad10642a38a0e78704e8337df23",
+      "recoverable": true,
+      "existed": false,
+      "committedEtag": "9d56b44d67585567a08c8fdc6d2de0d62ff39ad10642a38a0e78704e8337df23"
+    }
+  ],
+  "completedAt": "2026-09-11T02:21:32.176Z"
+}

@@ -2,7 +2,7 @@
 type: resource
 tags: [Linux, 嵌入式, 学习计划, u-boot, 内核, 驱动开发, DMA]
 created: 2026-09-09
-updated: 2026-09-14
+updated: 2026-09-10
 status: active
 ---
 
@@ -23,21 +23,21 @@ status: active
 
 ### 执行版总览
 
-| 阶段  | 目标            | 关键任务                                                                                                 | 产出 / 验收                                                            | 建议投入  | 对应旧编号            |
-| --- | ------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | ----- | ---------------- |
-| 0   | 环境与源码地图       | WSL 构建依赖、QEMU+GDB、elixir/cscope/ctags；plutosdr-fw 目录与产物地图                                            | 能启动 QEMU 并 attach GDB；画出源码树 + 产物链 → 成果见 [[学习-Linux-阶段0-源码地图与调试环境]] | 1 天   | T0 + P0          |
-| 1   | 最小驱动闭环        | hello 模块；misc 字符设备；`file_operations → VFS`；`copy_*_user`、`container_of`、`class_create/device_create` | 完成 `insmod → cat/echo → dmesg → rmmod`；写 VFS 调用链笔记                 | 2–3 天 | T1 + T2          |
-| 2   | QEMU+GDB 动态调试 | 断 `start_kernel`、`do_initcalls`、自己的 `open/read`；单步与变量观察                                              | GDB 调试小抄 + 一次完整断点记录                                                | 1–2 天 | T3               |
-| 3   | 设备模型与总线匹配     | `drivers/base/{bus,dd,platform}.c`、`drivers/of/platform.c`、SPI modalias                              | 「DT node → device → bus match → probe」图；用 pluto dtsi 举例            | 1–2 天 | T5 + P2          |
-| 4   | Pluto 构建与启动链  | `pluto.its`、FIT、`bootm`、uboot env、DT 传递                                                              | 启动链图 + `pluto.its` 逐段注释                                            | 2 天   | P0 + P1          |
-| 5   | 控制面驱动与 IIO    | `xilinx-xadc` 热身 → ad9361 probe/时钟/setup/converter/IIO                                               | 更新 [[学习-Linux-驱动开发-AD9361-从dtsi到驱动调用流程]]；能讲双 IIO 设备分工              | 3–5 天 | T4 + P3          |
-| 6   | 数据面与用户态       | cf_axi_adc probe、IIO dmaengine buffer、`dma-axi-dmac`、mmap/libiio                                     | 端到端数据通路图 + buffer→DMA→用户态调用链                                       | 3–5 天 | P4 + T6(IIO/DMA) |
-| 7   | 中断、并发与实时性     | PL IRQ → threaded/workqueue/waitqueue；spinlock/mutex；对照 RTOS                                         | 中断时间线 + Linux vs RTOS 对照图                                          | 1–2 天 | P5               |
-| 8   | 综合实践与 RAN 映射  | 板上 libiio 收发；srsRAN/OAI 的 radio 抽象；复盘                                                                | 端到端图 + 「嵌入 Linux 视角看 RAN 数据通路」小结                                   | 2–3 天 | P6               |
+| 阶段 | 目标 | 关键任务 | 产出 / 验收 | 建议投入 | 对应旧编号 |
+| --- | --- | --- | --- | --- | --- |
+| 0 | 环境与源码地图 | WSL 构建依赖、QEMU+GDB、elixir/cscope/ctags；plutosdr-fw 目录与产物地图 | 能启动 QEMU 并 attach GDB；画出源码树 + 产物链 → 成果见 [[学习-Linux-阶段0-源码地图与调试环境]] | 1 天 | T0 + P0 |
+| 1 | 最小驱动闭环 | hello 模块；misc 字符设备；`file_operations → VFS`；`copy_*_user`、`container_of`、`class_create/device_create` | 完成 `insmod → cat/echo → dmesg → rmmod`；写 VFS 调用链笔记 | 2–3 天 | T1 + T2 |
+| 2 | QEMU+GDB 动态调试 | 断 `start_kernel`、`do_initcalls`、自己的 `open/read`；单步与变量观察 | GDB 调试小抄 + 一次完整断点记录 | 1–2 天 | T3 |
+| 3 | 设备模型与总线匹配 | `drivers/base/{bus,dd,platform}.c`、`drivers/of/platform.c`、SPI modalias | 「DT node → device → bus match → probe」图；用 pluto dtsi 举例 | 1–2 天 | T5 + P2 |
+| 4 | Pluto 构建与启动链 | `pluto.its`、FIT、`bootm`、uboot env、DT 传递 | 启动链图 + `pluto.its` 逐段注释 | 2 天 | P0 + P1 |
+| 5 | 控制面驱动与 IIO | `xilinx-xadc` 热身 → ad9361 probe/时钟/setup/converter/IIO | 更新 [[学习-Linux-驱动开发-AD9361-从dtsi到驱动调用流程]]；能讲双 IIO 设备分工 | 3–5 天 | T4 + P3 |
+| 6 | 数据面与用户态 | cf_axi_adc probe、IIO dmaengine buffer、`dma-axi-dmac`、mmap/libiio | 端到端数据通路图 + buffer→DMA→用户态调用链 | 3–5 天 | P4 + T6(IIO/DMA) |
+| 7 | 中断、并发与实时性 | PL IRQ → threaded/workqueue/waitqueue；spinlock/mutex；对照 RTOS | 中断时间线 + Linux vs RTOS 对照图 | 1–2 天 | P5 |
+| 8 | 综合实践与 RAN 映射 | 板上 libiio 收发；srsRAN/OAI 的 radio 抽象；复盘 | 端到端图 + 「嵌入 Linux 视角看 RAN 数据通路」小结 | 2–3 天 | P6 |
 
 ### 执行闸门（gate）
 
-- [x] G1：完成阶段 1+2，能在 QEMU+GDB 里断住自己写的 `open/read`，并解释用户态 `read()` 到驱动回调的路径。—— 2026-09-14 已断住 `lab_read`（栈：lab_read→vfs_read→ksys_read），详见 [[学习-Linux-阶段1-最小驱动闭环]]；阶段 2 的 do_initcalls 启动断点仍待做。
+- [ ] G1：完成阶段 1+2，能在 QEMU+GDB 里断住自己写的 `open/read`，并解释用户态 `read()` 到驱动回调的路径。
 - [ ] G2：完成阶段 3，能画出「DT node → device → bus match → driver.probe」通用链，并能指出 SPI 与 platform 匹配方式的差异。
 - [ ] G3：进入阶段 5 前，先断在 `ad9361_probe` 与 `axiadc_probe`（或至少静态指出两者先后与 `EPROBE_DEFER` 条件）。
 - [ ] G4：完成阶段 6，能画出 AD9363 → axi_ad9361 → axi_dmac → DDR → IIO buffer → mmap/libiio 的完整图。
@@ -105,8 +105,8 @@ git submodule update --init hdl linux u-boot-xlnx buildroot
 ### T 线任务清单
 
 - [x] T0 源码地图与工具：记住 `arch/`、`drivers/`、`fs/`、`kernel/`、`mm/`、`include/`、`init/`、`Documentation/` 的职责；会用 elixir.bootlin.com + cscope/ctags/`rg`；产出「源码地图 + 入口函数导航模板」→ 见 [[学习-Linux-阶段0-源码地图与调试环境]]
-- [x] T1 最小模块闭环：写 hello 模块 + Makefile，走通 `insmod` → `lsmod` → `dmesg` → `rmmod`；读 `include/linux/module.h`，理解 `module_init/exit` 不是 `main`。→ [[学习-Linux-阶段1-最小驱动闭环]]
-- [x] T2 字符 / 杂项设备：读 `include/linux/fs.h` 的 `struct file_operations` 与 `fs/read_write.c` 的 `vfs_read`；用 misc 字符设备自动建节点（lab_chardev）；练 `copy_to_user/copy_from_user`、`private_data + container_of`、mutex 保护；对照 `drivers/char/misc.c`。→ [[学习-Linux-阶段1-最小驱动闭环]]
+- [ ] T1 最小模块闭环：写 hello 模块 + Makefile，走通 `insmod` → `lsmod` → `dmesg` → `rmmod`；读 `include/linux/module.h`，理解 `module_init/exit` 不是 `main`。
+- [ ] T2 字符 / 杂项设备：读 `include/linux/fs.h` 的 `struct file_operations` 与 `fs/read_write.c` 的 `vfs_read`；用 `class_create/device_create` 自动建节点；练 `copy_to_user/copy_from_user`、`private_data + container_of`、mutex 保护；对照 `drivers/char/misc.c`。
 - [ ] T3 QEMU+GDB 动态调试：环境与 `start_kernel` 断点已通（见 [[学习-Linux-阶段0-源码地图与调试环境]]）；余 `do_initcalls`、自己的 `open/read`，之后可断在 `ad9361_probe`、`axiadc_probe`、`iio_device_register` 动态核对 P 线调用链。
 - [ ] T4 对照内核自带驱动：选一个 `drivers/char/` 简单驱动对照自己的代码；选一个简单 IIO 驱动（如 `xilinx-xadc.c`）建立 `iio_dev → channels → sysfs` 直觉，为 P3 铺路。
 - [ ] T5 设备模型：读 `drivers/base/{bus,dd,platform}.c` 与 `drivers/of/platform.c`，能画「DT node → device → bus match → driver.probe」，理解 `-EPROBE_DEFER` 与 device link。
@@ -317,7 +317,7 @@ git submodule update --init hdl linux u-boot-xlnx buildroot
 **执行版进度（以此为准）**
 
 - [x] 阶段 0：环境与源码地图
-- [x] 阶段 1：最小驱动闭环 → [[学习-Linux-阶段1-最小驱动闭环]]
+- [ ] 阶段 1：最小驱动闭环
 - [ ] 阶段 2：QEMU+GDB 动态调试
 - [ ] 阶段 3：设备模型与总线匹配
 - [ ] 阶段 4：Pluto 构建与启动链
@@ -331,8 +331,8 @@ git submodule update --init hdl linux u-boot-xlnx buildroot
 **T 线：通用内核地基**
 
 - [ ] T0：源码地图与阅读工具
-- [x] T1：最小模块闭环
-- [x] T2：字符 / 杂项设备
+- [ ] T1：最小模块闭环
+- [ ] T2：字符 / 杂项设备
 - [ ] T3：QEMU+GDB 动态调试
 - [ ] T4：对照内核自带驱动
 - [ ] T5：设备模型
@@ -357,7 +357,7 @@ git submodule update --init hdl linux u-boot-xlnx buildroot
 - [ ] 资料收藏：是否把 kernel / u-boot 官方文档入口收进「参考网站」目录，方便引用
 - [ ] T 线环境：WSL 补齐 flex / bison 等内核构建依赖；搭好 QEMU+GDB（`osmten/qemu-kernel-dbg` 或手工），确保能断住自己写的 `open`/`read`
 - [x] 执行版阶段 0：补 WSL 依赖 → 搭 QEMU+GDB → 建源码地图 + plutosdr-fw 产物链图；成果见 [[学习-Linux-阶段0-源码地图与调试环境]]
-- [x] 执行版阶段 1：最小驱动闭环（hello 模块 + misc 字符设备 + VFS 调用链）→ [[学习-Linux-阶段1-最小驱动闭环]]
+- [ ] 执行版阶段 1：最小驱动闭环（hello 模块 + misc 字符设备 + VFS 调用链）
 - [ ] T 线版本策略：另备一份接近 mainline 6.x 的内核源码配合 elixir / docs.kernel.org 学通用机制；P 线继续用 plutosdr-fw `linux @ f3da30df`，避免行号混淆
 - [ ] T4 / T6 选型：对照驱动先选一个 `drivers/char/` 简单驱动 + `xilinx-xadc`；子系统建议先 IIO，USB 作为第二
 
