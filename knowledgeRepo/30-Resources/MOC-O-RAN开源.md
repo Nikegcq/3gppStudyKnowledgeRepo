@@ -24,11 +24,13 @@ status: active
 
 ## 学习进度
 
+- 执行中的双主线项目（含 OFH/7.2x 与 C-plane 映射任务）：[[计划-2026Q4-双主线学习-O-DU-L1与嵌入式系统]]
 - [x] srsRAN_Project 仓库地图：[[仓库-srsRAN_Project]]
 - [x] srsRAN_Project PHY 总览：[[仓库-srsRAN_Project-PHY总览]]
 - [x] 信道编码与速率匹配：[[仓库-srsRAN_Project-信道编码与速率匹配]]
 - [x] 下行物理信道与 OFDM 发射：[[仓库-srsRAN_Project-下行物理信道与OFDM发射]]
 - [x] 上行接收与信道估计：[[仓库-srsRAN_Project-上行接收与信道估计]]
+- [ ] 计划 W5：OFH 与 7.2x、O-RAN C-plane ↔ L1 参数映射
 - [ ] 待添加：其余仓库（OAI / O-RAN SC / UERANSIM）的仓库地图
 
 ## 相关
