@@ -25,6 +25,11 @@ status: active
 - [[MOC-Linux]]（Linux：u-boot / 内核 / 驱动 / DMA）
 - [[MOC-RTOS]]（RTOS：FreeRTOS 内核）
 
+## 进行中的项目
+
+- [[计划-2026Q4-双主线学习-O-DU-L1与嵌入式系统]]（2026-09-18 ~ 11-16：O-DU/L1 协议 + RFIC 使用）
+- [[计划-独立线-Linux通用内核机制]]（独立延后，不在 Q4 八周内；Q4 收口后启动）
+
 ## 素材来源
 
 - 公众号收藏：`30-Resources/公众号收藏`
