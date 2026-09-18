@@ -1,0 +1,21 @@
+{
+  "id": "3f2bd05a-9651-4fcc-b088-22c741826d29",
+  "state": "committed",
+  "createdAt": "2026-09-17T14:24:20.994Z",
+  "snapshots": [
+    {
+      "path": "30-Resources/概念-Mixer变频与镜像频率.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "d55c588c29d13d14d4aac32822b753851e7f737a86d464d5f391c20e284d034c",
+      "recoverable": true,
+      "existed": true,
+      "mode": 33206,
+      "etag": "393d4c726eadbb1c2bd2f46fbacb7da5d4149b6f725bfce890b022dbba3c618f",
+      "snapshot": "0.bin",
+      "committedEtag": "d55c588c29d13d14d4aac32822b753851e7f737a86d464d5f391c20e284d034c"
+    }
+  ],
+  "completedAt": "2026-09-17T14:24:21.018Z"
+}

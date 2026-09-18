@@ -1,0 +1,16 @@
+{
+  "id": "4bbd2a1d-7f3d-4785-99ba-15332c49f2f1",
+  "state": "committed",
+  "createdAt": "2026-09-18T09:53:42.883Z",
+  "snapshots": [
+    {
+      "path": "面试题/C++",
+      "operation": "mkdir",
+      "entryType": "directory",
+      "phase": "applied",
+      "recoverable": true,
+      "existed": false
+    }
+  ],
+  "completedAt": "2026-09-18T09:53:42.896Z"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "f0b541b5-0bcc-4fab-9e91-31f7a1fd1827",
+  "state": "committed",
+  "createdAt": "2026-09-18T09:50:06.158Z",
+  "snapshots": [
+    {
+      "path": "面试题/C++面试-虚函数实现举例详解.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "c9e9251599a5243270b6c3899a4414a36023273916cd6839cc71f1354aa21abe",
+      "recoverable": true,
+      "existed": false,
+      "committedEtag": "c9e9251599a5243270b6c3899a4414a36023273916cd6839cc71f1354aa21abe"
+    }
+  ],
+  "completedAt": "2026-09-18T09:50:06.178Z"
+}

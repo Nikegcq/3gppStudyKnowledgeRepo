@@ -1,0 +1,18 @@
+{
+  "id": "164b9c6f-ffdc-4b75-b94e-592240086f1c",
+  "state": "committed",
+  "createdAt": "2026-09-18T09:19:01.996Z",
+  "snapshots": [
+    {
+      "path": "面试题/C++面试-语言基础与面向对象.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "734223df1aaa4674ec7ac156a7aae083dcdf9a681ab49d3318a8df33ae98d275",
+      "recoverable": true,
+      "existed": false,
+      "committedEtag": "734223df1aaa4674ec7ac156a7aae083dcdf9a681ab49d3318a8df33ae98d275"
+    }
+  ],
+  "completedAt": "2026-09-18T09:19:02.033Z"
+}

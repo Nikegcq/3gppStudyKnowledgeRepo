@@ -1,0 +1,29 @@
+{
+  "id": "bb5c5b68-6ac0-4c12-9cc1-0815e4b8977e",
+  "state": "committed",
+  "createdAt": "2026-09-18T09:53:53.204Z",
+  "snapshots": [
+    {
+      "path": "面试题/C++/C++面试-static关键字详解.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "c4edd94a3e153a40eea6f1bbf15e2e019358b216142211da68e907976f6be64b",
+      "recoverable": true,
+      "existed": false,
+      "committedEtag": "c4edd94a3e153a40eea6f1bbf15e2e019358b216142211da68e907976f6be64b"
+    },
+    {
+      "path": "面试题/C++面试-static关键字详解.md",
+      "operation": "delete",
+      "entryType": "file",
+      "phase": "applied",
+      "recoverable": true,
+      "existed": true,
+      "mode": 33206,
+      "etag": "c4edd94a3e153a40eea6f1bbf15e2e019358b216142211da68e907976f6be64b",
+      "snapshot": "1.bin"
+    }
+  ],
+  "completedAt": "2026-09-18T09:53:53.225Z"
+}

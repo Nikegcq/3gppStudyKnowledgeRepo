@@ -1,0 +1,29 @@
+{
+  "id": "b5ac2b23-5c14-4567-908b-0019e8273548",
+  "state": "committed",
+  "createdAt": "2026-09-18T09:53:57.821Z",
+  "snapshots": [
+    {
+      "path": "面试题/C++/C++面试-STL与模板.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "afc178be8b6d19f097194f5f4b2c908ac01600abf11e45eb474ddeb63e567eb2",
+      "recoverable": true,
+      "existed": false,
+      "committedEtag": "afc178be8b6d19f097194f5f4b2c908ac01600abf11e45eb474ddeb63e567eb2"
+    },
+    {
+      "path": "面试题/C++面试-STL与模板.md",
+      "operation": "delete",
+      "entryType": "file",
+      "phase": "applied",
+      "recoverable": true,
+      "existed": true,
+      "mode": 33206,
+      "etag": "afc178be8b6d19f097194f5f4b2c908ac01600abf11e45eb474ddeb63e567eb2",
+      "snapshot": "1.bin"
+    }
+  ],
+  "completedAt": "2026-09-18T09:53:57.845Z"
+}

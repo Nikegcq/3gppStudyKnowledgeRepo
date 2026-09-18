@@ -2,7 +2,7 @@
 type: moc
 tags: [RF, 射频, 硬件]
 created: 2026-09-03
-updated: 2026-09-15
+updated: 2026-09-17
 status: active
 ---
 
@@ -17,6 +17,8 @@ status: active
 ## 收发信机链路
 
 - 发射/接收架构、上下变频
+- [[概念-Mixer与IQ-图解步骤]]：**先读这个**——零中频 I/Q 框图、天线→混频→镜像→I/Q→LPF
+- [[概念-Mixer变频与镜像频率]]：进阶公式与 AD9361 对照
 - 功放、低噪放、滤波器、混频器
 - ADC / DAC 与模拟前端接口
 

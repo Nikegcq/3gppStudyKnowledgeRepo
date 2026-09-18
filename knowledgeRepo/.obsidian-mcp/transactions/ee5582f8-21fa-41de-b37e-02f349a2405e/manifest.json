@@ -1,0 +1,21 @@
+{
+  "id": "ee5582f8-21fa-41de-b37e-02f349a2405e",
+  "state": "committed",
+  "createdAt": "2026-09-17T10:10:51.549Z",
+  "snapshots": [
+    {
+      "path": "30-Resources/MOC-射频.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "0519c6070c3c86c9c55a51fa26dcd84e05c20bd47df34ce9d1614fd1bd740883",
+      "recoverable": true,
+      "existed": true,
+      "mode": 33206,
+      "etag": "2f5faad537b8ddf5bee2d64db3f361db2986c6fca06ca76719011c302769a505",
+      "snapshot": "0.bin",
+      "committedEtag": "0519c6070c3c86c9c55a51fa26dcd84e05c20bd47df34ce9d1614fd1bd740883"
+    }
+  ],
+  "completedAt": "2026-09-17T10:10:51.564Z"
+}

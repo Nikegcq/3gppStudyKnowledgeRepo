@@ -1,0 +1,21 @@
+{
+  "id": "58d78b59-d0e9-48bc-8ccb-f8515fee8108",
+  "state": "committed",
+  "createdAt": "2026-09-17T10:10:45.371Z",
+  "snapshots": [
+    {
+      "path": "30-Resources/嵌入式Linux/学习-Linux-驱动开发-AD9361-从零到通.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "efdf083aad58d011aa108676756820581486daca20a480557666eb1bc555d39e",
+      "recoverable": true,
+      "existed": true,
+      "mode": 33206,
+      "etag": "094a7150074eda445c571f477c23ab09e9c684bcb27c2419a52911e8fc8c5f51",
+      "snapshot": "0.bin",
+      "committedEtag": "efdf083aad58d011aa108676756820581486daca20a480557666eb1bc555d39e"
+    }
+  ],
+  "completedAt": "2026-09-17T10:10:45.388Z"
+}
