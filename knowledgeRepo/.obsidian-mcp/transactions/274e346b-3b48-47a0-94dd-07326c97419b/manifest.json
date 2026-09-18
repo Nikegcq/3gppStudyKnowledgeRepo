@@ -1,0 +1,29 @@
+{
+  "id": "274e346b-3b48-47a0-94dd-07326c97419b",
+  "state": "committed",
+  "createdAt": "2026-09-18T09:53:55.236Z",
+  "snapshots": [
+    {
+      "path": "面试题/C++/C++面试-现代C++特性.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "d639df06cea74c132208dad1e88725e8bb9a477b34f1cf061c046d8797bb2333",
+      "recoverable": true,
+      "existed": false,
+      "committedEtag": "d639df06cea74c132208dad1e88725e8bb9a477b34f1cf061c046d8797bb2333"
+    },
+    {
+      "path": "面试题/C++面试-现代C++特性.md",
+      "operation": "delete",
+      "entryType": "file",
+      "phase": "applied",
+      "recoverable": true,
+      "existed": true,
+      "mode": 33206,
+      "etag": "d639df06cea74c132208dad1e88725e8bb9a477b34f1cf061c046d8797bb2333",
+      "snapshot": "1.bin"
+    }
+  ],
+  "completedAt": "2026-09-18T09:53:55.259Z"
+}

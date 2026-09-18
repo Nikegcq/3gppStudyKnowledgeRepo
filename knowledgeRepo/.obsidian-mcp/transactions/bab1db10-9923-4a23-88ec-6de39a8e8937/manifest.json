@@ -1,0 +1,18 @@
+{
+  "id": "bab1db10-9923-4a23-88ec-6de39a8e8937",
+  "state": "committed",
+  "createdAt": "2026-09-18T09:19:52.986Z",
+  "snapshots": [
+    {
+      "path": "面试题/C++面试-内存管理与智能指针.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "56034c0965f27385824bc468fcced40ce33288c00166a85cd676ecfc053ef98d",
+      "recoverable": true,
+      "existed": false,
+      "committedEtag": "56034c0965f27385824bc468fcced40ce33288c00166a85cd676ecfc053ef98d"
+    }
+  ],
+  "completedAt": "2026-09-18T09:19:53.000Z"
+}

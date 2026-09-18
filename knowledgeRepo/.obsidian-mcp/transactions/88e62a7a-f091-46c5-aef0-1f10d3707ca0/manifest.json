@@ -1,0 +1,18 @@
+{
+  "id": "88e62a7a-f091-46c5-aef0-1f10d3707ca0",
+  "state": "committed",
+  "createdAt": "2026-09-18T09:20:51.847Z",
+  "snapshots": [
+    {
+      "path": "面试题/C++面试-现代C++特性.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "d639df06cea74c132208dad1e88725e8bb9a477b34f1cf061c046d8797bb2333",
+      "recoverable": true,
+      "existed": false,
+      "committedEtag": "d639df06cea74c132208dad1e88725e8bb9a477b34f1cf061c046d8797bb2333"
+    }
+  ],
+  "completedAt": "2026-09-18T09:20:51.871Z"
+}

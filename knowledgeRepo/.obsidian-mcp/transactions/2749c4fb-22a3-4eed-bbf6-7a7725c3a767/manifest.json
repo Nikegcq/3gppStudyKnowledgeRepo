@@ -1,0 +1,18 @@
+{
+  "id": "2749c4fb-22a3-4eed-bbf6-7a7725c3a767",
+  "state": "committed",
+  "createdAt": "2026-09-18T09:21:47.356Z",
+  "snapshots": [
+    {
+      "path": "面试题/C++面试-多线程与并发.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "95f129f914e1671935688f38e36a4594766b838b524ef05bf5bda3e667c1f314",
+      "recoverable": true,
+      "existed": false,
+      "committedEtag": "95f129f914e1671935688f38e36a4594766b838b524ef05bf5bda3e667c1f314"
+    }
+  ],
+  "completedAt": "2026-09-18T09:21:47.375Z"
+}

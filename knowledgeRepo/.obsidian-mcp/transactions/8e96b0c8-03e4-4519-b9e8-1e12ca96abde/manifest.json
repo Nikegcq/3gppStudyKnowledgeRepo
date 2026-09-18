@@ -1,0 +1,29 @@
+{
+  "id": "8e96b0c8-03e4-4519-b9e8-1e12ca96abde",
+  "state": "committed",
+  "createdAt": "2026-09-18T09:53:48.819Z",
+  "snapshots": [
+    {
+      "path": "面试题/Linux/Linux驱动加载与匹配-面试问答.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "1c6ea021fe1407093f0d1cebf3bdbf1aadd6db06c2ecf1052e98405ba852c9c2",
+      "recoverable": true,
+      "existed": false,
+      "committedEtag": "1c6ea021fe1407093f0d1cebf3bdbf1aadd6db06c2ecf1052e98405ba852c9c2"
+    },
+    {
+      "path": "面试题/Linux驱动加载与匹配-面试问答.md",
+      "operation": "delete",
+      "entryType": "file",
+      "phase": "applied",
+      "recoverable": true,
+      "existed": true,
+      "mode": 33206,
+      "etag": "1c6ea021fe1407093f0d1cebf3bdbf1aadd6db06c2ecf1052e98405ba852c9c2",
+      "snapshot": "1.bin"
+    }
+  ],
+  "completedAt": "2026-09-18T09:53:48.842Z"
+}

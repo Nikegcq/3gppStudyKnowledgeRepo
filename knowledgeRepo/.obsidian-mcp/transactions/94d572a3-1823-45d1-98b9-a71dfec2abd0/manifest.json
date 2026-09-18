@@ -1,0 +1,16 @@
+{
+  "id": "94d572a3-1823-45d1-98b9-a71dfec2abd0",
+  "state": "committed",
+  "createdAt": "2026-09-18T09:53:43.258Z",
+  "snapshots": [
+    {
+      "path": "面试题/Linux",
+      "operation": "mkdir",
+      "entryType": "directory",
+      "phase": "applied",
+      "recoverable": true,
+      "existed": false
+    }
+  ],
+  "completedAt": "2026-09-18T09:53:43.271Z"
+}

@@ -1,0 +1,247 @@
+{
+  "main": {
+    "id": "b527beeaa8e26ca8",
+    "type": "split",
+    "children": [
+      {
+        "id": "8f13a41ab9300b30",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f89ae17533ed244f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "knowledgeRepo/面试题/Linux/Linux驱动加载与匹配-面试问答.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Linux驱动加载与匹配-面试问答"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "cab3107a0a3dc589",
+    "type": "split",
+    "children": [
+      {
+        "id": "3225b1fdb397a288",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e4625a7ce9111ef3",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "ba0124a670960ca3",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "bbc915639e2fca93",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 456.5
+  },
+  "right": {
+    "id": "7cf8e5880991ddd5",
+    "type": "split",
+    "children": [
+      {
+        "id": "6cd97edde52125f4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "19d5d6a006f5f7ba",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "knowledgeRepo/30-Resources/嵌入式Linux/学习-Linux-驱动开发-AD9361-从dtsi到驱动调用流程.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "反向链接"
+            }
+          },
+          {
+            "id": "2b48edc97acc35df",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "knowledgeRepo/30-Resources/嵌入式Linux/学习-Linux-驱动开发-AD9361-从dtsi到驱动调用流程.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "出链"
+            }
+          },
+          {
+            "id": "5310a2a7b109591b",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "7f16ebb34466e48c",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "6ba356f92294ff3c",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "knowledgeRepo/30-Resources/嵌入式Linux/图-设备驱动框架-lab_chardev.excalidraw",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "大纲"
+            }
+          },
+          {
+            "id": "50a90c797f42ee8d",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "horizontal",
+    "width": 665.5,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false,
+      "templater-obsidian:Templater": false,
+      "obsidian-excalidraw-plugin:新建绘图文件": false,
+      "obsidian-git:Open Git source control": false
+    }
+  },
+  "active": "f89ae17533ed244f",
+  "lastOpenFiles": [
+    "knowledgeRepo/面试题/C++/C++面试-总览.md",
+    "knowledgeRepo/面试题/C++/C++面试-static关键字详解.md",
+    "knowledgeRepo/面试题/C++/C++面试-STL与模板.md",
+    "knowledgeRepo/面试题/Linux/Linux驱动加载与匹配-面试问答.md",
+    "knowledgeRepo/面试题/Linux驱动加载与匹配-面试问答.md",
+    "knowledgeRepo/面试题/面试题-目录.md",
+    "knowledgeRepo/面试题/C++/C++面试-虚函数实现举例详解.md",
+    "knowledgeRepo/面试题/C++/C++面试-多线程与并发.md",
+    "图-38.211-阶段1-时间单位-Tc-Ts.md",
+    "图-38.211-阶段1-手画练习答案.md",
+    "knowledgeRepo/面试题/C++/C++面试-语言基础与面向对象.md",
+    "knowledgeRepo/面试题/C++/C++面试-现代C++特性.md",
+    "knowledgeRepo/面试题/C++/C++面试-内存管理与智能指针.md",
+    "knowledgeRepo/30-Resources/嵌入式Linux/图-AD9361-TX-RX路径硬件模块.excalidraw",
+    "knowledgeRepo/面试题/C++面试-STL与模板.md",
+    "knowledgeRepo/面试题/Linux",
+    "knowledgeRepo/面试题/C++",
+    "knowledgeRepo/面试题/C++面试-虚函数实现举例详解.md",
+    "knowledgeRepo/面试题/C++面试-现代C++特性.md",
+    "knowledgeRepo/面试题/C++面试-static关键字详解.md",
+    "knowledgeRepo/面试题/C++面试-语言基础与面向对象.md",
+    "knowledgeRepo/面试题/C++面试-多线程与并发.md",
+    "knowledgeRepo/面试题/C++面试-内存管理与智能指针.md",
+    "knowledgeRepo/面试题/C++面试-总览.md",
+    "knowledgeRepo/20-Areas/领域-L1物理层.md",
+    "knowledgeRepo/30-Resources/概念-Mixer与IQ-图解步骤.md",
+    "knowledgeRepo/30-Resources/概念-ADC采样量化与SAR.md",
+    "knowledgeRepo/30-Resources/概念-ADC与Delta-Sigma入门.md",
+    "knowledgeRepo/30-Resources/概念-Mixer变频与镜像频率.md",
+    "knowledgeRepo/面试题",
+    "未命名 1.base",
+    "knowledgeRepo/90-Attachments/图-零中频接收机-IQ框图.png",
+    "knowledgeRepo/30-Resources/嵌入式Linux/图-设备驱动框架-lab_chardev.excalidraw",
+    "knowledgeRepo/30-Resources/嵌入式Linux/图-设备驱动框架-lab_chardev.svg",
+    "knowledgeRepo/90-Attachments/AD9361/AD9361_Reference_Manual_UG-570.pdf",
+    "knowledgeRepo/90-Attachments/AD9361/AD9361_Datasheet_RevG.pdf",
+    "knowledgeRepo/90-Attachments/书籍/LKD-3rd-edition-sample-chapter2.pdf",
+    "knowledgeRepo/90-Attachments/AD9361/ad9361_regs_linux.h",
+    "未命名.canvas"
+  ]
+}

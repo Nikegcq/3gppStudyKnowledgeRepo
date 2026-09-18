@@ -2,7 +2,7 @@
 type: project
 tags: [项目, 学习计划, Linux, 内核, 驱动开发, QEMU, 设备树, DMA]
 created: 2026-09-17
-updated: 2026-09-17
+updated: 2026-09-18
 status: planned
 start: 
 due: 
@@ -55,7 +55,7 @@ depends_on: "[[计划-2026Q4-双主线学习-O-DU-L1与嵌入式系统]]"
 | 阶段 | 内容 | 主读 | 产出 | 验收 |
 | --- | --- | --- | --- | --- |
 | K1 | 补完动态调试（关 G1） | QEMU+GDB；`init/main.c`、`do_initcalls`、自己的 `open/read` | 调试小抄 + 一次完整断点记录 | G1 |
-| K2 | 设备模型（关 G2） | `drivers/base/{bus,dd,platform}.c`、`drivers/of/platform.c` | 「DT→match→probe」图；SPI vs platform 对照 | G2 |
+| K2 | 设备模型（关 G2） | `drivers/base/{bus,dd,platform}.c`、`drivers/of/platform.c`；口试题：[[Linux驱动加载与匹配-面试问答]] | 「DT→match→probe」图；SPI vs platform 对照 | G2 + 面试题 1–11 口述通过 |
 | K3 | 对照 in-tree 驱动（关 G3） | `drivers/char/` 一简单驱动；`xilinx-xadc.c` | lab_chardev 改写记录；IIO 骨架笔记 | G3 |
 | K4 | dmaengine 机制（关 G4） | docs dma-api / dmaengine；`dma-axi-dmac.c` 只作 provider 样例 | 「概念-DMA与零拷贝」机制版；consumer 最小示例 | G4 |
 | K5 | 中断与并发（关 G5） | `request_threaded_irq`、workqueue、spinlock/mutex；对照 [[MOC-RTOS]] | 中断时间线 + 「什么能在 ISR 做」清单 | G5 |
@@ -79,6 +79,7 @@ u-boot / FIT / `pluto.its`：**不进 K 线必修**。若做板级启动再单�
 - [ ] K1.2 自写 `open/read` 完整栈记录 → **G1**
 - [ ] K2.1 读 bus/dd/platform + of/platform
 - [ ] K2.2 画通用匹配链 + SPI/platform 差异 → **G2**
+- [ ] K2.3 口试 [[Linux驱动加载与匹配-面试问答]] 1–11（速记表能顺下来）
 - [ ] K3.1 对照 `drivers/char/` 改 lab_chardev
 - [ ] K3.2 读 xilinx-xadc IIO 骨架 → **G3**
 - [ ] K4.1 dmaengine API 与 provider/consumer
@@ -90,6 +91,7 @@ u-boot / FIT / `pluto.its`：**不进 K 线必修**。若做板级启动再单�
 ## 相关笔记
 
 - 详细路线（主文档）：[[学习-Linux-学习路线]]
+- 面试题（库根 `面试题/`）：[[Linux驱动加载与匹配-面试问答]]（1–11，对应 K2）
 - 已有成果：[[学习-Linux-阶段0-源码地图与调试环境]]、[[学习-Linux-阶段1-最小驱动闭环]]、[[学习-Linux-阶段1-lab_chardev代码详解]]、[[学习-Linux-kernel-lab-QEMU使用流程]]、[[学习-Linux-内核源码阅读与驱动学习法]]
 - 概念书：[[书籍-Linux内核设计与实现（LKD）]]
 - 对照块：[[MOC-RTOS]]、[[学习-RTOS-学习路线]]
@@ -99,3 +101,4 @@ u-boot / FIT / `pluto.its`：**不进 K 线必修**。若做板级启动再单�
 ## 日志
 
 - 2026-09-17：自 Q4 双主线中拆出。通用内核机制（G1–G5 / K1–K6）不再占用八周窗口；Q4 主线 B 仅保留 RFIC 使用。启动条件与排期见上文。
+- 2026-09-18：库根 `面试题/` 入口挂到 Home；[[Linux驱动加载与匹配-面试问答]] 题号为 **1–11**，并写入 K2 验收。

@@ -1,0 +1,18 @@
+{
+  "id": "efac4f24-a4a3-4ae2-834c-c5e63dc0ec53",
+  "state": "committed",
+  "createdAt": "2026-09-18T09:18:04.929Z",
+  "snapshots": [
+    {
+      "path": "面试题/C++面试-总览.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "c406103171e8b5e0bf91950cc227206df95118963ace5ee8f17be90c1419bfec",
+      "recoverable": true,
+      "existed": false,
+      "committedEtag": "c406103171e8b5e0bf91950cc227206df95118963ace5ee8f17be90c1419bfec"
+    }
+  ],
+  "completedAt": "2026-09-18T09:18:04.965Z"
+}

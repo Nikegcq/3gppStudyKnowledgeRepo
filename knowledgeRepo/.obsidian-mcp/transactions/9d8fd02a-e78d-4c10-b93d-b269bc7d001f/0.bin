@@ -1,0 +1,270 @@
+---
+type: note
+tags: [RF, 射频, Mixer, 混频器, 镜像频率, 零中频, AD9361, 硬件]
+created: 2026-09-17
+updated: 2026-09-17
+status: active
+source: 原理通识 + AD9361 UG-570 对照
+---
+
+# 概念：Mixer 变频与镜像频率（含 AD9361）
+
+## 一句话总结
+
+混频器用**乘法**把频谱搬到 LO 两侧（和频、差频）；下变频时若只保留差频，则存在另一个射频 $f_{\mathrm{image}}=2f_{\mathrm{LO}}-f_{\mathrm{RF}}$ 也会落到**同一个 IF**——这就是镜像。超外差用 RF BPF 压镜像 + IF BPF 选差频；**AD9361 是零中频**，差频落在基带，靠片内 **I/Q 正交混频** 区分镜像，混频后用的是 **基带 LPF**（TIA/BF），不是中频带通。**LO=接收频率并不会让镜像消失**，只是变成正负频折叠，仍要靠 I/Q。
+
+---
+
+## 0. 符号约定
+
+| 符号 | 全称 / 含义 |
+| --- | --- |
+| **RF** | Radio Frequency，射频（天线口、空口上的信号） |
+| **IF** | Intermediate Frequency，**中频**（混频后、进 ADC 前「中间那一站」） |
+| **LO** | Local Oscillator，本振（片内 RFPLL 产生，用来搬频谱） |
+| $f_{\mathrm{RF}}$ | 有用射频信号频率（要收/要发的载波频点） |
+| $f_{\mathrm{LO}}$ | 本振频率 |
+| $f_{\mathrm{IF}}$ | 中频 $=\lvert f_{\mathrm{RF}}-f_{\mathrm{LO}}\rvert$ |
+| $f_{\mathrm{image}}$ | 镜像频率 $=2f_{\mathrm{LO}}-f_{\mathrm{RF}}$ |
+
+---
+
+## 1. 为什么需要 Mixer
+
+| 侧              | 问题                        |
+| -------------- | ------------------------- |
+| 天线 / 空口        | 信号在 RF（70 MHz–6 GHz 量级）   |
+| ADC / DAC / 数字 | 适合在基带或较低中频处理              |
+| Mixer          | 把频谱**搬移**：收 = 下变频，发 = 上变频 |
+
+---
+
+## 2. 原理：时域相乘 → 频域两个边带
+
+理想混频器是乘法器：
+
+$$
+y(t)=x(t)\cdot\cos(\omega_{\mathrm{LO}}t)
+$$
+
+单音输入 $\cos(\omega_{\mathrm{RF}}t)$ 时，积化和差：
+
+$$
+\cos(\omega_{\mathrm{RF}}t)\cos(\omega_{\mathrm{LO}}t)
+=\frac{1}{2}\cos(\omega_{\mathrm{RF}}-\omega_{\mathrm{LO}})t
++\frac{1}{2}\cos(\omega_{\mathrm{RF}}+\omega_{\mathrm{LO}})t
+$$
+
+| 分量 | 频率 | 典型用途 |
+| --- | --- | --- |
+| 差频 | $\lvert f_{\mathrm{RF}}-f_{\mathrm{LO}}\rvert$ | 下变频到 IF/基带 |
+| 和频 | $f_{\mathrm{RF}}+f_{\mathrm{LO}}$ | 通常滤掉；上变频时反而可能是目标 RF |
+
+一次实混频必然出**两个边带**，后面必须有滤波（类型见第 4 节）。
+
+---
+
+## 3. 镜像频率：为什么会「两个 RF 变到同一个 IF」
+
+定义中频：
+
+$$
+f_{\mathrm{IF}}=\lvert f_{\mathrm{in}}-f_{\mathrm{LO}}\rvert
+$$
+
+**绝对值**意味着两个不同的 $f_{\mathrm{in}}$ 可以得到同一个 $f_{\mathrm{IF}}$。
+
+设信号在 LO 之下：$f_{\mathrm{RF}}=f_{\mathrm{LO}}-f_{\mathrm{IF}}$，再找
+
+$$
+f_{\mathrm{in}}'=f_{\mathrm{LO}}+f_{\mathrm{IF}}
+$$
+
+则
+
+$$
+\lvert f_{\mathrm{in}}'-f_{\mathrm{LO}}\rvert=f_{\mathrm{IF}}
+$$
+
+代入得镜像公式：
+
+$$
+f_{\mathrm{image}}=2f_{\mathrm{LO}}-f_{\mathrm{RF}}
+$$
+
+对称关系：
+
+$$
+f_{\mathrm{RF}}+f_{\mathrm{image}}=2f_{\mathrm{LO}}
+$$
+
+即 **LO 正好在有用信号与镜像的正中间**。
+
+```text
+频谱（f_RF < f_LO 的下变频）：
+
+    f_RF      f_LO      f_image
+     ↓         ↓          ↓
+────█─────────█──────────█────→ f
+     \       / \        /
+      \     /   \      /
+         ▼         ▼
+       f_IF      f_IF   ← 重合，IF 滤波分不开谁是谁
+```
+
+**数值例（LO = 100 MHz）**：
+
+| 输入 $f_{in}$ | 差频计算 | $f_{\mathrm{IF}}$ |
+| --- | --- | --- |
+| **117 MHz** | 117 − 100 | **17 MHz** |
+| **83 MHz** | \|83 − 100\| | **17 MHz** |
+
+- 117 与 83 **互为镜像**：$117+83=200=2f_{\mathrm{LO}}$
+- 单路实混频后都是 17 MHz，IF 滤波器**分不清**源头
+- 超外差必须混频前用 **RF BPF** 二选一
+
+---
+
+## 4. 两种架构怎么处理镜像与和频
+
+### 4.1 超外差
+
+```text
+天线 → RF BPF（抑镜像）→ LNA → Mixer → IF BPF（选差频）→ … → ADC
+                              ↑
+                             LO
+```
+
+### 4.2 零中频 / 直接变频（AD9361）
+
+令 $f_{\mathrm{LO}}\approx f_{\mathrm{RF}}$，则 $f_{\mathrm{IF}}\to 0$：
+
+| 分量 | 位置 | 谁来滤 |
+| --- | --- | --- |
+| 差频（要的） | ~DC 到数十 MHz | 片内 **基带 LPF**（TIA LPF、Rx BB LPF） |
+| 和频 | ~$2f_{\mathrm{RF}}$ | 基带 LPF 在 GHz 处衰减极大，轻松甩开 |
+| 镜像 | 复频域负频 | **I/Q 正交** + Quad Cal，不是 RF 镜像滤波器 |
+| 带外阻塞/邻道 | 紧贴通带 | **片外**预选/双工/SAW |
+
+零中频时 $f_{\mathrm{image}}\approx f_{\mathrm{RF}}$；用复信号写：
+
+$$
+z_{\mathrm{BB}}=z_{\mathrm{RF}}\cdot e^{-j2\pi f_{\mathrm{LO}}t}
+$$
+
+I/Q（cos / sin，差 90°）等价于乘复指数，**+f 与 −f 分开**。
+
+```text
+实混频（单路）           正交复混频（I/Q）
+把 ±f 搬到同一 IF        把 +f / −f 分到两侧
+镜像与信号重合            镜像与信号在复平面可区分
+```
+
+---
+
+## 5. AD9361 中的 Mixer 与 LO
+
+### 5.1 链路位置
+
+```text
+RX: 天线 → LNA → [Mixer↓ + Rx LO] → TIA(+LPF) → Rx BB LPF → ADC → 抽取
+TX: 内插 → DAC → Tx BB LPF → 二级 LPF → [Mixer↑ + Tx LO] → 衰减 → Buffer
+```
+
+- 收/发各一套 **I/Q 复混频**
+- **Rx LO / Tx LO 独立**（两颗 RFPLL）
+- FDD 可同时锁；TDD 随 `TXNRX` 交替上下电
+
+### 5.2 LO 产生（片内）
+
+```text
+REF/DCXO → FREF 整形 → RFPLL（分数N）
+    → LC VCO 6–12 GHz → 分频 → LOI/LOQ（约 47 MHz–6 GHz）→ Mixer
+```
+
+也可用 **External LO**（输入 ≈ 2× 目标 LO）。详见 [[概念-锁相环PLL与VCO]]。
+
+### 5.3 配置入口（没有「变频比」寄存器）
+
+| 动作 | 接口 |
+| --- | --- |
+| 设收/发 LO | `ad9361_set_rx_lo_freq` / `ad9361_set_tx_lo_freq`（单位 Hz） |
+| 双工 | FDD / TDD / External LO |
+| 间接影响混频 | RF 带宽、时钟链、增益表（LNA/Mixer Gm/TIA）、输入口 |
+| 抑制镜像/失调 | RF DC Cal、Rx/Tx Quad Cal |
+
+---
+
+## 6. 常见误解：「LO = 接收频率就没有镜像了？」
+
+**不对。** LO=RF 时镜像不会消失，只是换形式。
+
+### 6.1 公式上：镜像贴到信号上
+
+若 $f_{\mathrm{LO}}=f_{\mathrm{RF}}$，则
+
+$$
+f_{\mathrm{image}}=2f_{\mathrm{LO}}-f_{\mathrm{RF}}=f_{\mathrm{RF}}
+$$
+
+在实信号幅度谱上好像「没有另一路」了，但——
+
+### 6.2 实信号 ±f 对称 → 零中频折叠
+
+```text
+实信号（天线）              单路实混频到 0 Hz 附近
+      |                              |
+    █ | █                            叠在一起
+   ↙  |  ↘                           分不清上/下边带
+ -f    0   +f
+```
+
+- $+f_{\mathrm{RF}}$ 与 $-f_{\mathrm{RF}}$ 都会落到基带同一侧  
+- 这就是零中频下的镜像折叠，和超外差 83/117 分不开是同类问题  
+
+| 架构 | 镜像怎么处理 |
+| --- | --- |
+| 超外差 | RF BPF 压掉 $2f_{\mathrm{LO}}-f_{\mathrm{RF}}$ |
+| 零中频 | **必须 I/Q**；LO=RF 只让 IF→0，**不自动消镜像** |
+
+### 6.3 AD9361 为何还要 Quad Cal
+
+1. 片内是 **I/Q 混频**，不是单路  
+2. **Rx Quad / Tx Quad Cal** 修 I/Q 幅相误差  
+3. 修不完美 → 残余镜像（镜像抑制有限）  
+4. LO 泄漏 → 基带 DC，用 **RF DC Cal**  
+
+若「LO=RF 就无镜像」，就不需要正交校准了。
+
+---
+
+## 7. 和「TX Power」的边界
+
+| 模块 | 管什么 |
+| --- | --- |
+| Mixer + LO | 频率搬到哪 |
+| Tx 衰减器 | 相对功率 0–89.75 dB |
+| Tx Quad Cal | 镜像/泄漏/EVM |
+| 板级 Pout 标定 | 天线口绝对 dBm |
+
+---
+
+## 8. 易混点自检
+
+1. **和频 vs 镜像**：和频是 $f_{\mathrm{RF}}+f_{\mathrm{LO}}$；镜像是另一个 RF $2f_{\mathrm{LO}}-f_{\mathrm{RF}}$。
+2. **单路实混频分不清镜像对**：例如 LO=100 MHz 时，117 与 83 都变到 17 MHz。
+3. **零中频也有滤波**：混频后是 **LPF**；和频靠 LPF 甩开。
+4. **LO=RF ≠ 无镜像**：变成 ±f 折叠，靠 I/Q；不完美则靠 Quad Cal。
+5. **片外 RF BPF** 仍需要：抗阻塞/邻道，与片内消镜像分工不同。
+
+---
+
+## 相关
+
+- [[概念-锁相环PLL与VCO]]：LO 从哪来
+- [[概念-ADC与Delta-Sigma入门]]：混频后进 ADC
+- [[概念-物理层射频驱动全景]]
+- [[资源-AD9361-寄存器文档]]
+- [[学习-Linux-驱动开发-AD9361-从零到通]]
+- 图：[[图-AD9361-TX-RX路径硬件模块.excalidraw]]
+- 入口：[[MOC-射频]]
