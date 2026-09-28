@@ -1,0 +1,21 @@
+{
+  "id": "dad8737a-1e45-4eda-80ba-f64c0d59bbb7",
+  "state": "committed",
+  "createdAt": "2026-09-20T02:06:14.729Z",
+  "snapshots": [
+    {
+      "path": "面试题/面试题-目录.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "ad8ab0e9deecfd454160c7eed6e9461013379a202f3936b19b9cc049526b35e0",
+      "recoverable": true,
+      "existed": true,
+      "mode": 33206,
+      "etag": "3c01e03a48f39596ac165575882820caa6c8cf45cde04637b179b9279b3095e3",
+      "snapshot": "0.bin",
+      "committedEtag": "ad8ab0e9deecfd454160c7eed6e9461013379a202f3936b19b9cc049526b35e0"
+    }
+  ],
+  "completedAt": "2026-09-20T02:06:14.744Z"
+}

@@ -1,0 +1,98 @@
+- generic [active] [ref=f6e1]:
+  - generic [ref=f6e2]:
+    - generic [ref=f6e3]:
+      - text: 
+      - navigation "nav_desktop" [ref=f6e5]:
+        - list [ref=f6e12]:
+          - listitem [ref=f6e13]:
+            - link "帮助" [ref=f6e14] [cursor=pointer]:
+              - /url: https://www.mathworks.com/help/matlab/cloud-file-storage.html
+          - listitem [ref=f6e15]:
+            - link "兴慧" [ref=f6e16] [cursor=pointer]:
+              - /url: "#"
+              - text: 兴慧
+              - strong
+          - listitem [ref=f6e17]:
+            - button "Mathworks Menu" [ref=f6e19] [cursor=pointer]:
+              - generic [ref=f6e20]: 
+      - heading "文件" [level=1] [ref=f6e24]
+    - generic [ref=f6e25]:
+      - generic [ref=f6e26]:
+        - generic [ref=f6e27]: 文件
+        - generic [ref=f6e28]: 共享内容
+        - generic [ref=f6e29]: 已删除的文件
+        - menuitem "将文件同步到桌面" [ref=f6e33] [cursor=pointer]
+        - list [ref=f6e97]:
+          - listitem [ref=f6e98]:
+            - generic [ref=f6e130]:
+              - generic [ref=f6e131]:
+                - progressbar
+              - generic [ref=f6e132]: 已使用 7.9 MB / 20 GB
+      - generic [ref=f6e35]:
+        - generic [ref=f6e38]:
+          - generic [ref=f6e40]:
+            - link "在 MATLAB 中打开所选内容。 在 MATLAB 中打开" [ref=f6e104] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=f6e105]:
+                - generic "在 MATLAB 中打开所选内容。" [ref=f6e107]
+                - generic [ref=f6e108]: 在 MATLAB 中打开
+            - link "将文件从桌面端上传到 MATLAB Drive。 上传" [ref=f6e110] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=f6e111]:
+                - generic "将文件从桌面端上传到 MATLAB Drive。" [ref=f6e113]
+                - generic [ref=f6e114]: 上传
+            - generic [ref=f6e115]:
+              - generic "创建文件夹。" [ref=f6e117]
+              - generic [ref=f6e118]: 新建文件夹
+            - link "通过邀请或仅限查看链接共享所选内容。 共享" [ref=f6e135] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=f6e136]:
+                - generic "通过邀请或仅限查看链接共享所选内容。" [ref=f6e138]
+                - generic [ref=f6e139]: 共享
+            - generic [ref=f6e119]:
+              - generic "将文件从 MATLAB Drive 下载到您的桌面端。" [ref=f6e121]
+              - generic [ref=f6e122]: 下载
+          - list [ref=f6e42]:
+            - listitem [ref=f6e140]:
+              - link "MATLAB Drive" [ref=f6e141] [cursor=pointer]:
+                - /url: "#"
+            - listitem "Examples" [ref=f6e142]
+        - grid [ref=f6e48]:
+          - row [ref=f6e49]:
+            - columnheader "名称" [ref=f6e50]
+            - columnheader "大小" [ref=f6e54]
+            - columnheader "修改日期" [ref=f6e58]
+            - columnheader "修改者" [ref=f6e144]
+            - columnheader "类型" [ref=f6e146]
+            - columnheader "所有者" [ref=f6e148]
+          - row [ref=f6e150]:
+            - gridcell "R2026a" [ref=f6e151]
+            - gridcell [ref=f6e155]
+            - gridcell "2026/9/22 14:07" [ref=f6e156]
+            - gridcell "兴慧 关" [ref=f6e157]
+            - gridcell "Folder" [ref=f6e158]
+            - gridcell "兴慧 关" [ref=f6e159]
+        - generic [ref=f6e74]:
+          - generic [ref=f6e75]: Examples
+          - generic [ref=f6e78]: "所有者: 兴慧 关"
+          - generic [ref=f6e79]: "访问类型: 所有者"
+          - generic [ref=f6e81]: "创建日期: 2026年9月22日周二"
+          - generic [ref=f6e82]: "修改时间: 2026年9月22日周二"
+          - generic [ref=f6e83]: "修改者: 兴慧 关"
+          - generic [ref=f6e84]: "项目总数: 1"
+    - iframe
+  - generic [ref=f6e86]:
+    - paragraph [ref=f6e87]: © 1994-2026 The MathWorks, Inc.
+    - list [ref=f6e88]:
+      - listitem [ref=f6e89]:
+        - link "专利" [ref=f6e90] [cursor=pointer]:
+          - /url: https://www.mathworks.com/company/aboutus/policies_statements/patents.html?s_tid=gf_pat
+      - listitem [ref=f6e91]:
+        - link "商标" [ref=f6e92] [cursor=pointer]:
+          - /url: https://www.mathworks.com/company/aboutus/policies_statements/trademarks.html?s_tid=gf_trd
+      - listitem [ref=f6e93]:
+        - link "隐私政策" [ref=f6e94] [cursor=pointer]:
+          - /url: https://www.mathworks.com/company/aboutus/policies_statements.html?s_tid=gf_priv
+      - listitem [ref=f6e95]:
+        - link "防盗版" [ref=f6e96] [cursor=pointer]:
+          - /url: https://www.mathworks.com/company/aboutus/policies_statements/piracy.html?s_tid=gf_pir

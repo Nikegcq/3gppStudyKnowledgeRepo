@@ -3,7 +3,7 @@ type: resource
 tags: [L1, 物理层, 3GPP, 学习计划, SSB, PSS, 同步, 实现参考, MATLAB, OAI, srsRAN, DSP]
 layer: L1
 created: 2026-09-09
-updated: 2026-09-09
+updated: 2026-09-23
 status: active
 source: MATLAB 5G Toolbox / Wireless HDL Toolbox、OAI（openairinterface5g）、srsRAN_4G、ShareTechnote
 source_url: https://www.mathworks.com/help/5g/ug/nr-cell-search-and-mib-and-sib1-recovery.html
@@ -17,13 +17,13 @@ source_url: https://www.mathworks.com/help/5g/ug/nr-cell-search-and-mib-and-sib1
 
 ## 来源总览
 
-| 来源 | 形态 | 覆盖范围 | 适合 |
-| --- | --- | --- | --- |
-| MATLAB 5G Toolbox 官方示例 | MATLAB（可运行） | PSS→SSS→PBCH DM-RS→PBCH/BCH→MIB→SIB1 全链路 | 先把算法看懂、跑通 |
-| MATLAB Wireless HDL Downlink Receiver Reference | MATLAB 参考 + Simulink/HDL | 硬件友好的 cell search（PSS 搜索/DDC/细频偏/SSS） | FPGA 定点流式实现 |
-| OAI `openairinterface5g` | C（完整 NR UE 接收机） | GSCN 并行扫描→PSS→频偏补偿→FFT→SSS→PBCH→RSRP/AGC | 真实工程、协议与实现细节最全 |
-| srsRAN_4G（srsue NR 栈） | C/C++ | FFT 相关做 PSS 定时与粗频偏 + 频域 SSS 检测 + PBCH 校验 | 代码干净，适合精读；另有 LTE 版对照 |
-| ShareTechnote DSP 页 | Python（py3gpp） | PSS 时域相关定位 + 整条 PBCH 解码脚本 | 无 MATLAB 环境时的自测/教学 |
+| 来源                                              | 形态                       | 覆盖范围                                     | 适合                   |
+| ----------------------------------------------- | ------------------------ | ---------------------------------------- | -------------------- |
+| MATLAB 5G Toolbox 官方示例                          | MATLAB（可运行）              | PSS→SSS→PBCH DM-RS→PBCH/BCH→MIB→SIB1 全链路 | 先把算法看懂、跑通            |
+| MATLAB Wireless HDL Downlink Receiver Reference | MATLAB 参考 + Simulink/HDL | 硬件友好的 cell search（PSS 搜索/DDC/细频偏/SSS）    | FPGA 定点流式实现          |
+| OAI `openairinterface5g`                        | C（完整 NR UE 接收机）          | GSCN 并行扫描→PSS→频偏补偿→FFT→SSS→PBCH→RSRP/AGC | 真实工程、协议与实现细节最全       |
+| srsRAN_4G（srsue NR 栈）                           | C/C++                    | FFT 相关做 PSS 定时与粗频偏 + 频域 SSS 检测 + PBCH 校验 | 代码干净，适合精读；另有 LTE 版对照 |
+| ShareTechnote DSP 页                             | Python（py3gpp）           | PSS 时域相关定位 + 整条 PBCH 解码脚本                | 无 MATLAB 环境时的自测/教学   |
 
 ## 1. MATLAB：5G Toolbox 官方示例（首选）
 
@@ -125,6 +125,7 @@ LTE 对照（算法思想同 NR，注释更全、验证工具更多）：`lib/sr
 ## 相关笔记
 
 - 算法原理：[[PSS检测与同步-定时频偏估计]]（相关峰定时、CP 相位差、整数/小数倍频偏）
+- 判 ID 公式：[[PSS相关检测与NID2判定]]（m 序列、移位 0/43/86、互相关）
 - 流程全景：[[小区搜索流程分步详解]]
 - 学习计划主线：[[学习-阶段2-SSB与小区搜索]]
 - 规范入口：[[3GPP-38系列-NR物理层规范]]

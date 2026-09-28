@@ -8,19 +8,19 @@
 
 ## 速记总览
 
-| 题号 | 一句话结论 |
-|------|------------|
-| 1 | insmod → 系统调用 → load_module → 执行 module_init → 注册驱动 → bus match → probe |
-| 2 | 入口是 `xxx_init`；module_init 只注册，匹配在 driver_register → driver_attach 里发生 |
-| 3 | 不会直接调 probe；init 里只做注册，硬件初始化放 probe |
-| 4 | 只遍历**本 bus** 上已有 device，不是整棵设备树、也不是全系统设备 |
-| 5 | platform = SoC 片上外设；对应虚拟总线 platform_bus + platform_device |
-| 6 | 控制器常是 platform；I2C 从设备是 i2c_driver，不是 platform_driver |
-| 7 | 都走 driver_register；差别在 bus、device 结构、匹配条件和 IO 方式 |
-| 8 | 只匹配 platform bus 上且命中 of_match/id_table/name 的 device |
-| 9 | 不一定；DT 节点也可对应虚拟设备，或写了但硬件未贴 |
-| 10 | 设备模型不依赖 DT；DT 只负责创建 device + 填资源 + 提供 compatible |
-| 11 | platform = 「某硬件平台上的片上设备」，用虚拟总线统一挂接 |
+| 题号  | 一句话结论                                                                   |
+| --- | ----------------------------------------------------------------------- |
+| 1   | insmod → 系统调用 → load_module → 执行 module_init → 注册驱动 → bus match → probe |
+| 2   | 入口是 `xxx_init`；module_init 只注册，匹配在 driver_register → driver_attach 里发生  |
+| 3   | 不会直接调 probe；init 里只做注册，硬件初始化放 probe                                     |
+| 4   | 只遍历**本 bus** 上已有 device，不是整棵设备树、也不是全系统设备                                |
+| 5   | platform = SoC 片上外设；对应虚拟总线 platform_bus + platform_device               |
+| 6   | 控制器常是 platform；I2C 从设备是 i2c_driver，不是 platform_driver                   |
+| 7   | 都走 driver_register；差别在 bus、device 结构、匹配条件和 IO 方式                        |
+| 8   | 只匹配 platform bus 上且命中 of_match/id_table/name 的 device                   |
+| 9   | 不一定；DT 节点也可对应虚拟设备，或写了但硬件未贴                                              |
+| 10  | 设备模型不依赖 DT；DT 只负责创建 device + 填资源 + 提供 compatible                        |
+| 11  | platform = 「某硬件平台上的片上设备」，用虚拟总线统一挂接                                      |
 
 **硬结论三条：**
 1. `module_init` 不直接调 `probe`，只负责注册。  

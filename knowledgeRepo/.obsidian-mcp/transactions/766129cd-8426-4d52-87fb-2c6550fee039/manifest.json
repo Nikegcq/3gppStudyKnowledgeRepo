@@ -1,0 +1,21 @@
+{
+  "id": "766129cd-8426-4d52-87fb-2c6550fee039",
+  "state": "committed",
+  "createdAt": "2026-09-20T02:06:19.921Z",
+  "snapshots": [
+    {
+      "path": "30-Resources/MOC-C++与软件.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "01ca0d96e15b1130005d65f146f93b005a2775540fd1546e6c6254b1d6e3e67a",
+      "recoverable": true,
+      "existed": true,
+      "mode": 33206,
+      "etag": "fbe096b3ab91b88f4880937c25ff1db2ddf0c04859cec4faadff17b6df1ff288",
+      "snapshot": "0.bin",
+      "committedEtag": "01ca0d96e15b1130005d65f146f93b005a2775540fd1546e6c6254b1d6e3e67a"
+    }
+  ],
+  "completedAt": "2026-09-20T02:06:19.937Z"
+}

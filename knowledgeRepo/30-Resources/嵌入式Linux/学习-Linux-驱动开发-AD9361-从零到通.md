@@ -57,7 +57,7 @@ ad9361 spi0.0: ad9361_probe : enter (ad9364)
 
 | 问题 | 谁负责 | 驱动文件 |
 | --- | --- | --- |
-| 频率设多少？增益多大？带宽多少？FDD 还是 TDD？ | 控制面 | `drivers/iio/adc/ad9361.c`（SPI 从设备） |
+| 频率设多少？增益多大？带宽多少？FDD 还是 TDD？ | 控制面 | `drivers/iio/adc/ad9361.c`（SPI 从设备）；SPI 模式见 [[概念-SPI总线与四种模式]] |
 | 采样点怎么从 FPGA 搬到内存？用户怎么读走？ | 数据面 | `drivers/iio/adc/cf_axi_adc_core.c`（platform） |
 | TX 侧样本怎么送出去？ | 数据面 | `drivers/iio/frequency/cf_axi_dds.c` |
 | DMA 描述符与中断 | DMA 引擎 | `drivers/dma/dma-axi-dmac.c` |

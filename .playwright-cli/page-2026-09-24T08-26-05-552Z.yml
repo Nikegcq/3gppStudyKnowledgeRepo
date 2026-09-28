@@ -1,0 +1,62 @@
+- generic [active] [ref=f6e1]:
+  - generic [ref=f6e2]:
+    - generic [ref=f6e3]:
+      - text: 
+      - navigation "nav_desktop" [ref=f6e5]:
+        - list [ref=f6e12]:
+          - listitem [ref=f6e13]:
+            - link "帮助" [ref=f6e14] [cursor=pointer]:
+              - /url: https://www.mathworks.com/help/matlab/cloud-file-storage.html
+          - listitem [ref=f6e15]:
+            - link "兴慧" [ref=f6e16] [cursor=pointer]:
+              - /url: "#"
+              - text: 兴慧
+              - strong
+          - listitem [ref=f6e17]:
+            - button "Mathworks Menu" [ref=f6e19] [cursor=pointer]:
+              - generic [ref=f6e20]: 
+      - heading "文件" [level=1] [ref=f6e24]
+    - generic [ref=f6e25]:
+      - generic [ref=f6e26]:
+        - generic [ref=f6e27]: 文件
+        - generic [ref=f6e28]: 共享内容
+        - generic [ref=f6e29]: 已删除的文件
+        - menuitem "将文件同步到桌面" [ref=f6e33] [cursor=pointer]
+        - generic [ref=f6e34]:
+          - list:
+            - listitem
+      - generic [ref=f6e35]:
+        - list [ref=f6e42]:
+          - listitem [ref=f6e43]: MATLAB Drive
+        - grid [ref=f6e48]:
+          - row "名称 大小 修改日期 修改者 类型 所有者" [ref=f6e49]:
+            - columnheader "名称" [ref=f6e50]
+            - columnheader "大小" [ref=f6e54]
+            - columnheader "修改日期" [ref=f6e58]
+            - columnheader "修改者"
+            - columnheader "类型"
+            - columnheader "所有者"
+        - generic [ref=f6e74]:
+          - generic [ref=f6e78]: "所有者:"
+          - generic [ref=f6e79]: "访问类型:"
+          - generic [ref=f6e80]: "共享父级:"
+          - generic [ref=f6e81]: "创建日期:"
+          - generic [ref=f6e82]: "修改时间:"
+          - generic [ref=f6e83]: "修改者:"
+          - generic [ref=f6e84]: "项目总数:"
+    - iframe
+  - generic [ref=f6e86]:
+    - paragraph [ref=f6e87]: © 1994-2026 The MathWorks, Inc.
+    - list [ref=f6e88]:
+      - listitem [ref=f6e89]:
+        - link "专利" [ref=f6e90] [cursor=pointer]:
+          - /url: https://www.mathworks.com/company/aboutus/policies_statements/patents.html?s_tid=gf_pat
+      - listitem [ref=f6e91]:
+        - link "商标" [ref=f6e92] [cursor=pointer]:
+          - /url: https://www.mathworks.com/company/aboutus/policies_statements/trademarks.html?s_tid=gf_trd
+      - listitem [ref=f6e93]:
+        - link "隐私政策" [ref=f6e94] [cursor=pointer]:
+          - /url: https://www.mathworks.com/company/aboutus/policies_statements.html?s_tid=gf_priv
+      - listitem [ref=f6e95]:
+        - link "防盗版" [ref=f6e96] [cursor=pointer]:
+          - /url: https://www.mathworks.com/company/aboutus/policies_statements/piracy.html?s_tid=gf_pir

@@ -18,13 +18,13 @@ repo: /home/congqiang/work/repo/plutosdr-fw
 
 ## 1 目录布局
 
-| 路径 | 用途 |
-| --- | --- |
-| `/home/congqiang/work/repo/plutosdr-fw/modules/` | 外部模块源码（`hello.c`、`lab_chardev.c`、`Makefile`）；9p 默认共享此目录 |
+| 路径                                                  | 用途                                                             |
+| --------------------------------------------------- | -------------------------------------------------------------- |
+| `/home/congqiang/work/repo/plutosdr-fw/modules/`    | 外部模块源码（`hello.c`、`lab_chardev.c`、`Makefile`）；9p 默认共享此目录        |
 | `/home/congqiang/work/repo/plutosdr-fw/kernel-lab/` | 脚本：`env.sh`、`run_qemu.sh`、`stage1.sh`、`attach_gdb.sh`、`init` 等 |
-| `/home/congqiang/work/repo/plutosdr-fw/linux` | 内核源码（调试用 x86_64 构建；Pluto 板为 ARM） |
-| `/home/congqiang/work/repo/tools/kernel-lab/` | `LAB_ROOT`：QEMU/GDB 工具链、内核构建目录、initramfs、日志 |
-| `knowledgeRepo/scripts/kernel-lab/` | 本知识库侧说明（脚本本体已迁入 plutosdr-fw） |
+| `/home/congqiang/work/repo/plutosdr-fw/linux`       | 内核源码（调试用 x86_64 构建；Pluto 板为 ARM）                               |
+| `/home/congqiang/work/repo/tools/kernel-lab/`       | `LAB_ROOT`：QEMU/GDB 工具链、内核构建目录、initramfs、日志                    |
+| `knowledgeRepo/scripts/kernel-lab/`                 | 本知识库侧说明（脚本本体已迁入 plutosdr-fw）                                   |
 
 ## 2 环境准备（每次新终端）
 

@@ -1,0 +1,39 @@
+{
+  "id": "49ee6dc0-91c5-4e99-923c-1440c136ec4d",
+  "state": "committed",
+  "createdAt": "2026-09-20T05:48:34.247Z",
+  "snapshots": [
+    {
+      "path": ".obsidian-mcp/trash/c0646682-3be5-4f3c-8c23-f04854aa7b0b.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "48e97d2a76cfa20ce233ce781b16c6e88f782d9348dd1720eda68feb6ac89261",
+      "recoverable": true,
+      "existed": false,
+      "committedEtag": "48e97d2a76cfa20ce233ce781b16c6e88f782d9348dd1720eda68feb6ac89261"
+    },
+    {
+      "path": ".obsidian-mcp/trash/c0646682-3be5-4f3c-8c23-f04854aa7b0b.json",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "0d8d77735d17c7feb2c2bcc3ff534a1e982c86425b227856d9fb541507bf1335",
+      "recoverable": true,
+      "existed": false,
+      "committedEtag": "0d8d77735d17c7feb2c2bcc3ff534a1e982c86425b227856d9fb541507bf1335"
+    },
+    {
+      "path": "面试题/Bootloader/Bootloader面试-问答-旧节选-待删.md",
+      "operation": "delete",
+      "entryType": "file",
+      "phase": "applied",
+      "recoverable": true,
+      "existed": true,
+      "mode": 33206,
+      "etag": "48e97d2a76cfa20ce233ce781b16c6e88f782d9348dd1720eda68feb6ac89261",
+      "snapshot": "2.bin"
+    }
+  ],
+  "completedAt": "2026-09-20T05:48:34.278Z"
+}

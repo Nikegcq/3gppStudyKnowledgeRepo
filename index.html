@@ -1,0 +1,299 @@
+<!-- AI生成 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>nrWaveformGenerator 流水线</title>
+<style>
+:root{
+  --bg:#f4f1ea; --card:#fffdf8; --ink:#1c1f26; --muted:#5c6370;
+  --accent:#0d6b5c; --accent-soft:#d8eee9; --line:#d9d3c7;
+  --warn:#a15c00; --code-bg:#1c1f26; --code-ink:#e8eaef;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Segoe UI","Microsoft YaHei",sans-serif;
+  background:var(--bg); color:var(--ink); line-height:1.55;
+  padding-bottom:calc(72px + env(safe-area-inset-bottom));
+}
+header{
+  position:sticky; top:0; z-index:20; background:rgba(244,241,234,.92);
+  backdrop-filter:blur(10px); border-bottom:1px solid var(--line);
+  padding:12px 16px calc(10px + env(safe-area-inset-top));
+}
+header h1{font-size:1.05rem;margin:0 0 2px;font-weight:650}
+header p{margin:0;font-size:.75rem;color:var(--muted)}
+main{max-width:560px;margin:0 auto;padding:16px}
+.card{
+  background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:14px 14px 12px; margin:0 0 12px;
+}
+.card h2{font-size:.95rem;margin:0 0 8px;display:flex;align-items:center;gap:8px}
+.card h2 .n{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:22px;height:22px;border-radius:6px;background:var(--accent);
+  color:#fff;font-size:.72rem;font-weight:700;flex:none;
+}
+.tag{
+  display:inline-block;font-size:.68rem;padding:2px 7px;border-radius:99px;
+  background:var(--accent-soft); color:var(--accent); font-weight:600;
+}
+.tag.ext{background:#efe9dc;color:var(--warn)}
+.lede{font-size:.88rem;margin:0 0 10px}
+.muted{font-size:.78rem;color:var(--muted);margin:6px 0 0}
+pre{
+  margin:8px 0 0; padding:10px 12px; background:var(--code-bg); color:var(--code-ink);
+  border-radius:10px; overflow-x:auto; font-size:.7rem; line-height:1.45;
+  font-family:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+  white-space:pre-wrap; word-break:break-all;
+}
+pre .cm{color:#8b93a7}
+pre .fn{color:#7dd3c0}
+pre .st{color:#f0c674}
+pre .kw{color:#c792ea}
+table{width:100%;border-collapse:collapse;font-size:.78rem;margin:8px 0 0}
+th,td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.68rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+td code, p code, .qa code{
+  font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+  font-size:.7rem;background:#efe9dc;padding:1px 4px;border-radius:4px;
+  word-break:break-all;
+}
+.flow{display:flex;flex-direction:column;gap:8px;margin:10px 0 0}
+.step{
+  display:flex;gap:10px;align-items:flex-start;padding:10px 10px;
+  border:1px solid var(--line); border-radius:12px; background:#fff;
+}
+.step .dot{
+  width:10px;height:10px;border-radius:50%;background:var(--accent);margin-top:5px;flex:none;
+  box-shadow:0 0 0 3px var(--accent-soft);
+}
+.step b{font-size:.82rem;display:block;margin-bottom:2px}
+.step span{font-size:.75rem;color:var(--muted);display:block}
+.qa{
+  border-left:3px solid var(--accent); background:#fff;
+  border-radius:0 10px 10px 0; padding:10px 12px;
+  border-top:1px solid var(--line); border-right:1px solid var(--line); border-bottom:1px solid var(--line);
+  margin:0 0 8px;
+}
+.qa h3{margin:0 0 4px;font-size:.82rem;color:var(--accent)}
+.qa p{margin:0;font-size:.8rem}
+.note{
+  font-size:.78rem;color:var(--muted); border-top:1px dashed var(--line);
+  margin-top:10px; padding-top:8px;
+}
+.api{
+  background:#fff;border:1px solid var(--line);border-radius:12px;
+  padding:10px 12px;margin:0 0 8px;
+}
+.api h3{margin:0 0 4px;font-size:.85rem;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.api .role{font-size:.7rem;color:var(--muted);font-weight:500}
+.api a{color:var(--accent);font-size:.72rem;text-decoration:none}
+.api a:hover{text-decoration:underline}
+nav.tabbar{
+  position:fixed;left:0;right:0;bottom:0;z-index:30;
+  background:rgba(255,253,248,.96); border-top:1px solid var(--line);
+  display:flex; padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+}
+nav.tabbar button{
+  flex:1;border:0;background:transparent;color:var(--muted);
+  font-size:.68rem;font-weight:600;padding:8px 2px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+}
+nav.tabbar button.active{color:var(--accent)}
+nav.tabbar .ic{font-size:1rem;line-height:1}
+.view{display:none}
+.view.on{display:block}
+.pill-row{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0}
+.pill{
+  font-size:.7rem;padding:5px 9px;border-radius:99px;border:1px solid var(--line);
+  background:#fff;color:var(--ink);cursor:pointer;
+}
+.pill.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.hidden{display:none !important}
+.chain-row{
+  display:grid;grid-template-columns:52px 1fr;gap:8px;
+  padding:8px 0;border-bottom:1px solid var(--line);font-size:.78rem;
+}
+.chain-row:last-child{border-bottom:0}
+.chain-row .k{color:var(--muted);font-weight:600;font-size:.7rem;padding-top:2px}
+</style>
+</head>
+<body>
+<p data-aigc-mark="1" style="margin:0 0 8px;font-size:10px;line-height:1.3;color:#6b6560;font-weight:400;">AI生成</p>
+
+<header>
+  <h1>nrWaveformGenerator · 流水线与 API</h1>
+  <p>各层调用接口（来源 mathworks.com/help/5g）</p>
+</header>
+<main>
+
+  <section class="view on" id="v-home">
+    <div class="card">
+      <h2><span class="n">0</span>骨架 ≠ 编码</h2>
+      <p class="lede">顶层 <code>nrWaveformGenerator</code> 只调度；比特/CRC/Polar/LDPC/调制在下列 <b>nr* 公开函数</b>里。</p>
+      <div class="flow">
+        <div class="step"><div class="dot"></div><div><b>setup / validateConfig</b><span>配置校验、采样率、端口</span></div></div>
+        <div class="step"><div class="dot"></div><div><b>processAndGenerateCSIRS / SRS</b><span>RS → reservedREs（内部）</span></div></div>
+        <div class="step"><div class="dot"></div><div><b>processAndGeneratePDCCH</b><span>内部调 nrDCIEncode → nrPDCCH</span></div></div>
+        <div class="step"><div class="dot"></div><div><b>processAndGeneratePXSCH</b><span>内部调 DL-SCH → nrPDSCH</span></div></div>
+        <div class="step"><div class="dot"></div><div><b>ofdmModAndCombineBWP</b><span>OFDM 合成（无调制）</span></div></div>
+        <div class="step"><div class="dot"></div><div><b>addSSBurst</b><span>内部调 nrBCH → nrPBCH / nrPSS / nrSSS</span></div></div>
+      </div>
+      <p class="note">CORESET 无比特，只是 PDCCH 的 RE 容器。调用链可在 <code>info.WaveformResources</code> 的 <code>DCIBits/Codeword/ChannelSymbols</code>、<code>TransportBlock/Codeword</code> 字段对照验证。</p>
+    </div>
+    <div class="card">
+      <h2><span class="n">1</span>五问速查</h2>
+      <div class="qa"><h3>① 比特</h3><p>MIB/TB：配置 <code>DataSource</code> 或随机 → <code>info.*.TransportBlock</code> / <code>DCIBits</code></p></div>
+      <div class="qa"><h3>② CRC</h3><p><code>nrBCH</code>（BCH 24-bit）· <code>nrDCIEncode</code>（24-bit⊕RNTI）· DL-SCH 链（TB/CB）</p></div>
+      <div class="qa"><h3>③ 速率匹配</h3><p><code>nrBCH</code>→E=864 · <code>nrDCIEncode</code>→E · DL-SCH <code>nrRateMatchLDPC</code>→G</p></div>
+      <div class="qa"><h3>④ Polar</h3><p><code>nrBCH</code> / <code>nrDCIEncode</code> 内部（38.212 §7.1 / §7.3）</p></div>
+      <div class="qa"><h3>⑤ 调制</h3><p><code>nrPBCH</code>/<code>nrPDCCH</code>=QPSK · <code>nrPDSCH</code>=QPSK…1024QAM · 底层 <code>nrSymbolModulate</code></p></div>
+    </div>
+  </section>
+
+  <section class="view" id="v-api">
+    <div class="card">
+      <h2><span class="n">2</span>公开 API 签名</h2>
+      <p class="muted">已从 mathworks.com/help/5g 核对；点链接可开官方页。</p>
+
+      <div class="api">
+        <h3>nrWaveformGenerator <span class="role">总装</span> <span class="tag">R2020b</span></h3>
+        <pre><span class="fn">[</span>wave,info<span class="fn">]</span> = <span class="fn">nrWaveformGenerator</span>(cfg)
+<span class="fn">nrWaveformGenerator</span>()  <span class="cm">% 打开 5G Waveform Generator App</span>
+<span class="cm">% cfg: nrDLCarrierConfig | nrULCarrierConfig</span>
+<span class="cm">% info.WaveformResources.PDCCH.Resources: DCIBits, Codeword, ChannelSymbols…</span>
+<span class="cm">% info.WaveformResources.PDSCH.Resources: TransportBlock, Codeword, ChannelSymbols…</span></pre>
+        <a href="https://www.mathworks.com/help/5g/ref/nrwaveformgenerator.html" target="_blank" rel="noopener">官方文档 →</a>
+      </div>
+
+      <div class="api">
+        <h3>nrBCH <span class="role">BCH 编码 = CRC+Polar+RM</span> <span class="tag">E=864</span></h3>
+        <pre>cdblk = <span class="fn">nrBCH</span>(trblk,sfn,hrf,lssb,idxoffset,ncellid)
+<span class="cm">% trblk: 24×1 BCCH-BCH-Message</span>
+<span class="cm">% sfn, hrf: SFN / 半帧位</span>
+<span class="cm">% lssb: 4|8|64</span>
+<span class="cm">% idxoffset: L=4/8 时 k_SSB(0..31)；L=64 时 i_SSB(0..63)</span>
+<span class="cm">% cdblk: 864×1 码字 → 交给 nrPBCH</span></pre>
+        <a href="https://www.mathworks.com/help/5g/ref/nrbch.html" target="_blank" rel="noopener">官方文档 →</a>
+      </div>
+
+      <div class="api">
+        <h3>nrPBCH <span class="role">加扰 + QPSK</span></h3>
+        <pre>sym = <span class="fn">nrPBCH</span>(cw,ncellid,v)
+sym = <span class="fn">nrPBCH</span>(cw,ncellid,v,<span class="st">'OutputDataType'</span>,datatype)
+<span class="cm">% cw: E=864 BCH 码字；v: SSB index 低位（L=4→0..3；L=8/64→0..7）</span>
+<span class="cm">% 输出 432 个 QPSK 符号</span></pre>
+        <a href="https://www.mathworks.com/help/5g/ref/nrpbch.html" target="_blank" rel="noopener">官方文档 →</a>
+      </div>
+
+      <div class="api">
+        <h3>nrDCIEncode <span class="role">CRC⊕RNTI + Polar + RM</span></h3>
+        <pre>[dcicw,mcrc] = <span class="fn">nrDCIEncode</span>(dcibits,rnti,E)
+<span class="cm">% dcibits: DCI 消息比特；rnti: 0..65535（SI-RNTI=65535）</span>
+<span class="cm">% E: 码字长度，K+24 &lt; E ≤ 8192</span>
+<span class="cm">% 处理 = TS 38.212 §7.3.2–7.3.4：CRC 附加 + Polar + 速率匹配</span></pre>
+        <a href="https://www.mathworks.com/help/5g/ref/nrdciencode.html" target="_blank" rel="noopener">官方文档 →</a>
+      </div>
+
+      <div class="api">
+        <h3>nrPDCCH <span class="role">加扰 + QPSK</span></h3>
+        <pre>sym = <span class="fn">nrPDCCH</span>(dcicw,nid,nrnti)
+<span class="cm">% nid: NCellID 或 pdcch-DMRS-ScramblingID</span>
+<span class="cm">% nrnti: C-RNTI 或 0（公共搜索空间）</span></pre>
+        <a href="https://www.mathworks.com/help/5g/ref/nrpdcch.html" target="_blank" rel="noopener">官方文档 →</a>
+      </div>
+
+      <div class="api">
+        <h3>nrPDSCH <span class="role">加扰 + 调制 + 层映射</span></h3>
+        <pre>sym = <span class="fn">nrPDSCH</span>(cws,mod,nlayers,nid,rnti)
+sym = <span class="fn">nrPDSCH</span>(carrier,pdsch,cws)
+<span class="cm">% mod: 'QPSK'|'16QAM'|'64QAM'|'256QAM'|'1024QAM'</span>
+<span class="cm">% cws: 1–2 个 DL-SCH 码字（38.212 §7.2.6）</span></pre>
+        <a href="https://www.mathworks.com/help/5g/ref/nrpdsch.html" target="_blank" rel="noopener">官方文档 →</a>
+      </div>
+
+      <div class="api">
+        <h3>PDSCH 底层 / DL-SCH <span class="role">可单独调用</span> <span class="tag ext">链路</span></h3>
+        <pre><span class="fn">nrSymbolModulate</span>(bits,mod)     <span class="cm">% 通用星座调制</span>
+<span class="fn">nrLayerMap</span>(syms,nlayers)       <span class="cm">% 层映射</span>
+<span class="fn">nrDLSCHInfo</span> / <span class="fn">nrLDPCEncode</span> / <span class="fn">nrRateMatchLDPC</span>
+<span class="fn">nrDLSCHDecoder</span>                 <span class="cm">% 接收端对象（示例里 decodeDLSCH）</span></pre>
+        <p class="muted">PDSCH 的 CRC+LDPC+速率匹配可拆开用上述函数；波形生成器内部封装在 processAndGeneratePXSCH。</p>
+        <a href="https://www.mathworks.com/help/5g/ref/nrsymbolmodulate.html" target="_blank" rel="noopener">nrSymbolModulate →</a>
+        ·
+        <a href="https://www.mathworks.com/help/5g/ref/nrdlschinfo.html" target="_blank" rel="noopener">nrDLSCHInfo →</a>
+      </div>
+
+      <div class="api">
+        <h3>接收端镜像（SIB1 示例）</h3>
+        <pre><span class="fn">nrBCHDecode</span> / <span class="fn">nrPBCHDecode</span>
+<span class="fn">nrDCIDecode</span>(dcicw,K,L,rnti) / <span class="fn">nrPDCCHDecode</span>
+<span class="fn">nrDLSCHDecoder</span>(cw,mod,nlayers,rv)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="v-chain">
+    <div class="card">
+      <h2><span class="n">3</span>三条编码链 · 接口对照</h2>
+      <div class="chain-row"><div class="k">PBCH</div><div>
+        <code>trblk</code> → <code>nrBCH</code>(CRC+Polar+RM) → <code>cdblk[864]</code> → <code>nrPBCH</code>(加扰+QPSK) → 432 sym
+      </div></div>
+      <div class="chain-row"><div class="k">PDCCH</div><div>
+        <code>dcibits</code> → <code>nrDCIEncode</code>(CRC⊕RNTI+Polar+RM) → <code>dcicw[E]</code> → <code>nrPDCCH</code>(加扰+QPSK) → E/2 sym
+      </div></div>
+      <div class="chain-row"><div class="k">PDSCH</div><div>
+        <code>TB</code> → CRC+LDPC+RM(<code>nrLDPCEncode</code>/<code>nrRateMatchLDPC</code>) → <code>cws[G]</code> → <code>nrPDSCH</code>(加扰+调制+层映射)
+      </div></div>
+      <table>
+        <tr><th>阶段</th><th>PBCH</th><th>PDCCH</th><th>PDSCH</th></tr>
+        <tr><td>CRC</td><td>含在 nrBCH</td><td>含在 nrDCIEncode</td><td>DLSCH 链</td></tr>
+        <tr><td>信道码</td><td>Polar</td><td>Polar</td><td>LDPC</td></tr>
+        <tr><td>速率匹配</td><td>→864</td><td>→E</td><td>→G</td></tr>
+        <tr><td>调制</td><td>QPSK</td><td>QPSK</td><td>MCS 可变</td></tr>
+        <tr><td>接口</td><td>nrBCH+nrPBCH</td><td>nrDCIEncode+nrPDCCH</td><td>DLSCH+nrPDSCH</td></tr>
+      </table>
+      <p class="note">资源级 rate match：<code>reservedREs</code> / <code>controlReservedPRB</code>（生成器内部容器）→ 体现在 <code>info.*.Resources.Config.ReservedPRB/ReservedRE</code>。</p>
+    </div>
+    <div class="card">
+      <h2><span class="n">4</span>info 输出如何验证</h2>
+      <pre>info.WaveformResources.PDCCH.Resources(i)
+  .DCIBits      <span class="cm">% ① 组好的 DCI 比特</span>
+  .Codeword     <span class="cm">% ②③④ CRC+Polar+RM 后</span>
+  .ChannelSymbols <span class="cm">% ⑤ QPSK</span>
+info.WaveformResources.PDSCH.Resources(i)
+  .TransportBlock / .Codeword / .ChannelSymbols
+info.WaveformResources.SSBurst.Resources(i)
+  .TransportBlock / .Codeword / .PBCHSymbols</pre>
+    </div>
+    <div class="card">
+      <h2><span class="n">5</span>内部 vs 公开</h2>
+      <p class="lede" style="margin:0"><code>processAndGenerate*</code> / <code>addSSBurst</code> / <code>ofdmModAndCombineBWP</code> 是私有骨架，文档不单独给页；对应的<strong>可编程接口</strong>就是上表 <code>nrBCH/nrPBCH/nrDCIEncode/nrPDCCH/nrPDSCH</code> 等。</p>
+    </div>
+  </section>
+</main>
+
+<nav class="tabbar">
+  <button class="active" data-v="v-home"><span class="ic">☰</span>总览</button>
+  <button data-v="v-api"><span class="ic">⌘</span>API</button>
+  <button data-v="v-chain"><span class="ic">⛓</span>编码链</button>
+</nav>
+<script>
+(function(){
+  var tabs=document.querySelectorAll('nav.tabbar button');
+  tabs.forEach(function(b){
+    b.addEventListener('click',function(){
+      tabs.forEach(function(x){x.classList.remove('active')});
+      b.classList.add('active');
+      document.querySelectorAll('.view').forEach(function(v){v.classList.remove('on')});
+      document.getElementById(b.dataset.v).classList.add('on');
+      window.scrollTo(0,0);
+    });
+  });
+})();
+</script>
+</body>
+</html>

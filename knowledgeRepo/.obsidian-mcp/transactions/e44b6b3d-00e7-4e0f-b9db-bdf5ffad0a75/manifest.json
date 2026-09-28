@@ -1,0 +1,21 @@
+{
+  "id": "e44b6b3d-00e7-4e0f-b9db-bdf5ffad0a75",
+  "state": "committed",
+  "createdAt": "2026-09-20T05:56:05.822Z",
+  "snapshots": [
+    {
+      "path": "30-Resources/MOC-Linux.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "d991cde3132e8442c16c1dbca719883510e50a1b5ec43ee0f0f0146d653b1830",
+      "recoverable": true,
+      "existed": true,
+      "mode": 33206,
+      "etag": "1f5ed4cbc0e3a6be6f24f62b15f6084acfbb9ff90c29e3f0ac68e91b815cfec7",
+      "snapshot": "0.bin",
+      "committedEtag": "d991cde3132e8442c16c1dbca719883510e50a1b5ec43ee0f0f0146d653b1830"
+    }
+  ],
+  "completedAt": "2026-09-20T05:56:05.838Z"
+}

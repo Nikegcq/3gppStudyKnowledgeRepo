@@ -1,0 +1,21 @@
+{
+  "id": "625466ce-856b-4045-98a5-51bb0dbaed92",
+  "state": "committed",
+  "createdAt": "2026-09-20T03:26:03.817Z",
+  "snapshots": [
+    {
+      "path": "面试题/Bootloader/Bootloader面试-问答.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "4b0508f000657fb9999aff6533c27b070cfb286f1e3d13a2134287812453e4f6",
+      "recoverable": true,
+      "existed": true,
+      "mode": 33206,
+      "etag": "abe2dc5ef80bb584a2d6cc7fb3d1fdd39b603f314b1c8d28e74236aa2aa157e1",
+      "snapshot": "0.bin",
+      "committedEtag": "4b0508f000657fb9999aff6533c27b070cfb286f1e3d13a2134287812453e4f6"
+    }
+  ],
+  "completedAt": "2026-09-20T03:26:03.833Z"
+}

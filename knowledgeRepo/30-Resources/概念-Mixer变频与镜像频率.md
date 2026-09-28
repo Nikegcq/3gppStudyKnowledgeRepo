@@ -2,7 +2,7 @@
 type: note
 tags: [RF, 射频, Mixer, 混频器, 镜像频率, 零中频, I/Q, 正交混频, AD9361, 硬件]
 created: 2026-09-17
-updated: 2026-09-17
+updated: 2026-09-22
 status: active
 source: 原理通识 + AD9361 UG-570 对照
 ---
@@ -295,8 +295,10 @@ $$
 
 $$
 \tilde{I}=(1+\epsilon)I,\qquad
-\tilde{Q}=Q\ \text{相位偏了}\ \Delta\phi
+\tilde{Q}=Q+\Delta\phi
 $$
+
+（Q 路相位偏了 $\Delta\phi$。）
 
 则镜像抑制比（IRR）有限，大致
 

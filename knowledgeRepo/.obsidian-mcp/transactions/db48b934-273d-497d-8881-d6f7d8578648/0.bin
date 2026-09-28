@@ -1,0 +1,424 @@
+---
+type: resource
+tags: [面试题, Bootloader, u-boot, 嵌入式, Linux, Zynq, BootROM, MicroBlaze, FPGA, OCM, DDR]
+created: 2026-09-18
+updated: 2026-09-18
+status: active
+---
+
+# Bootloader — 面试问答
+
+> 适用：嵌入式 Linux / 驱动 / 通信设备（ARM、Zynq、PlutoSDR、MicroBlaze 方向）  
+> 结构：每题含 **口头答案**（20–40 秒）+ **关键点** + **易被追问**  
+> 关联：[[Linux驱动加载与匹配-面试问答]]、[[MOC-Linux]]、[[MOC-RTOS]]、[[MOC-FPGA]]、[[面试题-目录]]
+
+---
+
+## 速记总览
+
+| 题号 | 题目 | 一句话结论 |
+|------|------|------------|
+| 1 | Bootloader 是什么 | 内核前的初始化程序：设时钟/内存、加载镜像、传参、跳转 |
+| 2 | 完整启动链 | BootROM → FSBL/SPL → U-Boot → Kernel → rootfs/init |
+| 3 | 为何要多级 Bootloader | 片内存储有限：SPL 只做最小初始化，主 BL 再放 DDR 里跑 |
+| 4 | U-Boot 做什么 | 板级初始化、驱动存储/网络、加载内核与 DTB、bootm 跳转 |
+| 5 | 环境变量与启动脚本 | `bootcmd`/`bootargs` 控制启动流程与内核 cmdline |
+| 6 | 设备树与 bootargs | DTB 描述硬件；bootargs 传命令行（root、console 等） |
+| 7 | 内核镜像类型 | zImage/Image/uImage/FIT；入口与自解压差异 |
+| 8 | Zynq 启动与 BOOT.bin | BootROM 按拨码选介质；FSBL + bitstream + U-Boot + kernel |
+| 9 | FIT / 先 FPGA 后内核 | Pluto 等：先下载 bitstream，再引导 Linux |
+| 10 | 重定位 relocation | BL 先在低地址跑，搬进 DDR 高端，避免与内核冲突 |
+| 11 | 与 bare-metal/RTOS | bare-metal 无 OS 引导；RTOS 仍可能有简单 loader/跳转 |
+| 12 | 启动卡住怎么查 | 打印阶段、灯/寄存器、JTAG、对比已知好镜像、查介质与时钟 |
+| 13 | BL 固化在哪 / CPU 怎么走到它 | 固化在片内的是 **BootROM**；用户 BL 在 Flash/SD；上电 PC→复位向量→BootROM→按模式加载下一阶段 |
+| 14 | MicroBlaze 启动 | 无硬核 BootROM；BL 多经 **bitstream 写入 BRAM**；配置后从 BRAM 起跑，再视需要从 Flash 拷 RTOS 到 BRAM/DDR |
+| 15 | BootROM 是否已初始化 DDR/Flash | **没有做完**：ROM 只把 FSBL 放进片内 OCM；**DDR/板级初始化在 FSBL/SPL** |
+| 16 | Zynq 内存与各阶段位置 | ROM@片内ROM；FSBL@**OCM**；bitstream→**PL**；U-Boot/Kernel/DTB@**DDR**；镜像本体在 QSPI/SD 等非易失介质 |
+
+---
+
+## 1. 什么是 Bootloader？为什么需要它？
+
+### 口头答案
+
+Bootloader 是上电后、操作系统起来之前运行的一小段软件。它负责：把芯片从复位态带到可运行 OS 的状态——初始化时钟、DDR/关键外设，从 Flash/SD/网络等介质加载内核（和设备树、根文件系统相关信息），设置启动参数，最后跳到内核入口。没有它，内核既没有可用的内存环境，也不知道自己在哪里、参数是什么。
+
+### 关键点
+
+```text
+职责浓缩：
+硬件最小初始化 → 找到并加载 OS 镜像 → 传递参数 → 跳转
+```
+
+- 常见实现：U-Boot、厂商 FSBL/SPL、coreboot、GRUB（PC）等  
+- 与「BIOS/UEFI」（PC）角色类似，嵌入式多为 U-Boot + 芯片厂第一级  
+
+### 易被追问
+
+- 内核不能自己初始化 DDR 吗？→ 早期路径上 DDR 控制器往往要先配好；且加载镜像本身也要能访问存储。  
+- Bootloader 算固件吗？→ 工程上常算启动固件的一部分；安全启动链里是信任根的一环。
+
+---
+
+## 2. 请描述嵌入式 Linux 的完整启动链
+
+### 口头答案
+
+以典型 ARM/Zynq 为例：
+
+1. **上电 / 复位**，CPU 从 **BootROM**（芯片内固化）开始；  
+2. BootROM 按启动模式引脚/熔丝选择介质（QSPI/SD/eMMC/NAND…），加载 **第一级**（Zynq 上是 FSBL，很多 SoC 上是 SPL）到片内 SRAM/OCM；  
+3. 第一级初始化 PS/时钟/DDR，再加载 **主 Bootloader**（U-Boot）到 DDR；  
+4. U-Boot 初始化更多外设，从存储/网络/USB 取 **内核 + DTB（+ 可选 initrd/FIT）**，设置 `bootargs`；  
+5. `bootm`/`booti` 等跳到 **内核入口**；  
+6. 内核自解压/初始化，挂载根文件系统，拉起 **init**，进入用户态。
+
+### 关键点
+
+```text
+BootROM → FSBL → U-Boot → Kernel → rootfs → init
+  ROM执行    OCM      DDR      DDR      介质挂载
+```
+
+（介质上「放着」vs 内存里「跑着」——见第 16 题）
+
+### 易被追问
+
+- 卡在某一环怎么判断？→ 看串口打印停在谁；Zynq 可看 FSBL/U-Boot/Kernel 哪一级有输出。  
+- 没有 U-Boot 行不行？→ 可 FSBL 直接引导内核（简化），但灵活加载、网络、交互都弱。
+
+---
+
+## 3. 为什么常常需要两级 Bootloader？
+
+### 口头答案
+
+芯片复位后 CPU 可能只能无条件使用**片内 OCM/SRAM**，容量很小（Zynq-7000 OCM 共 256KB 量级），放不下功能完整的 U-Boot，也还没初始化 DDR。于是第一级（FSBL/SPL）只做最小工作：时钟、DDR、必要存储驱动，把第二级 U-Boot 搬进 DDR 再跳过去。
+
+### 关键点
+
+```text
+问题：OCM 小 + DDR 未就绪
+方案：FSBL@OCM → 初始化 DDR → U-Boot@DDR → Kernel@DDR
+```
+
+### 易被追问
+
+- 为何不把 U-Boot 做得很小？→ 功能与体积、初始化复杂度矛盾。  
+- Xilinx 为何叫 FSBL？→ First Stage Boot Loader，与 BootROM/Boot Header 流程绑定。
+
+---
+
+## 4. U-Boot 主要完成哪些工作？
+
+### 口头答案
+
+U-Boot 初始化板级硬件，提供命令行与环境变量，从 Flash/SD/TFTP/USB 等加载内核、设备树、ramdisk，设置 `bootargs`，执行 `bootm`/`booti` 跳进内核。生产环境可关掉交互，只跑 `bootcmd`。
+
+### 关键点
+
+```text
+板级 init → 驱动介质 → env → bootcmd → bootm 内核
+```
+
+- Xilinx 板常用 `u-boot-xlnx`  
+- 配置：`defconfig` + 板级设备树  
+
+---
+
+## 5. U-Boot 环境变量是什么？`bootcmd` 和 `bootargs` 有何区别？
+
+### 口头答案
+
+`bootcmd` 是 **U-Boot 启动时自动执行的命令序列**；`bootargs` 是 **传给 Linux 的命令行**。前者决定「怎么加载并跳转」，后者决定「内核起来后用什么参数」。
+
+### 关键点
+
+```text
+bootcmd = 加载 kernel/dtb → bootm
+bootargs = console=... root=... 
+```
+
+| 变量 | 消费者 |
+|------|--------|
+| `bootcmd` | U-Boot |
+| `bootargs` | Linux cmdline |
+
+---
+
+## 6. 设备树（DTB）和 bootargs 分别起什么作用？
+
+### 口头答案
+
+DTB 描述硬件；`bootargs` 是启动参数字符串（console、root、init 等）。U-Boot 把两者都交给内核（DTB 地址 + cmdline）。
+
+### 关键点
+
+```text
+dts → dtb →（U-Boot 传地址）→ 内核解析
+bootargs → /chosen/bootargs → 内核命令行
+```
+
+---
+
+## 7. zImage、Image、uImage、FIT 有什么区别？
+
+### 口头答案
+
+Image 为约定格式内核；zImage 自解压；uImage 带 U-Boot 头；FIT 把 kernel/dtb/ramdisk（及签名）打成一棵镜像树。
+
+### 关键点
+
+| 类型 | 特点 |
+|------|------|
+| Image | 裸内核，booti 等 |
+| zImage | 自解压 |
+| uImage | U-Boot 头 |
+| FIT | 多组件 + 可签名 |
+
+---
+
+## 8. Zynq / Xilinx 平台启动模式与 BOOT.bin 大致结构？
+
+### 口头答案
+
+Zynq 上电先跑 **BootROM**，按模式引脚选 QSPI/SD/JTAG/NAND/eMMC 等，读 Boot Header，加载 **FSBL**。FSBL 初始化 PS（时钟、DDR），可配置 **bitstream**，再加载 **U-Boot**。`BOOT.bin` 由 Bootgen + BIF 把多分区拼成。
+
+### 关键点
+
+```text
+BOOT.bin: Boot Header + FSBL + (bitstream) + U-Boot/应用
+介质: QSPI/SD 上的固定布局；JTAG 可灌镜像
+```
+
+- 工具：`bootgen` + `.bif`  
+
+---
+
+## 9. 为什么有的板子要「先加载 FPGA bitstream，再启动内核」？
+
+### 口头答案
+
+Pluto 等 RF/加速板：DMA、AXI 数据通路在 PL。bitstream 未配置时驱动 probe 不到硬件，故在 FSBL/U-Boot 阶段先下载 bitstream，再引导 Linux。
+
+### 关键点
+
+```text
+FSBL/U-Boot → 下载 bitstream 到 PL → 再 bootm 内核
+```
+
+---
+
+## 10. Bootloader 里的重定位（relocation）是干什么的？
+
+### 口头答案
+
+U-Boot 先在可运行地址执行，再把自己搬到 DDR 高端，避免被内核加载/解压覆盖。
+
+### 关键点
+
+```text
+临时地址跑起来 → relocate 到 DDR 高端 → 内核占低端 DDR
+```
+
+---
+
+## 11. Bootloader 与 bare-metal / RTOS 启动有何不同？
+
+### 口头答案
+
+Linux：Bootloader 终点是跳内核 + 传参。Bare-metal：FSBL 后可直接进应用。RTOS：启动文件 + 链接脚本进调度器；也可由 U-Boot 加载。Zynq 上常见 PS(Linux) + PL(MicroBlaze/实时) 共存。
+
+---
+
+## 12. 启动卡住一般怎么排查？（实战向）
+
+### 口头答案
+
+按链分段：BootROM/模式/介质 → FSBL 与 DDR → U-Boot 与镜像地址 → 内核 DTB/bootargs/rootfs。用串口、JTAG、LED、对比好镜像。
+
+### 关键点
+
+```text
+无打印 → ROM/模式/串口
+有 FSBL 无 U-Boot → DDR 或分区/地址
+有 U-Boot 无 Kernel → 镜像类型/load addr/dtb
+Kernel 卡住 → DTB/probe/rootfs
+```
+
+---
+
+## 13. Bootloader 被固化在什么位置？上电后 CPU 如何走到 Bootloader？
+
+### 口头答案
+
+固化在片内的是 **BootROM**；FSBL/U-Boot 在外部 QSPI/SD 等介质上。上电后 PC 被硬件指到复位向量 → BootROM 取指 → 按模式加载 FSBL 到 **OCM** → 跳转执行。
+
+### 关键点
+
+```text
+复位 → BootROM（片内ROM）
+     → 加载 FSBL → OCM
+     → FSBL init DDR → U-Boot@DDR → Kernel
+```
+
+---
+
+## 14. MicroBlaze 是把 Bootloader 烧进 BRAM，上电再把 Flash 里的 RTOS 拷到 SRAM 吗？
+
+### 口头答案
+
+MicroBlaze 无掩膜 BootROM。常见：bitstream 配置时把 bootloader/应用写入 **PL BRAM**；配置后软核从 BRAM 起跑；大镜像再从 Flash 拷到 BRAM 或 DDR。
+
+### 关键点
+
+```text
+FPGA 配置 → BRAM 初值 = 代码 → MicroBlaze 执行
+大应用：Flash →（loader）→ BRAM/DDR
+```
+
+---
+
+## 15. BootROM 本质已经做了初始化 DDR、Flash 等设备的工作了吗？
+
+### 口头答案
+
+**没有做完。** ROM 只做最小工作：读模式、用启动专用通路从介质取 FSBL、验签、放进 **OCM** 再跳转。DDR 按板级参数的完整初始化在 **FSBL/SPL**；通用 Flash/网络等在 U-Boot/内核。
+
+### 关键点
+
+```text
+BootROM：能读启动介质上的 FSBL → OCM
+FSBL：   DDR + 板级 → 之后才能把大镜像放 DDR
+U-Boot：完整驱动与 boot 流程
+```
+
+| 子系统 | BootROM | 完整初始化 |
+|--------|---------|------------|
+| DDR | 一般不做 | FSBL/SPL |
+| 启动 QSPI/SD | 专用通路读 FSBL | U-Boot/内核 |
+| 网络/USB | 通常无 | U-Boot/内核 |
+
+---
+
+## 16. Zynq 有哪些内存？各启动阶段代码放在哪、在哪里执行？
+
+### 口头答案
+
+Zynq-7000 可以从「**存在哪（非易失）**」和「**跑在哪（易失/可执行）**」两层看。非易失主要有：片内 **BootROM**（固化）、板级 **QSPI/SD/NAND/eMMC** 等（放 BOOT.bin、内核、rootfs）。易失/可执行内存主要有：片内 **OCM**（256KB 量级，PS/PL 都可访问）、外部 **DDR**（要 FSBL 先初始化）、PL 侧 **BRAM**（若有 MicroBlaze）。Cache（每核 L1、共享 L2）是缓存，不是镜像落盘位置。
+
+启动阶段对应关系（地址以板级链接脚本/TRM 为准，下面是典型关系）：
+
+| 阶段 | 镜像「放在」 | 实际「执行于」 | 说明 |
+|------|--------------|----------------|------|
+| BootROM | 芯片内掩膜 ROM | **ROM** | 复位向量指到这里；用户不可改 |
+| FSBL | QSPI/SD 等介质上的 BOOT.bin 分区 | **OCM** | BootROM 加载进 OCM；在 OCM 里初始化 DDR |
+| FPGA bitstream | 介质上（BOOT.bin 内或单独分区） | **PL 配置存储** | 配置 FPGA 逻辑，不是 CPU 指令内存 |
+| U-Boot | 介质上（BOOT.bin / 分区） | **DDR** | FSBL 初始化 DDR 后加载并跳转 |
+| U-Boot env | 介质（QSPI/SD 分区） | 数据，驻留 DDR | `saveenv` 写回介质 |
+| 内核 zImage/Image/FIT | 介质分区 | **DDR** | U-Boot `bootm`/`booti` 加载后跳转 |
+| DTB | 介质或 FIT 内 | **DDR** | 传地址给内核 |
+| initramfs（若有） | 介质或 FIT | **DDR** | 内核解压/挂载 |
+| rootfs | 介质分区（JFFS2/ext4…） | 介质 + DDR page cache | 不是「拷到某固定 RAM 才算启动」 |
+| MicroBlaze 程序 | bitstream 初值 / Flash | **PL BRAM 或 DDR** | 与 PS 启动链可并存（第 14 题） |
+
+### 关键点
+
+#### Zynq-7000 内存全景（示意）
+
+```text
+【固化 / 非易失】
+BootROM          片内 ROM，复位向量指向这里
+QSPI / SD / NAND / eMMC   板级介质：BOOT.bin、kernel、dtb、rootfs
+
+【片内易失】
+OCM（On-Chip Memory）  共约 256KB（4×64KB bank，以 TRM 为准）
+  - 可映射到低地址（如 0x00000000 附近）或高地址（0xFFFC0000 附近）
+  - BootROM 与 FSBL 早期主要用它；PS/PL 均可访问
+
+【外部易失】
+DDR              大容量运行内存；必须 FSBL 初始化 DDR 控制器后才可用
+                 U-Boot、内核、用户态都在这里跑
+
+【PL 侧】
+BRAM             FPGA 块 RAM；MicroBlaze 软核常用（bitstream 初值）
+配置存储         bitstream 写入 FPGA 的配置单元，不是 CPU 取指用的 RAM
+
+【缓存（非镜像位置）】
+L1 I/D（每核） + 共享 L2    加速访问，不是 bootloader「存放处」
+```
+
+#### 启动各阶段 × 内存位置（流程图）
+
+```text
+上电
+ │
+ ▼
+BootROM ────────────── 在【片内 ROM】执行
+ │  读 mode，从【QSPI/SD…】取 FSBL
+ ▼
+FSBL ───────────────── 镜像在【介质】→ 加载到【OCM】执行
+ │  初始化时钟/MIO/【DDR】
+ │  （可选）从介质取 bitstream → 配置【PL】
+ │  从介质取 U-Boot → 放到【DDR】
+ ▼
+U-Boot ─────────────── 在【DDR】执行
+ │  从介质/网络取 kernel + dtb（+ FIT）→【DDR】
+ │  设置 bootargs
+ ▼
+Linux Kernel ───────── 在【DDR】执行
+ │  挂载【介质上的 rootfs】
+ ▼
+用户态
+```
+
+#### 为什么必须「先 OCM、后 DDR」
+
+```text
+复位早期：DDR 控制器未按板级参数初始化 → 不能当可执行内存
+因此：BootROM 只能把 FSBL 放进 OCM
+FSBL 在 OCM 里跑完 DDR init 之后，U-Boot/内核才有「大内存」可用
+```
+
+#### 地址习惯（示意，**务必以板级/链接脚本/TRM 为准**）
+
+| 资源 | 常见映射习惯（示意） |
+|------|----------------------|
+| BootROM | 复位向量映射处（片内 ROM） |
+| OCM 低 | `0x00000000` 附近（当 OCM 映射到低地址） |
+| OCM 高 | `0xFFFC0000` 附近 |
+| DDR | 从 `0x00100000` 或 `0x00000000` 起（随 OCM/保留区划分） |
+| QSPI Linear 模式 | 片选映射窗口（如 `0xFC000000` 量级，芯片定义） |
+| FSBL 链接地址 | 与 BootROM 加载目标一致（OCM） |
+| U-Boot / kernel load 地址 | 板级头文件、U-Boot 环境、设备树 memory 节点约定 |
+
+### 易被追问
+
+- OCM 和 DDR 的分工？→ **OCM：小、免 DDR init，给 ROM→FSBL 与部分实时/关键代码；DDR：大容量，U-Boot/内核/应用。**  
+- OCM 只有 256KB 够 FSBL 吗？→ Zynq FSBL 设计上就是放 OCM 跑的；更复杂的第二阶段一律进 DDR。  
+- bitstream 算「内存」吗？→ 它配置 PL 逻辑/BRAM 初值，不是 CPU 指令 RAM；MicroBlaze 代码则是 BRAM/DDR 里的程序。  
+- U-Boot 为何有时也要从 OCM 搬？→ 某些方案 SPL 在 OCM，U-Boot 起始加载到 DDR；与「FSBL 在 OCM、U-Boot 在 DDR」是同一思路。  
+- rootfs 拷到 DDR 吗？→ 运行时经内核缓冲/页面缓存使用，不是启动阶段「一次性拷到某固定地址」那种 loader 语义。  
+- PS 与 PL 内存？→ PS 看 OCM/DDR/Cache；PL 用 BRAM/URAM/外部存储接口；二者可通过 HP/AFI 等口访问 DDR，带宽与缓存域不同。  
+- Pluto/你的板子具体地址？→ 看 `ps7_init`、U-Boot 头文件、`bootargs`、设备树 `memory` 节点与 Bootgen BIF。
+
+### 面试答法示例（约 35 秒）
+
+> Zynq 的内存可以分固化、片内、外部和 PL 四层：固化是 BootROM；非易失镜像在 QSPI/SD；片内可执行的是 OCM，约 256KB，复位后 DDR 还不能用；外部 DDR 要 FSBL 初始化后才能跑大程序。对应启动阶段：BootROM 在片内 ROM 执行，把 FSBL 从 Flash 加载到 OCM；FSBL 在 OCM 里初始化 DDR，并按需配置 PL bitstream，再把 U-Boot 放进 DDR；U-Boot 和内核、DTB 都在 DDR 执行，rootfs 在 Flash/SD 分区上挂载。
+
+---
+
+## 面试答法示例（启动链总述）
+
+> Zynq 启动是 BootROM（片内 ROM）→ FSBL（OCM）→ U-Boot（DDR）→ Kernel（DDR）。ROM 不做完整 DDR 初始化；FSBL 在 OCM 完成 DDR 与板级后再加载后续。镜像长期存放在 QSPI/SD，运行期落在 OCM/DDR；PL bitstream 与 MicroBlaze 的 BRAM 是另一条并行线索。
+
+---
+
+## 相关
+
+- [[面试题-目录]]
+- [[Linux驱动加载与匹配-面试问答]]
+- [[MOC-Linux]]（u-boot / Pluto）
+- [[MOC-FPGA]]（bitstream / MicroBlaze / PS-PL）
+- [[MOC-RTOS]]
+- [[学习-RTOS-学习路线]]

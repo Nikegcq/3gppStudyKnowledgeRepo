@@ -3,7 +3,7 @@ type: resource
 tags: [L1, 物理层, 3GPP, 学习计划, SSB, 小区搜索, PBCH, MIB]
 layer: L1
 created: 2026-09-08
-updated: 2026-09-09
+updated: 2026-09-23
 status: active
 source: 3GPP TS 38.211/38.212/38.213/38.331（R19，ETSI）
 source_url: https://www.3gpp.org/DynaReport/38211.htm
@@ -43,14 +43,14 @@ PDSCH：SIB1（含 PLMN、cell selection、offsetToPointA、SCS-SpecificCarrier�
 
 ### 1.1 每步在“消除什么不确定性”
 
-| 步骤 | 输入 | 输出/收获 | 主依据 |
-| --- | --- | --- | --- |
-| PSS | 时域信号 | 符号定时 + 频偏粗估 + N_ID^(2)（3 选 1） | 38.211 §7.4.2.2 |
-| SSS | 定时 + N_ID^(2) | N_ID^(1)（336 选 1）→ PCI = 3·N_ID^(1)+N_ID^(2) | 38.211 §7.4.2.3 |
-| PBCH DM-RS | SSB 位置 | SSB index 低位（2/3 bit）+ 解 PBCH 用的信道估计 | 38.211 §7.4.1.4 |
-| PBCH/MIB | 432 个 RE | SFN（6 MSB + 4 LSB）、k_SSB、SIB1 SCS、CORESET#0/SS0 | 38.212 §7.1、38.331 |
-| Type0-PDCCH | CORESET#0/SS0 | DCI 1_0（SI-RNTI）→ SIB1 的 PDSCH 调度 | 38.213 §13 |
-| PDSCH/SIB1 | DCI 1_0 | offsetToPointA、载波/BWP、接入参数 → 可做小区选择 | 38.331 |
+| 步骤          | 输入            | 输出/收获                                           | 主依据                |
+| ----------- | ------------- | ----------------------------------------------- | ------------------ |
+| PSS         | 时域信号          | 符号定时 + 频偏粗估 + N_ID^(2)（3 选 1）                   | 38.211 §7.4.2.2    |
+| SSS         | 定时 + N_ID^(2) | N_ID^(1)（336 选 1）→ PCI = 3·N_ID^(1)+N_ID^(2)    | 38.211 §7.4.2.3    |
+| PBCH DM-RS  | SSB 位置        | SSB index 低位（2/3 bit）+ 解 PBCH 用的信道估计            | 38.211 §7.4.1.4    |
+| PBCH/MIB    | 432 个 RE      | SFN（6 MSB + 4 LSB）、k_SSB、SIB1 SCS、CORESET#0/SS0 | 38.212 §7.1、38.331 |
+| Type0-PDCCH | CORESET#0/SS0 | DCI 1_0（SI-RNTI）→ SIB1 的 PDSCH 调度               | 38.213 §13         |
+| PDSCH/SIB1  | DCI 1_0       | offsetToPointA、载波/BWP、接入参数 → 可做小区选择             | 38.331             |
 
 ### 1.2 几个关键衔接
 
@@ -94,18 +94,20 @@ PSS 定时/频偏怎么用 DSP 算出来，单独见子目录里的 [[PSS检测�
 
 候选 SSB 只在“含 SSB 的半帧”内出现，首符号位置由 Case 决定（下表按 R19 简化）：
 
-| Case | SSB SCS | 主要场景 | 半帧内首符号模式 | L_max |
-| --- | --- | --- | --- | --- |
-| A | 15 kHz | FR1 | {2,8} + 14·n | ≤3 GHz：4；>3 GHz：8 |
-| B | 30 kHz | FR1 | {4,8,16,20} + 28·n | 4 或 8 |
-| C | 30 kHz | FR1 | {2,8} + 14·n | 4 或 8 |
-| D | 120 kHz | FR2-1/FR2-NTN | {4,8,16,20} + 28·n | 64 |
-| E | 240 kHz | FR2-1/FR2-NTN | {8,12,16,20,32,36,40,44} + 56·n | 64 |
-| F | 480 kHz | FR2-2 | {2,9} + 14·n | 64 |
-| G | 960 kHz | FR2-2 | {2,9} + 14·n | 64 |
+| Case | SSB SCS | 主要场景          | 半帧内首符号模式（含 n 范围）                        | L_max             |
+| ---- | ------- | ------------- | ------------------------------- | ----------------- |
+| A    | 15 kHz  | FR1           | {2,8} + 14·n；L_max=4 时 n=0,1；L_max=8 时 n=0..3     | ≤3 GHz：4；>3 GHz：8 |
+| B    | 30 kHz  | FR1           | {4,8,16,20} + 28·n；L_max=4 时 n=0；L_max=8 时 n=0,1  | 4 或 8             |
+| C    | 30 kHz  | FR1           | {2,8} + 14·n；L_max=4 时 n=0,1；L_max=8 时 n=0..3     | 4 或 8             |
+| D    | 120 kHz | FR2-1/FR2-NTN | {4,8,16,20} + 28·n；n=0..15（4×16=64）                | 64                |
+| E    | 240 kHz | FR2-1/FR2-NTN | {8,12,16,20,32,36,40,44} + 56·n；n=0..7（8×8=64）    | 64                |
+| F    | 480 kHz | FR2-2         | {2,9} + 14·n；n=0..31（2×32=64）                      | 64                |
+| G    | 960 kHz | FR2-2         | {2,9} + 14·n；n=0..31（2×32=64）                      | 64                |
 
 补充：
 - 具体用哪个 Case 与频段、SSB SCS 相关（38.101-x 按频段规定），同一小区所有 SSB 用同一个 Case。
+- **L_max 不是 n 的取值**：n 是公式的“第几组 slot”，L_max 是候选 SSB 总数 = 基础集合个数 × 合法 n 的个数。例：Case B 基础集合 4 个，n=0 → 4 个候选；n=0,1 → 8 个。没有“n=4 或 8”的取法。
+- 候选都落在**含 SSB 的那个半帧**内，不是整个 10 ms 帧对折重复；Case B 最多 8 个，不是 16。
 - L_max 是小区最多可用的 SSB index 数；实际发哪些由高层 ssb-PositionsInBurst 决定（波束扫描：每个 SSB index 常对应一个波束方向）。
 - 初始小区选择时，UE 假设含 SSB 的半帧每 **2 帧（20 ms）**出现一次；接入后网络可配更细周期（如 5/10/20/40/80/160 ms）。
 - 3 MHz 信道、共享频谱（NR-U）等有额外打孔/窗口规则，用到时再翻。
@@ -122,17 +124,64 @@ PSS 定时/频偏怎么用 DSP 算出来，单独见子目录里的 [[PSS检测�
 
 ### MIB 字段（38.331，共 23 bit）
 
-| 字段 | 位数 | 作用 |
-| --- | ---: | --- |
-| systemFrameNumber | 6 | 10 位 SFN 的 6 个 MSB |
-| subCarrierSpacingCommon | 1 | SIB1/Msg2/4/paging 等用的 SCS（FR1：15/30 kHz；FR2：60/120 kHz），也隐含 SSB SCS |
-| ssb-SubcarrierOffset | 4 | k_SSB 的低 4 位（最高位可能在 PBCH 载荷里补） |
-| dmrs-TypeA-Position | 1 | PDSCH/PUSCH Type A 首个 DM-RS 位置（pos2/pos3） |
-| pdcch-ConfigSIB1 | 8 | 4 位 CORESET#0 + 4 位 SearchSpace#0（Type0-PDCCH CSS） |
-| cellBarred / intraFreqReselection | 1+1 | 小区禁止/重选控制 |
-| spare | 1 | 保留 |
+Spec 格式（38.331 `MIB`，注释为物理层用途）：
+
+```text
+MIB ::= SEQUENCE {
+  systemFrameNumber          BIT STRING (SIZE (6)),   -- SFN[9:4]，高 6 位；低 4 位在 PBCH 载荷
+  subCarrierSpacingCommon    ENUMERATED {scs15or60,   -- 0：FR1 15 kHz / FR2 60 kHz（common/BWP 的 SCS）
+                                         scs30or120},-- 1：FR1 30 kHz / FR2 120 kHz
+  ssb-SubcarrierOffset       INTEGER (0..15),         -- k_SSB 低 4 位；FR1 最高位由 PBCH 的 1 个 ā 补
+  dmrs-TypeA-Position        ENUMERATED {pos2, pos3}, -- PDSCH/PUSCH Type A 首个 DM-RS 符号
+  pdcch-ConfigSIB1           INTEGER (0..255),        -- 拆成 8 bit：见下
+  cellBarred                 ENUMERATED {barred, notBarred},
+  intraFreqReselection       ENUMERATED {allowed, notAllowed},
+  spare                      BIT STRING (SIZE (1))    -- 保留
+}
+-- 合计 6+1+4+1+8+1+1+1 = 23 bit（BCCH-BCH 传输块再去掉 1 bit 消息类型前导）
+```
+
+结构体形式（便于对照实现 / MATLAB）：
+
+```matlab
+% ---- MIB（RRC 23 bit，来自 BCH 传输块 trblk(2:end)）----
+mib.systemFrameNumber        % 6 bit, 0..63      SFN 高 6 位 → NFrame(9:4)
+mib.subCarrierSpacingCommon  % 1 bit             0→15/60 kHz, 1→30/120 kHz
+mib.ssb_SubcarrierOffset     % 4 bit, 0..15      k_SSB 低 4 位
+mib.dmrs_TypeA_Position      % 1 bit             0→pos2, 1→pos3
+mib.pdcch_ConfigSIB1         % 8 bit, 0..255
+%   ├─ 高 4 bit = controlResourceSetZero (0..15) → 38.213 表 13-1..13-10（CORESET0）
+%   └─ 低 4 bit = searchSpaceZero       (0..15) → 38.213 表 13-11..13-15（监听时机）
+mib.cellBarred               % 1 bit             1=barred, 0=notBarred
+mib.intraFreqReselection     % 1 bit
+mib.spare                    % 1 bit
+```
+
+拼装后的“初始系统信息”坐标（解码后常用的派生量）：
+
+```matlab
+sys.NFrame   = mib.systemFrameNumber*16 + sfn4lsb;          % 10 bit SFN = 6 MSB + 4 LSB
+sys.scsCommon = scsCommon(mib.subCarrierSpacingCommon + 1); % FR1 {15,30} / FR2 {60,120}
+sys.k_SSB    = mib.ssb_SubcarrierOffset + msb_kssb;         % 4 bit +（需要时）1 bit ā
+sys.dmrs_TypeA_Position = 2 + mib.dmrs_TypeA_Position;      % 2 或 3
+sys.cset0Idx = floor(mib.pdcch_ConfigSIB1 / 16);            % 表 13-x Index
+sys.ss0Idx   = mod(mib.pdcch_ConfigSIB1, 16);               % 表 13-11+ Index
+```
 
 ### PBCH 载荷与编码（38.212 §7.1）
+
+```text
+PBCH 物理载荷 32 bit（38.212 §7.1.1，交织前逻辑）:
+┌──────────────────────────┬─────────────────────────────────────────────┐
+│ BCH 传输块 24 bit        │ 物理层附加 8 bit                              │
+│  1 bit 消息类型 + MIB 23 │                                               │
+├──────────────────────────┼─────────┬──────┬────────────────────────────┤
+│                          │ sfn4lsb │ HRF  │ ā ā ā（3 bit，随 L_max 变）│
+│                          │ SFN[3:0]│ 半帧 │  L_max=4/8: k_SSB 的 MSB 等│
+│                          │ 4 bit   │ 0/1  │  L_max=64:  i_SSB 高 3 位  │
+└──────────────────────────┴─────────┴──────┴────────────────────────────┘
+再经 Table 7.1.1-1 交织 → 加扰(c_init←PCI) → CRC24 → Polar → 864 bit → QPSK/432 RE
+```
 
 - PBCH 物理载荷共 **32 bit**：高层 BCH 传输块（MIB 内容）+ 物理层附加位——SFN 的 4 个 LSB、半帧指示位（HRF）、3 个 ā̄ 位；经 Table 7.1.1-1 的交织表重排后再加扰。
 - SFN 共 10 位 = MIB 的 6 MSB + PBCH 里带的 4 LSB（38.331 明确这 4 位在 MIB 编码之外）。
@@ -141,7 +190,7 @@ PSS 定时/频偏怎么用 DSP 算出来，单独见子目录里的 [[PSS检测�
 
 ### MIB 之后怎么找到 SIB1
 
-- pdcch-ConfigSIB1 的 4+4 bit 查 38.213 §13 的表，得到 CORESET#0 的时频大小和 SearchSpace#0 的监测时机。
+- pdcch-ConfigSIB1 的 4+4 bit 查 38.213 §13 的表，得到 CORESET#0 的时频大小和 SearchSpace#0 的监测时机。表 13-3 / 13-11 释义、手算与 MATLAB 例时频图见 [[CORESET0时频位置计算]]。
 - 是否需要 CORESET#0：k_SSB 指示（FR1 中 k_SSB<24 表示有；≥24 表示该 SSB 不带 SIB1，pdcch-ConfigSIB1 另有含义，见 38.213 §13/38.331）。
 - 在 Type0-PDCCH CSS 中监听 DCI 1_0（CRC 用 SI-RNTI 加扰），按 DCI 指示去 PDSCH 收 SIB1。
 - SIB1 里才有 offsetToPointA、scs-SpecificCarrierList、initial DL/UL BWP 等“完整网格参数”——到此才和阶段 1 的 Point A/CRB 闭环。
@@ -187,6 +236,8 @@ PSS 定时/频偏怎么用 DSP 算出来，单独见子目录里的 [[PSS检测�
 
 ## 关联
 
+- [[CORESET0时频位置计算]]（表 13-3/13-11 列含义、频/时手算、SSB–CORESET–PDCCH–DCI–SIB1 位置图）
+- [[PSS相关检测与NID2判定]]（PSS m 序列 / 循环移位 / 互相关定 N_ID^(2)）
 - [[学习-38.211-阶段1-帧结构与时频资源]]（Point A / CRB / k_SSB 前置知识）
 - [[概念-NR频率栅格-NR-ARFCN与GSCN]]（信道栅格 / 同步栅格 / GSCN 计算）
 - [[概念-NR时间单位-Tc与Ts]]

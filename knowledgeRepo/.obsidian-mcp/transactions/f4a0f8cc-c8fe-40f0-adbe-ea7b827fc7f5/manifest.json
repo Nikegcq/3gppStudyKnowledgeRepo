@@ -1,0 +1,18 @@
+{
+  "id": "f4a0f8cc-c8fe-40f0-adbe-ea7b827fc7f5",
+  "state": "committed",
+  "createdAt": "2026-09-20T02:05:10.238Z",
+  "snapshots": [
+    {
+      "path": "面试题/C++/C++面试-vptr与vtable详解.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "7d4b8aaf2d3c323380c5411743661a7a543a95b59775fb03fac1bd8b63ba1cd2",
+      "recoverable": true,
+      "existed": false,
+      "committedEtag": "7d4b8aaf2d3c323380c5411743661a7a543a95b59775fb03fac1bd8b63ba1cd2"
+    }
+  ],
+  "completedAt": "2026-09-20T02:05:10.259Z"
+}

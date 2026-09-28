@@ -60,7 +60,7 @@ PlutoSDR 的 AD9361 不是“一个驱动干到底”，而是**控制面 + 数�
 | --- | --- |
 | `compatible = "adi,ad9363a"` | 决定 SPI 侧匹配到 `ad9361_id[]` 里的 `ad9363a`（见第 2.3 节） |
 | `reg = <0>` | SPI 片选号（CS0） |
-| `spi-cpha`、`spi-max-frequency = <10000000>` | SPI 时钟相位与最高 10 MHz，驱动 `ad9361_spi_check()` 会读实际 effective speed |
+| `spi-cpha`、`spi-max-frequency = <10000000>` | SPI 时钟相位与最高 10 MHz（四种模式见 [[概念-SPI总线与四种模式]]），驱动 `ad9361_spi_check()` 会读实际 effective speed |
 | `clocks = <&ad9364_clkin 0>`、`clock-names = "ad9364_ext_refclk"` | 40 MHz 参考时钟（dtsi 顶部 `ad9364_clkin` 节点） |
 | `#clock-cells = <1>`、`clock-output-names = ...` | 该 SPI 设备同时是**时钟提供者**：驱动内部创建一整套时钟树，DDS 节点用 `<&adc0_ad9364 13>` 引用 |
 | `en_agc-gpios`、`reset-gpios` | 可选 GPIO：EN_AGC、硬复位 |

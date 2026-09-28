@@ -1,0 +1,355 @@
+---
+type: resource
+tags: [面试题, Bootloader, u-boot, 嵌入式, Linux, Zynq]
+created: 2026-09-18
+updated: 2026-09-18
+status: active
+---
+
+# Bootloader — 面试问答
+
+> 适用：嵌入式 Linux / 驱动 / 通信设备（ARM、Zynq、PlutoSDR 方向）  
+> 结构：每题含 **口头答案**（20–40 秒）+ **关键点** + **易被追问**  
+> 关联：[[Linux驱动加载与匹配-面试问答]]、[[MOC-Linux]]、[[面试题-目录]]
+
+---
+
+## 速记总览
+
+| 题号  | 题目                | 一句话结论                                              |
+| --- | ----------------- | -------------------------------------------------- |
+| 1   | Bootloader 是什么    | 内核前的初始化程序：设时钟/内存、加载镜像、传参、跳转                        |
+| 2   | 完整启动链             | BootROM → FSBL/SPL → U-Boot → Kernel → rootfs/init |
+| 3   | 为何要多级 Bootloader  | SRAM 有限：SPL 只做最小初始化，主 BL 再放 DDR 里跑                 |
+| 4   | U-Boot 做什么        | 板级初始化、驱动存储/网络、加载内核与 DTB、bootm 跳转                   |
+| 5   | 环境变量与启动脚本         | `bootcmd`/`bootargs` 控制启动流程与内核 cmdline             |
+| 6   | 设备树与 bootargs     | DTB 描述硬件；bootargs 传命令行（root、console 等）             |
+| 7   | 内核镜像类型            | zImage/Image/uImage/FIT；入口与自解压差异                   |
+| 8   | Zynq 启动与 BOOT.bin | BootROM 按拨码选介质；FSBL + bitstream + U-Boot + kernel  |
+| 9   | FIT / 先 FPGA 后内核  | Pluto 等：先下载 bitstream，再引导 Linux                    |
+| 10  | 重定位 relocation    | BL 先在低地址跑，搬进 DDR 高端，避免与内核冲突                        |
+| 11  | 与 bare-metal/RTOS | bare-metal 无 OS 引导；RTOS 仍可能有简单 loader/跳转           |
+| 12  | 启动卡住怎么查           | 打印阶段、灯/寄存器、JTAG、对比已知好镜像、查介质与时钟                     |
+
+---
+
+## 1. 什么是 Bootloader？为什么需要它？
+
+### 口头答案
+
+Bootloader 是上电后、操作系统起来之前运行的一小段软件。它负责：把芯片从复位态带到可运行 OS 的状态——初始化时钟、DDR/关键外设，从 Flash/SD/网络等介质加载内核（和设备树、根文件系统相关信息），设置启动参数，最后跳到内核入口。没有它，内核既没有可用的内存环境，也不知道自己在哪里、参数是什么。
+
+### 关键点
+
+```text
+职责浓缩：
+硬件最小初始化 → 找到并加载 OS 镜像 → 传递参数 → 跳转
+```
+
+- 常见实现：U-Boot、厂商 FSBL/SPL、coreboot、GRUB（PC）等  
+- 与「BIOS/UEFI」（PC）角色类似，嵌入式多为 U-Boot + 芯片厂第一级  
+
+### 易被追问
+
+- 内核不能自己初始化 DDR 吗？→ 早期路径上 DDR 控制器往往要先配好；且加载镜像本身也要能访问存储。  
+- Bootloader 算固件吗？→ 工程上常算启动固件的一部分；安全启动链里是信任根的一环。
+
+---
+
+## 2. 请描述嵌入式 Linux 的完整启动链
+
+### 口头答案
+
+以典型 ARM/Zynq 为例：
+
+1. **上电 / 复位**，CPU 从 **BootROM**（芯片内固化）开始；  
+2. BootROM 按启动模式引脚/熔丝选择介质（QSPI/SD/eMMC/NAND…），加载 **第一级**（Zynq 上是 FSBL，很多 SoC 上是 SPL）到片内 SRAM；  
+3. 第一级初始化 PS/时钟/DDR，再加载 **主 Bootloader**（U-Boot）到 DDR；  
+4. U-Boot 初始化更多外设，从存储/网络/USB 取 **内核 + DTB（+ 可选 initrd/FIT）**，设置 `bootargs`；  
+5. `bootm`/`booti` 等跳到 **内核入口**；  
+6. 内核自解压/初始化，挂载根文件系统，拉起 **init**，进入用户态。
+
+### 关键点
+
+```text
+BootROM → SPL/FSBL → U-Boot → Kernel → rootfs → init
+   ↑芯片固化    ↑SRAM      ↑DDR      ↑DDR     ↑用户态
+```
+
+PlutoSDR / Xilinx 线还常包含：**先配置 FPGA bitstream，再启动 Linux**（见第 9 题）。
+
+### 易被追问
+
+- 卡在某一环怎么判断？→ 看串口打印停在谁；Zynq 可看 FSBL/U-Boot/Kernel 哪一级有输出。  
+- 没有 U-Boot 行不行？→ 可 FSBL 直接引导内核（简化），但灵活加载、网络、交互都弱。
+
+---
+
+## 3. 为什么常常需要两级 Bootloader？
+
+### 口头答案
+
+芯片复位后 CPU 可能只能无条件使用**片内 SRAM**，容量很小（几十到几百 KB 量级），放不下功能完整的 U-Boot，也还没初始化 DDR。于是第一级（SPL/FSBL）只做最小工作：时钟、DDR、必要存储驱动，把第二级 U-Boot 搬进 DDR 再跳过去。第二级再做完整驱动、脚本、加载内核。
+
+### 关键点
+
+```text
+问题：ROM/SRAM 小 + DDR 未就绪
+方案：SPL（小）→ 初始化 DDR → 加载 U-Boot（大）→ 加载 Kernel
+```
+
+| 级别 | 典型位置 | 职责范围 |
+|------|----------|----------|
+| SPL / FSBL | 片内 SRAM | 时钟、DDR、读启动介质、加载下一阶段 |
+| U-Boot | DDR | 完整命令行、多介质、环境变量、bootm |
+| Kernel | DDR | 操作系统 |
+
+### 易被追问
+
+- 为何不把 U-Boot 做得很小？→ 功能（网络、USB、脚本、显示）与代码体积、初始化复杂度矛盾。  
+- Xilinx 为何叫 FSBL？→ First Stage Boot Loader，和 Zynq BootROM/Boot header 流程绑定。
+
+---
+
+## 4. U-Boot 主要完成哪些工作？
+
+### 口头答案
+
+U-Boot 是嵌入式里最常用的主 Bootloader：初始化板级硬件（时钟、串口、存储、网络、USB 等），提供命令行与环境变量，从 Flash/SD/TFTP/USB 等加载内核、设备树、ramdisk，设置 `bootargs`，执行 `bootm`/`booti` 跳进内核。生产环境也可关掉交互，只跑 `bootcmd`。
+
+### 关键点
+
+```text
+板级 init
+  → 驱动介质/网络
+  → 读环境变量（env）
+  → 执行 bootcmd（如 load kernel/dtb → bootm）
+  → 跳转内核
+```
+
+- 源码：主线 U-Boot；Xilinx 板常用 `u-boot-xlnx`（如 Pluto 的 `u-boot-xlnx`）  
+- 配置：`defconfig` + 板级设备树  
+
+### 易被追问
+
+- 和 GRPC/GRUB 比？→ PC 用 GRUB 读分区/菜单；嵌入式 U-Boot 更「板级 + 命令行」。  
+- 如何改启动顺序？→ 改环境变量 `bootcmd`，或改板级头文件/defconfig 默认 env。
+
+---
+
+## 5. U-Boot 环境变量是什么？`bootcmd` 和 `bootargs` 有何区别？
+
+### 口头答案
+
+环境变量是 U-Boot 里的键值配置，可存在 Flash/EEPROM 里，也可编译期默认。`bootcmd` 是**U-Boot 自己启动时自动执行的命令序列**（加载什么、怎么 boot）；`bootargs` 是**传给 Linux 内核的命令行**（console、rootfs、init、loglevel 等）。前者决定「谁去加载并跳转」，后者决定「内核起来后用什么参数」。
+
+### 关键点
+
+```text
+bootcmd = sf probe; sf read ${kernel_addr} ...; bootm ${kernel_addr}
+bootargs = console=ttyPS0,115200 root=/dev/mtdblockX rw rootfstype=jffs2
+```
+
+| 变量 | 消费者 | 作用 |
+|------|--------|------|
+| `bootcmd` | U-Boot | 自动启动命令 |
+| `bootargs` | Linux | 内核 cmdline |
+| 其它如 `ipaddr`、`serverip`、`bootdelay` | U-Boot/网络加载 | TFTP、延时进交互等 |
+
+### 易被追问
+
+- 如何保存 env？→ `saveenv`（写入配置的存储）；只 `setenv` 断电即丢。  
+- 进不了系统只想改参数？→ 启动时打断进 U-Boot，`printenv` / `setenv bootargs ...` / `saveenv`。
+
+---
+
+## 6. 设备树（DTB）和 bootargs 分别起什么作用？
+
+### 口头答案
+
+设备树是**硬件描述**：SoC 外设、地址、中断、板级差异，编译成 DTB，U-Boot 传给内核，内核据此创建 platform device 等（与驱动 match）。`bootargs` 是**软件启动参数**字符串：串口、根设备、init 路径等。一个描述「板子长什么样」，一个描述「这次启动怎么跑」。
+
+### 关键点
+
+```text
+dts --dtc--> dtb --(U-Boot 加载并告知地址)--> 内核解析
+bootargs --> /chosen/bootargs --> 内核命令行
+```
+
+- 可将 DTB 地址放在寄存器或与内核约定的启动协议位置（ARM Linux boot protocol）  
+- 可用 FIT 把 kernel + dtb 打在一起  
+
+### 易被追问
+
+- DTB 不对会怎样？→ 外设探测失败、串口不对、驱动 probe 不到（对照 [[Linux驱动加载与匹配-面试问答]]）。  
+- bootargs 里 root 不对？→ 内核起来了但挂不上根，卡在 VFS/init 之前。
+
+---
+
+## 7. zImage、Image、uImage、FIT 有什么区别？
+
+### 口头答案
+
+- **Image**：未压缩/按约定的内核镜像（ARM64 常见）。  
+- **zImage**：自解压镜像，入口处先解压再进内核（ARM32 常见）。  
+- **uImage**：U-Boot 在内核前加 **64 字节头**（加载地址、入口、CRC 等），便于 `bootm` 校验与解压。  
+- **FIT**（Flattened Image Tree）：用类似 DTB 的结构打包 kernel/dtb/ramdisk/签名，一份镜像多组件，利于校验与安全启动。
+
+### 关键点
+
+| 类型 | 特点 |
+|------|------|
+| Image | 裸内核，booti/平台协议 |
+| zImage | 自解压 |
+| uImage | U-Boot 头 + 内核 |
+| FIT | 多镜像描述 + 可签名 |
+
+跳转前要保证：**加载地址、入口地址、机器号/DTB、压缩类型**与启动协议一致。
+
+### 易被追问
+
+- `bootm` vs `booti` vs `bootz`？→ bootm 处理 uImage/FIT；booti 多用于 Image；bootz 用于 zImage（版本相关）。  
+- 为何对齐/地址错会花屏或无输出？→ 解压到错误内存、覆盖 U-Boot/栈，或入口跳错。
+
+---
+
+## 8. Zynq / Xilinx 平台启动模式与 BOOT.bin 大致结构？
+
+### 口头答案
+
+Zynq-7000 等上电先跑 **BootROM**，按模式引脚（QSPI、SD、JTAG、NAND 等）选启动介质，读 **Boot Header**，按表加载 **FSBL**。FSBL 初始化 PS（时钟、DDR），可先下载 **FPGA bitstream**，再加载 **U-Boot**（或裸机应用）。完整启动镜像常叫 `BOOT.bin`，由多个分区按偏移拼成。
+
+### 关键点
+
+```text
+BOOT.bin（示意组件顺序，具体以 BIF/启动头为准）：
+  Boot Header
+  FSBL
+  （可选）bitstream
+  U-Boot / 应用
+  （后续阶段也可在文件系统或单独分区：kernel、dtb、rootfs）
+```
+
+- 工具：Vitis/XSDK `Bootgen` + `.bif` 描述文件  
+- SD 启动：常见 `BOOT.bin` 在 FAT 分区，内核/dtb/rootfs 按约定放置  
+- JTAG 启动：调试时可跳过部分介质依赖  
+
+### 易被追问
+
+- 启动模式拨码错了？→ BootROM 找不到合法镜像，无串口或停在 ROM 提示。  
+- Secure Boot？→ BootROM 验签，FSBL/U-Boot/kernel 按信任链传递（见第 12 题相关）。  
+- 与你库的关系：Pluto 固件 `plutosdr-fw` 即 u-boot-xlnx + linux + hdl bitstream 一条链，见 [[MOC-Linux]]。
+
+---
+
+## 9. 为什么有的板子要「先加载 FPGA bitstream，再启动内核」？
+
+### 口头答案
+
+像 PlutoSDR、很多 Zynq RF/加速板：PL（FPGA）里才有 DMA、AXI 外设、甚至 RF 数据通路。若 Linux 起来时 bitstream 未配置，对应设备树节点找不到硬件，驱动 probe 会失败或数据面不可用。因此启动链在 U-Boot/FSBL 阶段先把 bitstream 下载进 PL，再引导内核。FIT 可把 bitstream、kernel、dtb 打包并校验。
+
+### 关键点
+
+```text
+FSBL/U-Boot
+  → 下载 bitstream（PL 配置完成）
+  → 加载 kernel + dtb
+  → bootm
+内核启动后 → platform/iio 等驱动才能 match 到真实硬件
+```
+
+Pluto 相关：FIT 镜像、先 FPGA 后内核——见 [[MOC-Linux]] 主题地图。
+
+### 易被追问
+
+- bitstream 和驱动版本不匹配？→ 地址/中断与 dtsi 不一致，驱动 probe 失败。  
+- 运行中重配 FPGA？→ 属动态重构话题，一般需驱动协同，不是 Bootloader 范畴。
+
+---
+
+## 10. Bootloader 里的重定位（relocation）是干什么的？
+
+### 口头答案
+
+U-Boot 等常先在链接地址或当前可运行地址上初始化，再把自己**复制到 DDR 高端**并修正跳转与全局数据，这就是 relocation。目的：给内核腾出低地址连续内存，避免加载/解压内核时覆盖 Bootloader 自身；也让环境、堆等有稳定位置。
+
+### 关键点
+
+```text
+阶段 1：在 SRAM/临时地址跑起来
+阶段 2：relocate 到 CFG_SYS_TEXT_BASE 等高端 DDR
+阶段 3：加载内核到约定地址 → bootm → 内核占用低端内存
+```
+
+- 未重定位成功就 `bootm`，可能「加载内核时把自己冲掉」  
+- 调试时打印 `U-Boot relocated to ...` 一类信息可确认  
+
+### 易被追问
+
+- 内核解压到哪？→ zImage 解压目标地址、`bootargs` 与内存布局要匹配。  
+- 多核 AMP？→ 各核/各 OS 内存分区要在 Bootloader 与设备树/启动参数里划清。
+
+---
+
+## 11. Bootloader 与 bare-metal / RTOS 启动有何不同？
+
+### 口头答案
+
+- **Linux 路径**：Bootloader 的终点是「跳到内核入口 + 传 DTB/cmdline」，之后是通用 OS。  
+- **Bare-metal**：往往 FSBL/简单启动文件后直接进 `main`，无内核、无动态驱动模型；也可能根本没有完整 U-Boot。  
+- **RTOS**：启动代码 + 链接脚本把镜像放到链接地址，初始化栈/BSS/外设后进调度器；有时仍用 U-Boot 加载 RTOS 镜像再跳转。
+
+### 关键点
+
+| | Linux | bare-metal | RTOS |
+|--|-------|------------|------|
+| 加载者 | U-Boot/FSBL 常见 | FSBL/ROM/自研 | 可同 Linux 或更简 |
+| 传参 | DTB + bootargs | 全局表/无 | 约定结构或无 |
+| 驱动模型 | 内核设备模型 | 直接寄存器/库 | 静态驱动 |
+| 调试 | 串口/JTAG/内核 log | JTAG、半主机 | JTAG、RTOS trace |
+
+通信设备上常见：**同一 Zynq**，PL 做实时 L1，PS 侧 Linux 跑协议栈用户面/管理面，启动镜像需把 bitstream 与 Linux 都规划好。
+
+### 易被追问
+
+- 双系统/AMP？→ 内存分区、核绑定、IPC（RPMsg 等），Bootloader 要把两边镜像都放对。  
+- 为什么实时路径不在 Linux？→ 抖动与调度不确定性，常放 FPGA/RTOS/RPU。
+
+---
+
+## 12. 启动卡住一般怎么排查？（实战向）
+
+### 口头答案
+
+按启动链分段定位：先确认 **BootROM/模式引脚/启动介质**；再看 **FSBL/SPL** 有无串口打印、DDR 是否初始化成功；然后 **U-Boot** 是否进入、`printenv`、能否读到镜像；接着 **bootm 地址与镜像类型**是否匹配；内核起来则看 **early console、DTB、bootargs、rootfs**。辅以 JTAG 单步、GPIO/LED、对比可启动的旧镜像、校验 MD5、检查分区与拨码。
+
+### 关键点
+
+```text
+无任何打印 → 模式/介质/FSBL/串口线/时钟
+有 FSBL 无 U-Boot → FSBL 加载分区/地址/DDR
+有 U-Boot 无 Kernel → 镜像类型、load addr、dtb、bootargs
+Kernel 起来卡住 → DTB 不匹配、驱动 probe、rootfs/init
+```
+
+### 易被追问
+
+- 如何确认 DDR 好？→ FSBL 阶段内存测试；U-Boot `md`/`mtest`（注意 mtest 边界）。  
+- 安全启动失败？→ 验签失败会拒绝加载，对照 Bootgen 日志与密钥/证书链。  
+- 与驱动题交叉：内核起来了但设备没有 → 回到 [[Linux驱动加载与匹配-面试问答]] 的 match/probe。
+
+---
+
+## 面试答法示例
+
+> Bootloader 解决的是「内核之前」问题：BootROM 按启动模式找到第一级，SPL/FSBL 初始化 DDR 后把 U-Boot 放到 DDR，U-Boot 再加载 kernel 和 DTB、设置 bootargs，bootm 跳转。Zynq 上 BOOT.bin 由 Bootgen 按 BIF 拼 FSBL、bitstream、U-Boot 等；像 Pluto 这类 RF 板会先配 FPGA bitstream 再启动 Linux，否则数据通路驱动 probe 不到硬件。排障就沿启动链分段看串口和地址。
+
+---
+
+## 相关
+
+- [[面试题-目录]]
+- [[Linux驱动加载与匹配-面试问答]]（内核起来之后的设备模型）
+- [[MOC-Linux]]（u-boot / Pluto 启动链、plutosdr-fw）
+- [[MOC-FPGA]]（bitstream / hdl）
+- [[MOC-RTOS]]（无 Linux 时的启动与实时路径）

@@ -1,0 +1,16 @@
+{
+  "id": "2ab2a670-5ae7-4b80-8a0b-623770ef8633",
+  "state": "committed",
+  "createdAt": "2026-09-20T03:07:03.293Z",
+  "snapshots": [
+    {
+      "path": "面试题/Bootloader",
+      "operation": "mkdir",
+      "entryType": "directory",
+      "phase": "applied",
+      "recoverable": true,
+      "existed": false
+    }
+  ],
+  "completedAt": "2026-09-20T03:07:03.313Z"
+}

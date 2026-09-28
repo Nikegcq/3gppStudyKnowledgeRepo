@@ -1,0 +1,29 @@
+{
+  "id": "fcfce3c0-6791-4f49-a681-2d145b7cd940",
+  "state": "committed",
+  "createdAt": "2026-09-20T05:48:28.580Z",
+  "snapshots": [
+    {
+      "path": "面试题/Bootloader/Bootloader面试-问答-旧节选-待删.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "48e97d2a76cfa20ce233ce781b16c6e88f782d9348dd1720eda68feb6ac89261",
+      "recoverable": true,
+      "existed": false,
+      "committedEtag": "48e97d2a76cfa20ce233ce781b16c6e88f782d9348dd1720eda68feb6ac89261"
+    },
+    {
+      "path": "面试题/Bootloader/Bootloader面试-问答.md",
+      "operation": "delete",
+      "entryType": "file",
+      "phase": "applied",
+      "recoverable": true,
+      "existed": true,
+      "mode": 33206,
+      "etag": "48e97d2a76cfa20ce233ce781b16c6e88f782d9348dd1720eda68feb6ac89261",
+      "snapshot": "1.bin"
+    }
+  ],
+  "completedAt": "2026-09-20T05:48:28.601Z"
+}

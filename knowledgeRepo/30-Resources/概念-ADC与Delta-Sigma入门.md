@@ -2,7 +2,7 @@
 type: note
 tags: [RF, 射频, ADC, Delta-Sigma, ΔΣ, AD9361, 过采样, 硬件, 入门]
 created: 2026-09-15
-updated: 2026-09-15
+updated: 2026-09-22
 status: active
 source: 通识 + AD9361 UG-570 / Linux ad9361_rx_adc_setup 对照
 ---
@@ -17,8 +17,8 @@ ADC 把连续电压变成数字码；AD9361 片内 Rx ADC 是**三阶连续时�
 
 ## 1. ADC 是什么
 
-- **输入**：连续电压 \(v(t)\)
-- **输出**：每隔 \(1/F_s\) 一个数字码
+- **输入**：连续电压 $v(t)$
+- **输出**：每隔 $1/F_s$ 一个数字码
 
 常见类型：
 
@@ -34,10 +34,10 @@ ADC 把连续电压变成数字码；AD9361 片内 Rx ADC 是**三阶连续时�
 
 ### 过采样（OSR）
 
-\[
-\mathrm{OSR}=\frac{F_{s,\text{ADC}}}{F_s},\quad
-\text{SQNR}\approx 6.02N+1.76+10\log_{10}(\mathrm{OSR})
-\]
+$$
+\mathrm{OSR}=\frac{F_{s,\mathrm{ADC}}}{F_s},\quad
+\mathrm{SQNR}\approx 6.02N+1.76+10\log_{10}(\mathrm{OSR})
+$$
 
 OSR 翻 4 倍 ≈ 多约 6 dB（约 1 bit）。
 
@@ -47,7 +47,7 @@ OSR 翻 4 倍 ≈ 多约 6 dB（约 1 bit）。
 
 ### 模拟抗混叠更好做
 
-\(F_{s,\text{ADC}}\gg B\) 时过渡带宽，模拟滤波可以「软」；锐截止交给数字抽取。
+$F_{s,\mathrm{ADC}}\gg B$ 时过渡带宽，模拟滤波可以「软」；锐截止交给数字抽取。
 
 ### 数字抽取
 
@@ -70,7 +70,7 @@ OSR 翻 4 倍 ≈ 多约 6 dB（约 1 bit）。
 | 术语 | 小白解释 |
 | --- | --- |
 | 积分器 | 攒误差；R 定「进水快慢」，C 定「桶多大」 |
-| 电阻 R / 电容 C | 时间常数 \(RC\)，决定跟随速度 |
+| 电阻 R / 电容 C | 时间常数 $RC$，决定跟随速度 |
 | 反馈 DAC | 数字结果转回模拟，从输入减掉 |
 | 电流源 | 尽量恒流的电路 |
 | NMOS / PMOS | 两种 MOS 管 |
@@ -96,11 +96,11 @@ REF (40 MHz) → BBPLL → REG_BBPLL ÷d → ADC_CLK（ΔΣ 转换率）
 | 量 | 典型 | 约束 |
 | --- | --- | --- |
 | 信道带宽 B | 如 20 MHz | 与 Fs 匹配，留过渡带 |
-| sampling frequency | 如 30.72 Msps | **I/Q 复采样** \(F_s\gtrsim B\)（实采样才是 \(2B\)） |
+| sampling frequency | 如 30.72 Msps | **I/Q 复采样** $F_s\gtrsim B$（实采样才是 $2B$） |
 | ADC_CLK | 数十～数百 MHz | AD9361：**25–640 MHz** |
 | BBPLL VCO | ~0.7–1.4 GHz | 见 [[概念-锁相环PLL与VCO]] |
 
-工程上 \(F_s\gtrsim B/0.8\)；20 MHz 常用 25～30.72 Msps。
+工程上 $F_s\gtrsim B/0.8$；20 MHz 常用 25～30.72 Msps。
 
 ---
 
@@ -167,7 +167,7 @@ BBBW clamp 到 200 kHz–28 MHz
 
 ## 9. 相关笔记
 
-- [[概念-ADC采样量化与SAR]]（采样+量化；SAR 二分 vs Flash）
+- [[概念-ADC采样量化与SAR]]（ADC 参数、采样·量化·编码；Flash 并行 vs SAR 二分 vs ΔΣ 过采样）
 - [[概念-锁相环PLL与VCO]]（BBPLL → ADC_CLK）
 - [[资源-AD9361-寄存器文档]]
 - [[学习-Linux-驱动开发-AD9361-从零到通]]

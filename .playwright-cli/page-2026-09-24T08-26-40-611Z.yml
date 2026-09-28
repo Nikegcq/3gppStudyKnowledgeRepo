@@ -1,0 +1,15 @@
+- generic [ref=f9e3]:
+  - paragraph [ref=f9e4]: © 1994-2026 The MathWorks, Inc.
+  - list [ref=f9e5]:
+    - listitem [ref=f9e6]:
+      - link "专利" [ref=f9e7] [cursor=pointer]:
+        - /url: https://www.mathworks.com/company/aboutus/policies_statements/patents.html?s_tid=gf_pat
+    - listitem [ref=f9e8]:
+      - link "商标" [ref=f9e9] [cursor=pointer]:
+        - /url: https://www.mathworks.com/company/aboutus/policies_statements/trademarks.html?s_tid=gf_trd
+    - listitem [ref=f9e10]:
+      - link "隐私政策" [ref=f9e11] [cursor=pointer]:
+        - /url: https://www.mathworks.com/company/aboutus/policies_statements.html?s_tid=gf_priv
+    - listitem [ref=f9e12]:
+      - link "防盗版" [ref=f9e13] [cursor=pointer]:
+        - /url: https://www.mathworks.com/company/aboutus/policies_statements/piracy.html?s_tid=gf_pir

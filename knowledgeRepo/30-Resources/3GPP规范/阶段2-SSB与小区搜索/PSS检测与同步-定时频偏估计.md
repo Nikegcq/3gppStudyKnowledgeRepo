@@ -3,7 +3,7 @@ type: resource
 tags: [L1, 物理层, 3GPP, 学习计划, SSB, PSS, 同步, 频偏, DSP]
 layer: L1
 created: 2026-09-08
-updated: 2026-09-09
+updated: 2026-09-23
 status: active
 source: 3GPP TS 38.211 / 38.213（R19）+ 接收机算法的一般实现方法
 source_url: https://www.3gpp.org/DynaReport/38211.htm
@@ -38,7 +38,7 @@ r(n) = h · p(n) · e^(j2π·ε·n/N_u) + w(n)
 
 UE 不知道符号起点，所以对接收信号做**滑窗相关**：在每个候选时刻 t，把接收窗与本地 PSS 模板相关，找峰值：
 
-- 3 条 PSS（N_ID^(2)=0/1/2）各做一路相关，峰值最大的一路同时给出 N_ID^(2) 和 PSS 符号起点；
+- 3 条 PSS（N_ID^(2)=0/1/2）各做一路相关，峰值最大的一路同时给出 N_ID^(2) 和 PSS 符号起点（m 序列生成式、移位 0/43/86 与互相关公式见 [[PSS相关检测与NID2判定]]）；
 - 相关峰位置 ≈ SSB 符号 0 的起点 → **OFDM 符号定时**；
 - 若同时搜索多个 SSB SCS/时隙假设（如 FR1 的 15/30 kHz），就多套模板各做一遍。
 
@@ -91,6 +91,7 @@ q̂ = argmax_q | Σ_k R(k + q) · P*(k) |
 - [[小区搜索流程分步详解]]（把本页放进完整流程：Step 1 PSS）
 - [[学习-阶段2-SSB与小区搜索]]
 - [[学习-38.211-第5章-通用功能]]（OFDM/CP 基带结构是 CP 相关法的基础）
+- [[PSS相关检测与NID2判定]]（m 序列 / 循环移位 0-43-86 / 互相关判 ID 公式）
 - [[概念-NR时间单位-Tc与Ts]]（N_u、CP 时长怎么换算）
 - [[仓库-srsRAN_Project-下行物理信道与OFDM发射]]（srsRAN 的 SSB/同步实现可对照）
 - [[ShareTechnote-5G手册]]（DSP - SSB Detection / PSS 页）

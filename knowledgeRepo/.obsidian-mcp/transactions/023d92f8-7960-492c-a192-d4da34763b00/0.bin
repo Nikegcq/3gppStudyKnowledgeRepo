@@ -1,0 +1,132 @@
+---
+type: resource
+tags:
+  - 面试题
+  - Bootloader
+  - FSBL
+  - bitstream
+  - Zynq
+  - STM32
+  - Cortex-M
+  - BootROM
+  - u-boot
+created: 2026-09-18
+updated: 2026-09-18
+status: active
+---
+
+# Bootloader — 面试问答
+
+> 适用：嵌入式 / 通信设备（Zynq、i.MX、STM32、MicroBlaze）  
+> 结构：每题 **口头答案** + **关键点** + **易被追问**  
+> 关联：[[MOC-Linux]]、[[MOC-FPGA]]、[[MOC-RTOS]]、[[面试题-目录]]
+
+---
+
+## 速记总览
+
+| 题号 | 题目 | 一句话结论 |
+|------|------|------------|
+| 2 | 完整启动链（Zynq/Linux） | BootROM → FSBL → U-Boot → Kernel |
+| 13 | BL 固化在哪 | 片内 BootROM；用户 BL 在 Flash/SD |
+| 15 | ROM 是否 init DDR | 完整 DDR 多在 FSBL；ROM 只做最小搬运 |
+| 16 | Zynq 内存与阶段位置 | FSBL@OCM，U-Boot/Kernel@DDR |
+| 17 | FSBL / bitstream | FSBL=First Stage BL；bitstream→PL 配置存储 |
+| 18 | STM32 / i.MX6U 怎么启动 | M 核：向量表+片内 ISP ROM；i.MX：BootROM+DCD 预配 DDR→U-Boot |
+
+---
+
+## 18. 其它 ARM 芯片（Cortex-M / STM32、NXP i.MX6U）bootloader 是怎么起来的？
+
+### 口头答案
+
+都是「**复位后先跑芯片里固化的启动代码，再按模式跳到用户程序**」，但复杂度分两档。
+
+**STM32 / Cortex-M（MCU）：**  
+多数没有独立外置存储上的「U-Boot 那种」主 Bootloader。复位后从**启动引脚/选项字节**决定的区域取**向量表**（栈顶 + Reset_Handler）：常见是 **主 Flash 里的用户程序**直接跑；BOOT0 等拉到特定值则进 **ST 出厂写在片内 System Memory 的 ISP Bootloader**（串口/USB 等给 Flash 灌程序），再跳回用户 Flash。片上是 SRAM，一般**没有 DDR**，也就没有「FSBL 初始化 DDR」这一段。要自研 Bootloader 时，把 BL 放 Flash 起始扇区，App 放偏移处，由 BL 校验/跳转。
+
+**i.MX6U（Cortex-A，跑 Linux）：**  
+与 Zynq 同属应用处理器路线，但细节不同。片内有 **BootROM**；启动模式脚/eFuse 选 SD/eMMC/NAND/QSPI/USB 串行下载等。ROM 读用户镜像头（常见 **IVT + DCD + Bootloader**）：**DCD（Device Configuration Data）是一段寄存器写列表，由 ROM 执行，可先初始化 DDR**，再把 U-Boot（或 SPL→U-Boot）加载到 DDR 并跳转——这点和 Zynq「FSBL 在 OCM 里 init DDR」路径不一样。之后同样是 **U-Boot → 内核 → rootfs**。
+
+### 关键点
+
+#### 三条启动路径对照
+
+```text
+STM32 / Cortex-M
+  上电 → BOOT 引脚/选项字
+       → 主 Flash：向量表 → 用户 App（可选：Flash 里第一段是自研 BL）
+       或 System ROM：ST ISP Bootloader → 下载/跳转用户程序
+  无 DDR；多在片内 Flash + SRAM
+
+i.MX6U / Cortex-A
+  上电 → BootROM（片内）
+       → 按模式读介质上镜像头
+       → ROM 执行 DCD → 初始化 DDR
+       → 加载 U-Boot/SPL 到 DDR → 跳转
+  → U-Boot → Kernel → rootfs
+
+Zynq-7000
+  上电 → BootROM
+       → 加载 FSBL → OCM 执行
+       → FSBL 初始化 DDR（+ 可选 bitstream）
+       → U-Boot@DDR → Kernel
+```
+
+#### 平台对比表
+
+| | STM32 / Cortex-M | i.MX6U | Zynq |
+|--|------------------|--------|------|
+| 核 | M3/M4/M7 等，无 MMU | Cortex-A7，有 MMU | Cortex-A9，有 MMU |
+| 片内固化启动 | ST **System Memory ISP**（常有） | **BootROM** | **BootROM** |
+| 用户第一级 | 常直接 App；或自研 BL@Flash 头 | **U-Boot**（ROM 经 DCD 起来）或 SPL | **FSBL**@OCM |
+| DDR | 基本无（片内 SRAM） | **有**；ROM 可用 **DCD 预初始化** | **有**；**FSBL** 里初始化 |
+| 典型「Bootloader」 | 可选自研 / ISP；不一定叫 U-Boot | U-Boot（+ 可能 SPL） | FSBL + U-Boot |
+| 灌程序方式 | ST-Link/JTAG、ISP（UART/USB） | UUU/USB 串行下载、SD 卡 | JTAG、SD/QSPI 上 BOOT.bin |
+| 最终 OS | 裸机 / RTOS / 无 Linux 为主 | Linux（常见） | Linux（或 bare-metal/AMP） |
+
+#### STM32 启动模式（典型）
+
+| BOOT 配置（示意） | 启动位置 | 用途 |
+|-------------------|----------|------|
+| 主 Flash | 用户程序区 | 量产正常启动 |
+| System Memory | 片内 ISP ROM | 串口/USB 升级 |
+| SRAM | 片内 SRAM | 调试 |
+
+- 复位后：从启动区域读 **向量表** → `SP` + `PC`（Reset_Handler）  
+- 用户 BL 若存在：位于 Flash 起始，再跳 App；**不是** Zynq 那种「ROM→OCM→DDR」多级  
+
+#### i.MX 镜像里 DCD 的作用
+
+```text
+介质上的启动镜像（概念）：
+  IVT（向量表/入口信息）
+  DCD（一组 MMIO 写操作 → 配 DDR 控制器等）
+  Bootloader 本体（U-Boot / SPL）
+
+BootROM：
+  读头 → 按 DCD 写寄存器（DDR 就绪）
+  → 把 bootloader 装入 DDR → 跳转
+```
+
+对比 Zynq：DDR 初始化代码在 **FSBL 软件**里；i.MX 常见是 **ROM 直接消费 DCD 表**完成 DDR 配置（表由工具/厂商从板级配置生成）。
+
+### 易被追问
+
+- STM32 必须有 bootloader 吗？→ 不必须；很多产品 App 直接在 Flash 头执行。要 IAP/双区升级才自研 BL。  
+- STM32H7 等有外部 SDRAM？→ 可由用户启动代码初始化后再用，仍无 Linux 式 U-Boot 义务链。  
+- i.MX 的 SPL？→ 部分方案 ROM 加载 SPL，再 SPL 初始化并加载 U-Boot，角色类似 FSBL，但 i.MX 走 DCD 的路径很常见。  
+- 为什么 M 核少见 U-Boot？→ 无 MMU、无复杂存储/网络启动需求，Flash 头 + RTOS/裸机更直接。  
+- 和 MicroBlaze 比？→ M 核在硅片里，向量表在 Flash/ROM；MicroBlaze 在 FPGA 里，代码在 bitstream/BRAM。  
+
+### 面试答法示例（约 35 秒）
+
+> Cortex-M 如 STM32：BOOT 脚决定从主 Flash 还是片内 System ROM 启动，主 Flash 直接从向量表进用户程序，System ROM 是 ST 的 ISP，用来下载固件；一般没有 DDR 和 U-Boot。i.MX6U 这类 Cortex-A：片内 BootROM 按模式读介质，ROM 可执行镜像里的 DCD 初始化 DDR，再把 U-Boot 放进 DDR 跳转，后面和 Zynq 一样走 U-Boot 到 Linux。Zynq 的特点则是 FSBL 在 OCM 里做 DDR 初始化，还要管 PL bitstream。
+
+---
+
+## 相关
+
+- [[面试题-目录]] · [[Bootloader面试-问答]] 第 13、15～17 题（Zynq 内存/FSBL/bitstream）
+- [[MOC-Linux]] · [[MOC-RTOS]] · [[MOC-FPGA]]
+- [[Linux驱动加载与匹配-面试问答]]
