@@ -1,0 +1,21 @@
+{
+  "id": "4f9ab111-bac1-4cfd-b1e8-ef2f1ed0edab",
+  "state": "committed",
+  "createdAt": "2026-09-20T05:54:29.693Z",
+  "snapshots": [
+    {
+      "path": "面试题/Linux/Bootloader/Bootloader面试-问答.md",
+      "operation": "write",
+      "entryType": "file",
+      "phase": "applied",
+      "plannedEtag": "d411615b77a29920580c920ca1b759456678783a4c44070f6035020f27a7e7f3",
+      "recoverable": true,
+      "existed": true,
+      "mode": 33206,
+      "etag": "2cce3147bea1b482762906862cbe87bd8a2a9f2f5d694951e801dda2d75121d5",
+      "snapshot": "0.bin",
+      "committedEtag": "d411615b77a29920580c920ca1b759456678783a4c44070f6035020f27a7e7f3"
+    }
+  ],
+  "completedAt": "2026-09-20T05:54:29.711Z"
+}

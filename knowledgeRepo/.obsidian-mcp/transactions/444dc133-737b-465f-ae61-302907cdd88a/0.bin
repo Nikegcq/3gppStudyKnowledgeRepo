@@ -1,0 +1,110 @@
+---
+type: resource
+tags: [面试题, Bootloader, FSBL, bitstream, Zynq, BootROM, u-boot, 嵌入式]
+created: 2026-09-18
+updated: 2026-09-18
+status: active
+---
+
+# Bootloader — 面试问答
+
+> 适用：嵌入式 Linux / 驱动 / 通信设备（ARM、Zynq、PlutoSDR、MicroBlaze 方向）  
+> 结构：每题含 **口头答案** + **关键点** + **易被追问**  
+> 关联：[[MOC-Linux]]、[[MOC-FPGA]]、[[MOC-RTOS]]、[[面试题-目录]]
+
+---
+
+## 速记总览
+
+| 题号 | 题目 | 一句话结论 |
+|------|------|------------|
+| 1 | Bootloader 是什么 | 内核前：初始化硬件、加载镜像、传参、跳转 |
+| 2 | 完整启动链 | BootROM → FSBL → U-Boot → Kernel → init |
+| 3 | 为何多级 Bootloader | OCM 小且 DDR 未就绪：FSBL@OCM 先跑，大镜像进 DDR |
+| 4 | U-Boot 做什么 | 板级 init、介质/网络、env、bootm 内核 |
+| 5 | bootcmd vs bootargs | 前者 U-Boot 自动启动命令；后者内核 cmdline |
+| 6 | DTB 与 bootargs | DTB 描述硬件；bootargs 传启动参数 |
+| 7 | 镜像类型 | zImage/Image/uImage/FIT |
+| 8 | Zynq 与 BOOT.bin | BootROM 按模式读介质；FSBL+bitstream+U-Boot |
+| 9 | 先 bitstream 后内核 | PL 里才有 DMA 等，未配置则驱动 probe 失败 |
+| 10 | relocation | U-Boot 搬到 DDR 高端，避免被内核覆盖 |
+| 11 | bare-metal/RTOS | 终点不同；软核/PL 可与 PS 并行 |
+| 12 | 启动排障 | 按链分段：ROM→FSBL→U-Boot→Kernel |
+| 13 | BL 固化在哪 | 片内是 BootROM；FSBL/U-Boot 在 Flash/SD，ROM 加载后执行 |
+| 14 | MicroBlaze | 无掩膜 ROM；bitstream 初值进 BRAM，再视需要从 Flash 拷应用 |
+| 15 | ROM 是否 init 好 DDR/Flash | 没有；完整 DDR 在 FSBL，通用介质驱动在 U-Boot/内核 |
+| 16 | Zynq 内存与阶段位置 | ROM@片内ROM；FSBL@OCM；U-Boot/Kernel@DDR；镜像在 QSPI/SD |
+| 17 | FSBL 缩写？= bootloader？bitstream 到哪？ | **FSBL=First Stage Boot Loader**，只是第一级 BL，≠整条 bootloader 链；bitstream 写入 **PL 配置存储**（配置 FPGA，非 CPU 指令内存） |
+
+---
+
+## 17. FSBL 是什么缩写？等于 bootloader 吗？bitstream 加载到什么位置？
+
+### 口头答案
+
+**FSBL = First Stage Boot Loader（第一阶段启动加载器）**，Xilinx Zynq 启动链里的第一级用户软件。
+
+它是 bootloader 的**一种/一级**，**不等于**「bootloader」这个总称：完整链条通常是 **BootROM → FSBL → U-Boot（→ 可选其它）→ Kernel**。严格说 BootROM 是片内固化启动代码，FSBL、U-Boot 都属于可更新的 bootloader 阶段；口语里「bootloader」有时泛指内核之前的整段，有时专指 U-Boot，面试时建议把层级说清楚。
+
+**bitstream 不是加载到 CPU 的 DDR/OCM 里去「执行」**，而是写入 **PL（可编程逻辑）的配置存储（配置 RAM/CRAM 等）**，用来配置 FPGA 逻辑。数据通路上可能是：Flash/SD →（FSBL 或 U-Boot 读入）→ 临时缓冲（OCM/DDR）→ 经 **PCAP/ICAP** 等配置通路写入 PL。bitstream 里若含 BRAM 初值，配置完成后 PL 的 BRAM 也会被初始化（MicroBlaze 代码可因此「上电就在」）。
+
+### 关键点
+
+```text
+缩写：
+  FSBL = First Stage Boot Loader
+
+启动链层级：
+  BootROM     —— 片内固化，严格说不是你写的那级 BL
+  FSBL        —— 第一级 bootloader（OCM 执行，init DDR，加载下一阶段）
+  U-Boot      —— 常作为第二级 bootloader（DDR 执行）
+  Kernel      —— 操作系统
+
+bitstream 去向：
+  介质(Flash/SD) → 缓冲(OCM/DDR，临时) → PL 配置存储（最终）
+  目的：配置 FPGA 逻辑；不是 ARM 取指执行的内存
+```
+
+| 问题 | 答案 |
+|------|------|
+| FSBL 全称 | First Stage Boot Loader |
+| 是否 bootloader？ | 是，但是**第一级**；≠ 整条启动链，也常特指区别于 U-Boot |
+| 谁加载 FSBL | BootROM → 放到 **OCM** 执行 |
+| FSBL 主要做什么 | 时钟/MIO、**初始化 DDR**、可选配置 bitstream、加载 U-Boot/应用 |
+| bitstream 最终位置 | **PL 配置存储**（配置 CRAM 一类），不是 DDR 里的可执行代码 |
+| 谁来配置 PL | 常见：FSBL 或 U-Boot（读 bitstream 后经 PCAP/ICAP 写入 PL） |
+| bitstream 与 BRAM | bitstream 可含 BRAM 初始化数据；配置完成则 BRAM 有初值 |
+
+### 易被追问
+
+- 「bootloader 就是 U-Boot 吗？」→ 工程口语常混用；严谨说法：U-Boot 是主 bootloader，FSBL 是第一阶段，BootROM 是片内固化启动代码。  
+- FSBL 和 SPL 什么关系？→ 角色类似（第一级）；Zynq 语境常叫 FSBL，其它 SoC/U-Boot 语境常叫 SPL。  
+- bitstream 会进 DDR 吗？→ 可能作为**待传输数据**暂存 OCM/DDR，但**生效位置是 PL 配置存储**，CPU 不把 bitstream 当程序执行。  
+- 不配置 bitstream 能启动 Linux 吗？→ PS 侧可以起 Linux；但依赖 PL 的外设（DMA、自定义 IP）不可用。  
+- 为何第 9 题说 Pluto 先 bitstream？→ RF 数据通路在 PL，必须先配置再让驱动 match。
+
+### 面试答法示例（约 25 秒）
+
+> FSBL 是 First Stage Boot Loader，Zynq 启动链的第一级：BootROM 把它从 Flash 加载到 OCM 执行，主要做 DDR 初始化，并可配置 PL、加载 U-Boot。它是 bootloader 的第一阶段，不等于整条链，后面通常还有 U-Boot。bitstream 的最终去向是 PL 的配置存储，用来配置 FPGA；搬运时可能经过 OCM/DDR，但不是 CPU 执行的内存。
+
+---
+
+## 相关题号速查
+
+| 若你想问 | 看第几题 |
+|----------|----------|
+| 启动全链 | 2、8 |
+| 内存与阶段位置 | 13、16 |
+| ROM 做了什么 | 15 |
+| MicroBlaze / BRAM | 14 |
+| FSBL vs bootloader vs bitstream | **17（本题）** |
+
+---
+
+## 相关
+
+- [[面试题-目录]]
+- [[MOC-Linux]]
+- [[MOC-FPGA]]
+- [[MOC-RTOS]]
+- [[Linux驱动加载与匹配-面试问答]]

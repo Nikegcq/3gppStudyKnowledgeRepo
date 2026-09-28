@@ -1,0 +1,88 @@
+---
+type: resource
+tags: [面试题, Bootloader, Zynq, STM32, i.MX, OCM, OCRAM, SRAM, Cortex-M]
+created: 2026-09-18
+updated: 2026-09-18
+status: active
+---
+
+# Bootloader — 面试问答
+
+> 适用：嵌入式 / 通信（Zynq、i.MX、STM32、MicroBlaze）  
+> 关联：[[MOC-Linux]]、[[MOC-FPGA]]、[[MOC-RTOS]]、[[面试题-目录]]
+
+---
+
+## 速记总览（节选）
+
+| 题号 | 题目 | 一句话结论 |
+|------|------|------------|
+| 16 | Zynq 内存与阶段位置 | FSBL@OCM，U-Boot/Kernel@DDR |
+| 18 | STM32 / i.MX 启动 | M 核向量表+ISP ROM；i.MX 为 BootROM+DCD |
+| 19 | 它们也有片上 RAM 吗 | **有**：STM32=片内 SRAM（M7 还有 TCM）；i.MX=OCRAM；角色类似 OCM，命名/大小/绑定关系不同 |
+
+---
+
+## 19. STM32、i.MX 这类芯片也有片上 RAM 吗？
+
+### 口头答案
+
+**都有片上 RAM**，只是叫法和结构不同，不能和 Zynq 的 OCM 一一划等号。
+
+- **Zynq-7000**：专门的 **OCM**（On-Chip Memory，约 256KB，4 bank），可映射到低/高地址，PS/PL 都能访问；BootROM 把 **FSBL 放在 OCM** 执行，这是启动链里的一等公民。  
+- **STM32 / Cortex-M**：有片内 **SRAM**（大小随型号，几十 KB～1MB+）。很多型号还有更靠近核的 **TCM**（如 Cortex-M7 的 ITCM/DTCM）或 **CCM**（部分 F4）。M 核一般 **直接在片内 Flash 取指执行**，SRAM 主要放栈/堆/数据；System ISP ROM 是另一块固化区，不是「把 FSBL 加载进 SRAM」那种流程。  
+- **i.MX6U 等**：有 **OCRAM**（On-Chip RAM，常见 128KB～256KB 量级，以芯片手册为准）。BootROM 可在片内跑，但 Linux 路径上常见是 **DCD 初始化 DDR 后把 U-Boot 放进 DDR**；OCRAM 多用于早期代码、缓冲、低功耗等，不像 Zynq FSBL 那样「固定第一级必在 OCM」。
+
+一句话：**片上 RAM 基本都有；差别在「启动时谁必须住在那里」以及有没有 DDR/PL。**
+
+### 关键点
+
+#### 对照表
+
+| 芯片 | 片上 RAM 名称 | 量级（示意） | 启动时典型用法 |
+|------|---------------|--------------|----------------|
+| Zynq-7000 | **OCM** | ~256KB | **FSBL 在 OCM 执行**；PS/PL 可共享 |
+| STM32F4 一类 | SRAM（+部分型号 CCM） | 64～256KB+ | 栈/堆/数据；App 在 Flash 直接跑 |
+| STM32H7 一类 | ITCM/DTCM + AXI SRAM 等 | 可到 MB 级 | 高速紧耦合内存 + 大 SRAM 分域 |
+| i.MX6UL/ULL 等 | **OCRAM** | 常 ~128KB | ROM/早期代码、缓冲；U-Boot 多进 DDR |
+| i.MX6Q 一类 | OCRAM 等 | 常 ~256KB 量级 | 同上，以 RM 为准 |
+| MicroBlaze（FPGA） | **PL BRAM** | 片上可变 | bitstream 初值 → 程序/数据 |
+
+#### 和「有没有 bootloader 住片上」的关系
+
+```text
+Zynq：   ROM → FSBL 必须先落在 OCM（DDR 未就绪）
+i.MX：   ROM 片内执行；DCD 配好 DDR 后，主 BL 常直接进 DDR
+         OCRAM 可用，但不是「唯一合法的第一级落脚点」
+STM32：  无 DDR 时，整个 App 可只依赖 Flash + SRAM
+         「片上 RAM」不承担 FSBL@OCM 那种角色
+```
+
+#### 架构差异导致的用法不同
+
+| 特性 | Zynq OCM | STM32 SRAM/TCM | i.MX OCRAM |
+|------|----------|-----------------|------------|
+| 是否有 DDR | 有（FSBL 后才好用） | 基本无/可选 | 有 |
+| 启动第一级落点 | 很常见：OCM | 多在 Flash 取指 | 常见：ROM 代码 + DDR 中 U-Boot |
+| 与 PL/FPGA | OCM 可被 PL 访问 | 无 PL | 无 PL |
+| 缓存属性 | 可配置 | TCM 通常不缓存；SRAM 看总线 | 可配置/域不同 |
+
+### 易被追问
+
+- 「片上 RAM 就是 OCM 吗？」→ Zynq 叫 OCM；i.MX 叫 OCRAM；STM32 就叫 SRAM（或 TCM/CCM）。概念相近，**组织方式与启动角色不同**。  
+- STM32 为何不用「先把 bootloader 拷进 SRAM 再跑」？→ 代码可在 **Flash 上原地执行**（XIP），片上 Flash + SRAM 已够；无 DDR 可初始化。  
+- i.MX 的 OCRAM 在 BootROM 时能用吗？→ 一般片内 RAM 在早期即可用，具体哪些地址、是否 cacheable 看芯片 RM；**不等于** Zynq「FSBL 链接在 OCM」的标准路径。  
+- 容量谁大？→ 看具体型号：H7 类 M 核片上 SRAM 可以很大；应用处理器 OCRAM 往往不大，大内存靠 DDR。  
+- MicroBlaze？→ 用 **FPGA BRAM**，容量看逻辑资源，和硅片 SRAM 不是一类物理资源。
+
+### 面试答法示例（约 25 秒）
+
+> 都有片上 RAM：STM32 是片内 SRAM，H7 还有 ITCM/DTCM；i.MX 是 OCRAM；Zynq 是 OCM。差别在启动角色：Zynq 的 FSBL 典型在 OCM 里执行，因为 DDR 还没起来；i.MX 更多是 BootROM 用 DCD 配好 DDR 后把 U-Boot 放进 DDR；STM32 常直接 Flash 取指，SRAM 主要放数据，不是 FSBL 的固定落脚点。
+
+---
+
+## 相关
+
+- 第 16 题：Zynq 内存与各阶段位置  
+- 第 18 题：STM32 / i.MX 启动方式  
+- [[MOC-RTOS]] · [[MOC-Linux]] · [[MOC-FPGA]] · [[面试题-目录]]

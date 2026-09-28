@@ -1,0 +1,102 @@
+---
+type: resource
+tags: [面试题, Bootloader, DCD, i.MX, IVT, BootROM, Zynq, DDR]
+created: 2026-09-18
+updated: 2026-09-18
+status: active
+---
+
+# Bootloader — 面试问答
+
+> 适用：嵌入式 / 通信（Zynq、i.MX、STM32、MicroBlaze）  
+> 关联：[[MOC-Linux]]、[[MOC-FPGA]]、[[MOC-RTOS]]、[[面试题-目录]]
+
+---
+
+## 速记总览（节选）
+
+| 题号 | 题目 | 一句话结论 |
+|------|------|------------|
+| 18 | STM32 / i.MX 启动 | M 核向量表+ISP；i.MX 为 BootROM + **DCD** + U-Boot |
+| 19 | 片上 RAM | STM32=SRAM/TCM；i.MX=OCRAM；Zynq=OCM |
+| 20 | DCD 是什么 | **Device Configuration Data**：启动镜像里的寄存器写列表，**由 BootROM 解释执行**，常用来在加载 U-Boot 前初始化 DDR |
+
+---
+
+## 20. DCD 是什么？
+
+### 口头答案
+
+**DCD = Device Configuration Data（设备配置数据）**，是 NXP i.MX 等芯片启动镜像中的一段**结构化数据**，不是 CPU 去“跑”的函数代码。里面按格式写好了一系列 **MMIO 寄存器写操作**（地址 + 值，可能还有检查/掩码类命令）。**BootROM 读到镜像后会解析 DCD 并按表逐项写寄存器**，最常见的用途是：在把 U-Boot/SPL 装进 DDR 之前，**先把 DDR 控制器、时钟、IOMUX 等按这块板子配好**。
+
+对比 Zynq：i.MX 常见是 **ROM 直接消费 DCD 表**；Zynq 则是 **FSBL 软件在 OCM 里做 DDR 初始化**。两者都是“在大镜像进 DDR 前把内存子系统弄好”，实现形态不同。
+
+### 关键点
+
+```text
+i.MX 启动镜像中的相关结构（概念）：
+
+  IVT  (Image Vector Table)  —— 入口/各段地址、DCD 指针等
+  DCD  (Device Configuration Data) —— 寄存器写命令表
+  Bootloader 本体（U-Boot / SPL）
+  （Boot Data 等：起始地址、长度、是否清除等）
+
+BootROM 顺序（概念）：
+
+  从介质读镜像头
+  → 找到 IVT
+  → 若有 DCD：按命令写寄存器（含 DDR 相关）
+  → 把 bootloader 拷到目标地址（常为 DDR）
+  → 跳转入口
+```
+
+| 项目 | 说明 |
+|------|------|
+| 全称 | Device Configuration Data |
+| 本质 | **数据表**（写寄存器的命令流），不是 ELF 可执行代码 |
+| 谁执行 | **BootROM**（芯片固化启动代码） |
+| 典型内容 | DDR 控制器/PHY、时钟、IOMUX 等 MMIO 写 |
+| 何时用 | 正式 bootloader 进 DDR **之前** |
+| 从哪来 | 板级配置 + NXP 工具（如 **imximage** / CST 相关流程、Yocto/U-Boot 构建）生成 |
+| 和 Zynq FSBL | 角色相近（都为 DDR 就绪）；DCD 是表，FSBL 是程序 |
+
+### DCD 命令示意（概念，非某颗芯片的精确编码）
+
+```text
+# 概念：DCD 里常见的是 “往地址写值”
+# （实际 op 码/宽度/对齐以 i.MX Reference Manual 为准）
+
+Write: 0x020C4000 <= 0x00000001   # 示例：某时钟/使能寄存器
+Write: 0x021B0000 <= 0x00000000   # 示例：DDR 控制器寄存器
+...
+# 有的格式还支持 check/wait（对比掩码直到就绪），视 ROM 与镜像格式版本
+```
+
+工程上你很少手写 DCD，而是：
+
+1. 板级原理图 + DDR 颗粒手册  
+2. 用厂商工具/`imximage.cfg` 一类配置  
+3. 构建时打成带 **IVT + DCD** 的启动镜像（与 U-Boot 等一起）
+
+### 易被追问
+
+- **DCD 是 bootloader 吗？** → 不是。它是 ROM 执行的**配置表**；bootloader 是之后跳转的 U-Boot/SPL。  
+- **一定要有 DCD 吗？** → 看芯片与启动方式；若 ROM 不代劳 DDR，或镜像本身在可执行内存里跑，则可能没有/不需要复杂 DCD。  
+- **DCD 里能放任意代码吗？** → 一般不行，是 ROM 规定的命令集（主要是写寄存器等），不是通用 CPU 指令流。  
+- **改 DDR 布线/颗粒要改什么？** → 多半要改 DCD/板级配置并重新生成镜像，而不是只改内核。  
+- **和设备树什么关系？** → DCD 在**启动极早期**由 ROM 用；设备树是**内核**用来描述硬件。两者层次不同，不能互相替代。  
+- **Zynq 有没有 DCD？** → 没有同名机制；对应工作在 **FSBL**（及 `ps7_init` 一类初始化）里完成。  
+- **OCRAM/片上 RAM 和 DCD？** → 见第 19 题；DCD 服务的是“DDR 可用之后主 BL 进 DDR”，片上 RAM 解决的是另一段早期执行空间问题。
+
+### 面试答法示例（约 25 秒）
+
+> DCD 是 Device Configuration Data，i.MX 启动镜像里的一段寄存器配置表。BootROM 读到 IVT 后会解析 DCD，按表写 DDR 控制器等寄存器，把内存和相关外设先配好，再把 U-Boot 装进 DDR 跳转。它本身不是可执行的 bootloader 程序，而是 ROM 消费的数据；Zynq 上类似工作由 FSBL 软件完成，没有同名的 DCD 机制。
+
+---
+
+## 相关
+
+- 第 18 题：STM32 / i.MX 启动路径  
+- 第 16、19 题：Zynq OCM / 各家片上 RAM  
+- 第 15、17 题：BootROM 做到哪、FSBL 与 bitstream  
+- [[MOC-Linux]] · [[MOC-RTOS]] · [[面试题-目录]]

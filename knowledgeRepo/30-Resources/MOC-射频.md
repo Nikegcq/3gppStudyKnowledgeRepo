@@ -2,7 +2,7 @@
 type: moc
 tags: [RF, 射频, 硬件]
 created: 2026-09-03
-updated: 2026-09-17
+updated: 2026-09-22
 status: active
 ---
 
@@ -26,7 +26,7 @@ status: active
 
 - [[概念-锁相环PLL与VCO]]：PLL 五块电路、VCO 压控与失稳原因、整数/小数 N；对照 AD9361 BBPLL 频字与 `REG_BBPLL` 分频
 - [[概念-ADC与Delta-Sigma入门]]：ADC 类型、过采样与噪声整形、AD9361 三阶 CT-ΔΣ 与 `0x200` 偏置表、采样率三层概念
-- [[概念-ADC采样量化与SAR]]：采样+量化系统图；SAR 二分查找 vs Flash vs ΔΣ
+- [[概念-ADC采样量化与SAR]]：ADC 参数（LSB/ENOB/DNL/INL/抖动）→ 采样·量化·编码流程 → 三种量化算法（Flash 并行 / SAR 二分 / ΔΣ 过采样）
 
 ## 关键指标
 
@@ -41,6 +41,7 @@ status: active
 ## 驱动与软件栈
 
 - [[概念-物理层射频驱动全景]]：RFIC 内核驱动 → FPGA/JESD 数据面 → 用户态框架（libiio/UHD/SoapySDR）→ RAN radio 后端
+- [[概念-SPI总线与四种模式]]：SPI 信号、CPOL×CPHA 四模式、DT `spi-cpha`、与 AD9361 控制面关系
 - 实例：[[学习-Linux-驱动开发-AD9361-从dtsi到驱动调用流程]]（Pluto/AD9361）
 - [[资源-AD9361-寄存器文档]]：UG-570 + Datasheet + no-OS/Linux 寄存器头文件索引
 
