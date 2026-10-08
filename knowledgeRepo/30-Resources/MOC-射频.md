@@ -2,7 +2,7 @@
 type: moc
 tags: [RF, 射频, 硬件]
 created: 2026-09-03
-updated: 2026-09-22
+updated: 2026-10-08
 status: active
 ---
 
@@ -21,6 +21,7 @@ status: active
 - [[概念-Mixer变频与镜像频率]]：进阶公式与 AD9361 对照
 - 功放、低噪放、滤波器、混频器
 - ADC / DAC 与模拟前端接口
+- [[概念-射频采样率-RFSoC与AD9361]]：n78 100 MHz 载波 → 122.88 Msps；为什么 RFSoC 用 GSPS 直采、为什么一颗器件里有两类 ADC、为什么 DAC 比 ADC 更快（对照 AD9361 的 61.44 MSPS）
 
 ## 时钟与频率合成
 
