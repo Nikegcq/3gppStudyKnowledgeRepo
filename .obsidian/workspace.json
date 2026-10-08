@@ -8,48 +8,20 @@
         "type": "tabs",
         "children": [
           {
-            "id": "f89ae17533ed244f",
-            "type": "leaf",
-            "state": {
-              "type": "bases",
-              "state": {
-                "file": "未命名 1.base",
-                "viewName": "表格"
-              },
-              "icon": "lucide-table",
-              "title": "未命名 1"
-            }
-          },
-          {
             "id": "1c8bf3ae67a551a7",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "knowledgeRepo/30-Resources/3GPP规范/阶段2-SSB与小区搜索/PSS检测与同步实现参考.md",
+                "file": "knowledgeRepo/30-Resources/概念-射频采样率-RFSoC与AD9361.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "PSS检测与同步实现参考"
-            }
-          },
-          {
-            "id": "d803cb93e99496be",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "90-Attachments/3GPP规范/TS 38.212 v19.4.0.pdf.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "TS 38.212 v19.4.0.pdf"
+              "title": "概念-射频采样率-RFSoC与AD9361"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -232,42 +204,42 @@
   },
   "active": "1c8bf3ae67a551a7",
   "lastOpenFiles": [
+    "luxshare-zcu670/概念-高端radio软件架构-Linux与RTOS分工.md",
+    "luxshare-zcu670/实践-ZCU670-Linux与RPU-AMP.md",
+    "luxshare-zcu670/概念-ZynqMP-PS-APU与RPU.md",
+    "luxshare-zcu670/luxshare-zcu670.md",
+    "knowledgeRepo/30-Resources/概念-锁相环PLL与VCO.md",
+    "knowledgeRepo/30-Resources/概念-射频采样率-RFSoC与AD9361.md",
+    "knowledgeRepo/30-Resources/书籍/书籍-Linux内核设计与实现（LKD）.md",
+    "knowledgeRepo/面试题/C++/C++面试-语言基础与面向对象.md",
+    "knowledgeRepo/面试题/C++/C++面试-总览.md",
+    "knowledgeRepo/面试题/C++/C++面试-内存管理与智能指针.md",
+    "luxshare-zcu670/ZCU670-PL-PS-参数.md",
+    "luxshare-zcu670",
+    "knowledgeRepo/面试题/C++/C++面试-static关键字详解.md",
+    "knowledgeRepo/30-Resources/MOC-C++与软件.md",
+    "knowledgeRepo/面试题/C++/C++面试-虚函数实现举例详解.md",
+    "knowledgeRepo/面试题/C++/C++面试-vptr与vtable详解.md",
+    "未命名 1.base",
+    "90-Attachments/3GPP规范/TS 38.212 v19.4.0.pdf.md",
+    "knowledgeRepo/30-Resources/3GPP规范/阶段2-SSB与小区搜索/CORESET0时频位置计算.md",
+    "knowledgeRepo/30-Resources/3GPP规范/阶段2-SSB与小区搜索/小区搜索流程分步详解.md",
+    "knowledgeRepo/30-Resources/3GPP规范/阶段2-SSB与小区搜索/PSS检测与同步-定时频偏估计.md",
+    "knowledgeRepo/30-Resources/3GPP规范/阶段2-SSB与小区搜索/PSS检测与同步实现参考.md",
     "index.html",
     "knowledgeRepo/10-Projects/计划-2026Q4-双主线学习-O-DU-L1与嵌入式系统.md",
     "knowledgeRepo/30-Resources/开源仓库/仓库-srsRAN_Project-信道编码与速率匹配.md",
-    "90-Attachments/3GPP规范/TS 38.212 v19.4.0.pdf.md",
     "knowledgeRepo/30-Resources/3GPP规范/3GPP-38系列-NR物理层规范.md",
     "90-Attachments/3GPP规范",
-    "knowledgeRepo/30-Resources/3GPP规范/阶段2-SSB与小区搜索/CORESET0时频位置计算.md",
     "knowledgeRepo/30-Resources/3GPP规范/阶段2-SSB与小区搜索/PSS相关检测与NID2判定.md",
-    "knowledgeRepo/30-Resources/3GPP规范/阶段2-SSB与小区搜索/小区搜索流程分步详解.md",
     "knowledgeRepo/30-Resources/3GPP规范/学习-阶段2-SSB与小区搜索.md",
     "knowledgeRepo/30-Resources/3GPP规范/学习-38.211-第5章-通用功能.md",
-    "knowledgeRepo/30-Resources/3GPP规范/学习-38.211-阶段1-帧结构与时频资源.md",
     "knowledgeRepo/30-Resources/3GPP规范/图-38.211-阶段1-资源网格-RE-RB-BWP.excalidraw",
-    "knowledgeRepo/30-Resources/3GPP规范/阶段2-SSB与小区搜索/PSS检测与同步实现参考.md",
-    "knowledgeRepo/30-Resources/3GPP规范/阶段2-SSB与小区搜索/PSS检测与同步-定时频偏估计.md",
     "extract_38213_tables.py",
-    "knowledgeRepo/30-Resources/参考网站/ShareTechnote-5G手册.md",
     "knowledgeRepo/30-Resources/3GPP规范/图-38.211-阶段1-帧结构总览.excalidraw",
     "knowledgeRepo/30-Resources/3GPP规范/图-38.211-阶段1-信道带宽与传输带宽.excalidraw",
     "knowledgeRepo/30-Resources/3GPP规范/图-38.211-阶段1-手画练习答案.excalidraw",
     "knowledgeRepo/30-Resources/3GPP规范/图-38.211-阶段1-时间单位-Tc-Ts.excalidraw",
-    "knowledgeRepo/30-Resources/3GPP规范/概念-NR频率栅格-NR-ARFCN与GSCN.md",
-    "knowledgeRepo/30-Resources/概念-锁相环PLL与VCO.md",
-    "knowledgeRepo/30-Resources/概念-ADC采样量化与SAR.md",
-    "knowledgeRepo/30-Resources/概念-ADC与Delta-Sigma入门.md",
-    "knowledgeRepo/30-Resources/概念-Mixer与IQ-图解步骤.md",
-    "knowledgeRepo/30-Resources/概念-Mixer变频与镜像频率.md",
-    "knowledgeRepo/30-Resources/MOC-C++与软件.md",
-    "knowledgeRepo/50-Journal/2026-09-10.md",
-    "knowledgeRepo/面试题/Linux/Linux驱动加载与匹配-面试问答.md",
-    "knowledgeRepo/面试题/Linux/Bootloader/Bootloader面试-问答.md",
-    "knowledgeRepo/10-Projects/计划-独立线-Linux通用内核机制.md",
-    "knowledgeRepo/面试题/C++/C++面试-static关键字详解.md",
-    "knowledgeRepo/30-Resources/嵌入式Linux/图-AD9361-TX-RX路径硬件模块.excalidraw",
-    "luxshare-emmc-slot-switch-code.zip",
-    "_pkg_luxshare_slot/README.txt",
     "未命名.canvas",
     "knowledgeRepo/30-Resources/嵌入式Linux/图-设备驱动框架-lab_chardev.svg",
     "knowledgeRepo/90-Attachments/图-零中频接收机-IQ框图.png"

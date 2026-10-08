@@ -2,7 +2,7 @@
 type: moc
 tags: [RTOS, FreeRTOS, 嵌入式, 实时系统, 学习路径]
 created: 2026-09-09
-updated: 2026-09-09
+updated: 2026-10-08
 status: active
 ---
 
@@ -35,5 +35,6 @@ status: active
 
 - 平行对照：[[MOC-Linux]]（同样的事件，Linux 用 threaded IRQ / workqueue / 内核线程）
 - 交叉主题：[[MOC-FPGA]]（Zynq / MicroBlaze 裸机与软核侧）、[[MOC-C++与软件]]
+- ZynqMP 实战：[[实践-ZCU670-Linux与RPU-AMP]]（Linux + RPU 双系统怎么启）、[[概念-高端radio软件架构-Linux与RTOS分工]]（到底要不要上第二个 OS）
 - 通信主线：[[领域-L1物理层]]、[[领域-L2数据链路层]]
 - 待补：仓库地图笔记「仓库-FreeRTOS-Kernel」（建好后加入关联）
