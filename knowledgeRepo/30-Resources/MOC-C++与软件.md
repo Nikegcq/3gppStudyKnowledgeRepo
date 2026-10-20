@@ -2,7 +2,7 @@
 type: moc
 tags: [C++, 软件工程]
 created: 2026-09-03
-updated: 2026-09-18
+updated: 2026-10-20
 status: active
 ---
 
@@ -50,6 +50,10 @@ status: active
 - 协议状态机与消息队列
 - 实时调度与帧定时
 - 高吞吐信号处理与向量化
+
+## 嵌入式与工具链
+
+- [[自研DAPLink主板]]：STM32F103CB、CMSIS-DAP、Flash/硬件适配与固件分区
 
 ## 相关
 

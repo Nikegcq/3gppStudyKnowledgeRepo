@@ -17,6 +17,9 @@ ZCU670（Zynq UltraScale+ RFSoC DFE，XCZU67DR）相关的硬件参数、处理�
 | 笔记 | 一句话 |
 | --- | --- |
 | [[ZCU670-PL-PS-参数]] | 板载器件、PL 资源、PS 特性、板级 DDR/GTR/GTY/时钟 |
+| [[资源-ZCU670文档索引]] | OneDrive 归档的 21 份 ZCU670/RFSoC DFE 官方文档索引与阅读顺序 |
+| [[学习-RFDC使用方法-PG269梳理]] | RFDC 三层用法：Vivado 配 IP → XRFdc 驱动 API → AXI4-Stream 数据面 |
+| [[简历-ZCU670项目]] | 项目简历草稿：系统架构、OFDM/Mixer/ORAN 工作、AGC/DPD 表述口径 |
 | [[概念-ZynqMP-PS-APU与RPU]] | PS 里的 APU / RPU / PMU 各是什么，RPU 的 TCM、lockstep、能干什么 |
 | [[实践-ZCU670-Linux与RPU-AMP]] | Linux 与 RTOS 同时跑的两种启用方式、通信机制、资源划分与验证清单 |
 | [[概念-高端radio软件架构-Linux与RTOS分工]] | 高端 radio 的四类软件架构、硬实时放哪里、怎么选 |

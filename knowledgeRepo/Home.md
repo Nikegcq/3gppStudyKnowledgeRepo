@@ -2,7 +2,7 @@
 type: moc
 tags: [主页]
 created: 2026-09-03
-updated: 2026-09-10
+updated: 2026-10-20
 status: active
 ---
 
@@ -29,6 +29,15 @@ status: active
 
 - [[计划-2026Q4-双主线学习-O-DU-L1与嵌入式系统]]（2026-09-18 ~ 11-16：O-DU/L1 协议 + RFIC 使用）
 - [[计划-独立线-Linux通用内核机制]]（独立延后，不在 Q4 八周内；Q4 收口后启动）
+
+## 期望未来做的项目
+
+- [[自研DAPLink主板]]（STM32F103CB 自研 DAPLink 主机板：硬件适配、Flash 分区与软件修改映射）
+
+## 已完成项目
+
+- 6449：[[简历项目-6449-SP8-多载波功率均衡与O-RAN-Cplane]]（AIR 6449 / B77D，多载波功率均衡与 O-RAN C-plane 扩展）
+- ZCU670：[[luxshare-zcu670]]（Luxshare ZCU670 / RFSoC、Linux + RPU、RFDC 与 radio 软件架构）
 
 ## 面试题
 

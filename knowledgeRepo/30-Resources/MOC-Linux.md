@@ -2,7 +2,7 @@
 type: moc
 tags: [Linux, 嵌入式, u-boot, 内核, 驱动开发, DMA, 学习路径]
 created: 2026-09-09
-updated: 2026-09-18
+updated: 2026-10-19
 status: active
 ---
 
@@ -43,6 +43,7 @@ status: active
 - **u-boot / Bootloader**：[[Bootloader面试-问答]]
 - **Linux 驱动模型**：[[Linux驱动加载与匹配-面试问答]]
 - **DMA / IIO / 中断**：见学习路线与阶段笔记
+- **嵌入式接口 / 通信**：[[概念-嵌入式总线-CAN-CANFD-RS485-SPI-I2C]]（CAN/CAN FD/RS485/SPI/I2C 对比） · [[概念-SPI总线与四种模式]] · [[概念-串口与以太网-通信与丢包对比]]
 
 ## 关联
 
