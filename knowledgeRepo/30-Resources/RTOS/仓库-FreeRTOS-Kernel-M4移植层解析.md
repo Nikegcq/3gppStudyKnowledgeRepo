@@ -6,7 +6,7 @@ repo: FreeRTOS-Kernel
 repo_url: https://github.com/FreeRTOS/FreeRTOS-Kernel
 local_path: /home/congqiang/work/repo/FreeRTOS-Kernel
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-21
 status: active
 ---
 
@@ -235,5 +235,6 @@ status: active
 - [[仓库-FreeRTOS-Kernel-核心层API与原理]]
 - [[仓库-FreeRTOS-Kernel-FreeRTOSConfig配置详解]]
 - [[概念-ARM内核架构与FreeRTOS移植]]（CM4F 在全谱系中的位置）
+- [[概念-STM32F407-FreeRTOS启动与内存布局]]（MSP/PSP/TCB、启动顺序与 startup 汇编）
 - [[学习-RTOS-学习路线]]（阶段 5）
 - [[MOC-RTOS]]

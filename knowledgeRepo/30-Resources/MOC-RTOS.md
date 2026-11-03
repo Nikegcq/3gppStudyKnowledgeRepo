@@ -2,7 +2,7 @@
 type: moc
 tags: [RTOS, FreeRTOS, 嵌入式, 实时系统, 学习路径]
 created: 2026-09-09
-updated: 2026-10-12
+updated: 2026-10-23
 status: active
 ---
 
@@ -30,10 +30,13 @@ status: active
 - **时间**：tick、软件定时器、`vTaskDelay` vs `vTaskDelayUntil`
 - **内存管理**：`heap_1`~`heap_5` 差异与选型、静态 vs 动态创建
 - **中断与移植**：`FromISR` API、临界区、Cortex-M 移植（PendSV / SysTick）
+- **启动与内存**：MSP / PSP / TCB / 任务栈、上电启动链、向量表与 startup 汇编
 
 ## 关联
 
 - 内核架构与选型：[[概念-ARM内核架构与FreeRTOS移植]]（M/R/A 全谱系 + Arm 官方应用场景 + port 命名规则）
+- 启动、上下文与内存：[[概念-STM32F407-FreeRTOS启动与内存布局]]（MSP/PSP/TCB、上电流程、PendSV、`startup_stm32f407xx.s` 语法）
+- 项目实践：[[二轮平衡车-STM32F407]]（MPU6050 + 双 JGB37-520 + TB6612，硬件适配与 FreeRTOS 控制框架）
 - 平行对照：[[MOC-Linux]]（同样的事件，Linux 用 threaded IRQ / workqueue / 内核线程）
 - 交叉主题：[[MOC-FPGA]]（Zynq / MicroBlaze 裸机与软核侧）、[[MOC-C++与软件]]
 - ZynqMP 实战：[[实践-ZCU670-Linux与RPU-AMP]]（Linux + RPU 双系统怎么启）、[[概念-高端radio软件架构-Linux与RTOS分工]]（到底要不要上第二个 OS）

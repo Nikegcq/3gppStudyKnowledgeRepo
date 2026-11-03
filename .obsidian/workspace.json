@@ -4,71 +4,22 @@
     "type": "split",
     "children": [
       {
-        "id": "ba07d69ffa78f9bb",
+        "id": "374962a61d9ada5f",
         "type": "tabs",
         "children": [
           {
-            "id": "b69c5e4510ea1c3f",
+            "id": "a23bb71af699bd88",
             "type": "leaf",
             "state": {
               "type": "excalidraw",
               "state": {
-                "file": "6449/Drawing 2026-10-12 14.57.33.excalidraw.md"
+                "file": "knowledgeRepo/30-Resources/嵌入式Linux/图-AD9361-TX-RX路径硬件模块.excalidraw"
               },
               "icon": "excalidraw-icon",
-              "title": "Drawing 2026-10-12 14.57.33.excalidraw"
-            }
-          },
-          {
-            "id": "e8a3cb25d61f9e93",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "knowledgeRepo/10-Projects/已完成项目/6449/Pasted Image 20261012145806_937.png"
-              },
-              "icon": "lucide-image",
-              "title": "Pasted Image 20261012145806_937"
-            }
-          },
-          {
-            "id": "e13d78f8f1d8ef30",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "knowledgeRepo/10-Projects/已完成项目/6449/Pasted Image 20261012145736_432.png"
-              },
-              "icon": "lucide-image",
-              "title": "Pasted Image 20261012145736_432"
-            }
-          },
-          {
-            "id": "1670bc911d1c8bd4",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "knowledgeRepo/10-Projects/已完成项目/6449/Pasted Image 20261012145736_432.png"
-              },
-              "icon": "lucide-image",
-              "title": "Pasted Image 20261012145736_432"
-            }
-          },
-          {
-            "id": "7a7cefa2948cb8f4",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "knowledgeRepo/10-Projects/已完成项目/6449/Pasted Image 20261012145806_937.png"
-              },
-              "icon": "lucide-image",
-              "title": "Pasted Image 20261012145806_937"
+              "title": "图-AD9361-TX-RX路径硬件模块"
             }
           }
-        ],
-        "currentTab": 4
+        ]
       }
     ],
     "direction": "vertical"
@@ -251,47 +202,47 @@
   },
   "active": "e4625a7ce9111ef3",
   "lastOpenFiles": [
-    "图-38.211-阶段1-帧结构总览.md",
-    "knowledgeRepo/10-Projects/已完成项目/6449/Pasted Image 20261012145806_937.png",
-    "knowledgeRepo/10-Projects/已完成项目/6449/Pasted Image 20261012145736_432.png",
-    "knowledgeRepo/10-Projects/已完成项目/6449/简历项目-6449-SP8-多载波功率均衡与O-RAN-Cplane.md",
-    "knowledgeRepo/10-Projects/已完成项目/6449/Pasted image 20261012145619.png",
-    "knowledgeRepo/10-Projects/已完成项目/6449/Drawing 2026-10-14 10.23.22.excalidraw.md",
-    "knowledgeRepo/10-Projects/已完成项目/6449/Drawing 2026-10-12 14.57.33.excalidraw.md",
-    "knowledgeRepo/10-Projects/已完成项目/6449/6449 sp8.md",
-    "未命名 1.md",
-    "未命名 1.base",
-    "未命名.md",
-    "未命名.base",
-    "未命名.canvas",
+    "knowledgeRepo/30-Resources/嵌入式Linux/概念-AD9361-RX链路dB换算与数据格式.md",
+    "knowledgeRepo/30-Resources/概念-Mixer与IQ-图解步骤.md",
+    "knowledgeRepo/30-Resources/嵌入式Linux/图-AD9361-TX-RX路径硬件模块.excalidraw",
+    "knowledgeRepo/30-Resources/嵌入式Linux/资源-AD9361-寄存器文档.md",
+    "knowledgeRepo/30-Resources/嵌入式Linux/学习-Linux-阶段0-源码地图与调试环境.md",
+    "knowledgeRepo/30-Resources/嵌入式Linux/概念-SPI总线与四种模式.md",
+    "knowledgeRepo/30-Resources/概念-Mixer变频与镜像频率.md",
+    "knowledgeRepo/30-Resources/概念-锁相环PLL与VCO.md",
+    "knowledgeRepo/30-Resources/嵌入式Linux/学习-Linux-学习路线.md",
+    "knowledgeRepo/30-Resources/嵌入式Linux/学习-Linux-驱动开发-AD9361-从dtsi到驱动调用流程.md",
+    "knowledgeRepo/30-Resources/嵌入式Linux/概念-物理层射频驱动全景.md",
+    "knowledgeRepo/30-Resources/嵌入式Linux/概念-嵌入式总线-CAN-CANFD-RS485-SPI-I2C.md",
+    "knowledgeRepo/AGENTS.md",
+    "knowledgeRepo/Home.md",
+    "knowledgeRepo/10-Projects/进行中项目/二轮平衡车/二轮平衡车-STM32F407.md",
+    "knowledgeRepo/10-Projects/期望未来做的项目/自研DAPLink主板.md",
+    "knowledgeRepo/30-Resources/概念-射频采样率-RFSoC与AD9361.md",
+    "knowledgeRepo/30-Resources/MOC-射频.md",
+    "knowledgeRepo/30-Resources/概念-ADC与Delta-Sigma入门.md",
+    "knowledgeRepo/30-Resources/概念-ADC采样量化与SAR.md",
+    "knowledgeRepo/30-Resources/MOC-FPGA.md",
     "knowledgeRepo/10-Projects/计划-独立线-Linux通用内核机制.md",
     "knowledgeRepo/10-Projects/计划-2026Q4-双主线学习-O-DU-L1与嵌入式系统.md",
-    "knowledgeRepo/10-Projects/已完成项目/luxshare-zcu670/luxshare-zcu670.md",
-    "knowledgeRepo/Home.md",
-    "knowledgeRepo/10-Projects/已完成项目/luxshare-zcu670/简历-ZCU670项目.md",
-    "knowledgeRepo/10-Projects/已完成项目/luxshare-zcu670/资源-ZCU670文档索引.md",
-    "knowledgeRepo/10-Projects/已完成项目/luxshare-zcu670/概念-高端radio软件架构-Linux与RTOS分工.md",
-    "knowledgeRepo/10-Projects/已完成项目/luxshare-zcu670/概念-ZynqMP-PS-APU与RPU.md",
-    "knowledgeRepo/10-Projects/已完成项目/luxshare-zcu670/实践-ZCU670-Linux与RPU-AMP.md",
-    "knowledgeRepo/10-Projects/已完成项目/luxshare-zcu670/学习-RFDC使用方法-PG269梳理.md",
-    "knowledgeRepo/10-Projects/已完成项目/luxshare-zcu670/ZCU670-PL-PS-参数.md",
+    "knowledgeRepo/面试题/C++/C++面试-vptr与vtable详解.md",
+    "knowledgeRepo/10-Projects/已完成项目/6449/Pasted Image 20261012145806_937.png",
+    "knowledgeRepo/10-Projects/已完成项目/6449/Pasted Image 20261012145736_432.png",
+    "knowledgeRepo/30-Resources/书籍/书籍-Linux内核设计与实现（LKD）.md",
+    "knowledgeRepo/30-Resources/RTOS/概念-ARM内核架构与FreeRTOS移植.md",
+    "knowledgeRepo/30-Resources/RTOS/仓库-FreeRTOS-Kernel-M4移植层解析.md",
+    "knowledgeRepo/10-Projects/已完成项目/6449/Pasted image 20261012145619.png",
+    "未命名 1.base",
+    "未命名.base",
+    "未命名.canvas",
     "knowledgeRepo/10-Projects/已完成项目/luxshare-zcu670",
     "knowledgeRepo/10-Projects/已完成项目/6449",
     "knowledgeRepo/10-Projects/已完成项目",
-    "knowledgeRepo/10-Projects/期望未来做的项目/自研DAPLink主板.md",
-    "knowledgeRepo/AGENTS.md",
     "knowledgeRepo/10-Projects/期望未来做的项目",
-    "knowledgeRepo/30-Resources/MOC-Linux.md",
-    "knowledgeRepo/30-Resources/MOC-C++与软件.md",
-    "knowledgeRepo/10-Projects/自研DAPLink主板.md",
-    "2026-09-20.md",
-    "图-38.211-阶段1-时间单位-Tc-Ts.md",
-    "图-38.211-阶段1-手画练习答案.md",
     "knowledgeRepo/10-Projects/6449/Pasted image 20261012145619.png",
     "未命名",
     "knowledgeRepo/30-Resources/sedQ1Fh8D",
     "knowledgeRepo/30-Resources/sed8VivXX",
-    "knowledgeRepo/30-Resources/嵌入式Linux/图-AD9361-TX-RX路径硬件模块.excalidraw",
     "6449/未命名.canvas",
     "knowledgeRepo/30-Resources/嵌入式Linux/图-设备驱动框架-lab_chardev.svg",
     "knowledgeRepo/90-Attachments/图-零中频接收机-IQ框图.png"
