@@ -4,22 +4,52 @@
     "type": "split",
     "children": [
       {
-        "id": "374962a61d9ada5f",
+        "id": "8f13a41ab9300b30",
         "type": "tabs",
         "children": [
           {
-            "id": "a23bb71af699bd88",
+            "id": "f89ae17533ed244f",
             "type": "leaf",
             "state": {
-              "type": "excalidraw",
+              "type": "bases",
               "state": {
-                "file": "knowledgeRepo/30-Resources/嵌入式Linux/图-AD9361-TX-RX路径硬件模块.excalidraw"
+                "file": "未命名 1.base",
+                "viewName": "表格"
               },
-              "icon": "excalidraw-icon",
-              "title": "图-AD9361-TX-RX路径硬件模块"
+              "icon": "lucide-table",
+              "title": "未命名 1"
+            }
+          },
+          {
+            "id": "1c8bf3ae67a551a7",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "knowledgeRepo/10-Projects/进行中项目/二轮平衡车/二轮平衡车-STM32F407.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "二轮平衡车-STM32F407"
+            }
+          },
+          {
+            "id": "d803cb93e99496be",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "90-Attachments/3GPP规范/TS 38.212 v19.4.0.pdf.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "TS 38.212 v19.4.0.pdf"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -53,7 +83,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "adi",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -174,8 +204,8 @@
             "state": {
               "type": "git-view",
               "state": {},
-              "icon": "git-pull-request",
-              "title": "Source Control"
+              "icon": "lucide-ghost",
+              "title": "git-view"
             }
           }
         ],
@@ -200,50 +230,52 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "e4625a7ce9111ef3",
+  "active": "1c8bf3ae67a551a7",
   "lastOpenFiles": [
-    "knowledgeRepo/30-Resources/嵌入式Linux/概念-AD9361-RX链路dB换算与数据格式.md",
-    "knowledgeRepo/30-Resources/概念-Mixer与IQ-图解步骤.md",
-    "knowledgeRepo/30-Resources/嵌入式Linux/图-AD9361-TX-RX路径硬件模块.excalidraw",
-    "knowledgeRepo/30-Resources/嵌入式Linux/资源-AD9361-寄存器文档.md",
-    "knowledgeRepo/30-Resources/嵌入式Linux/学习-Linux-阶段0-源码地图与调试环境.md",
-    "knowledgeRepo/30-Resources/嵌入式Linux/概念-SPI总线与四种模式.md",
-    "knowledgeRepo/30-Resources/概念-Mixer变频与镜像频率.md",
-    "knowledgeRepo/30-Resources/概念-锁相环PLL与VCO.md",
-    "knowledgeRepo/30-Resources/嵌入式Linux/学习-Linux-学习路线.md",
-    "knowledgeRepo/30-Resources/嵌入式Linux/学习-Linux-驱动开发-AD9361-从dtsi到驱动调用流程.md",
-    "knowledgeRepo/30-Resources/嵌入式Linux/概念-物理层射频驱动全景.md",
-    "knowledgeRepo/30-Resources/嵌入式Linux/概念-嵌入式总线-CAN-CANFD-RS485-SPI-I2C.md",
-    "knowledgeRepo/AGENTS.md",
-    "knowledgeRepo/Home.md",
+    "knowledgeRepo/10-Projects/进行中项目/二轮平衡车/二轮平衡车-STM32F407-硬件连接.svg",
     "knowledgeRepo/10-Projects/进行中项目/二轮平衡车/二轮平衡车-STM32F407.md",
-    "knowledgeRepo/10-Projects/期望未来做的项目/自研DAPLink主板.md",
-    "knowledgeRepo/30-Resources/概念-射频采样率-RFSoC与AD9361.md",
-    "knowledgeRepo/30-Resources/MOC-射频.md",
-    "knowledgeRepo/30-Resources/概念-ADC与Delta-Sigma入门.md",
-    "knowledgeRepo/30-Resources/概念-ADC采样量化与SAR.md",
-    "knowledgeRepo/30-Resources/MOC-FPGA.md",
+    "knowledgeRepo/10-Projects/进行中项目/二轮平衡车/JGB37-520-参数汇总.md",
+    "knowledgeRepo/10-Projects/进行中项目/二轮平衡车/硬件连接图说明.md",
+    "knowledgeRepo/10-Projects/进行中项目/二轮平衡车/二轮平衡车-STM32F407-硬件连接.png",
+    "knowledgeRepo/10-Projects/进行中项目/二轮平衡车/assets/JGB37-520/JGB37-520-尺寸与编码器接线.jpg",
+    "knowledgeRepo/10-Projects/进行中项目/二轮平衡车/assets/JGB37-520/JGB37-520-性能参数表.jpg",
+    "knowledgeRepo/10-Projects/进行中项目/二轮平衡车/assets/JGB37-520/JGB37-520-产品参数.jpg",
+    "knowledgeRepo/10-Projects/进行中项目/二轮平衡车/二轮平衡车-STM32F407-硬件连接.excalidraw",
+    "knowledgeRepo/10-Projects/进行中项目/二轮平衡车/assets/STM32F407-DS8626-Rev12.pdf",
+    "knowledgeRepo/10-Projects/进行中项目/二轮平衡车/assets/JGB37-520",
+    "knowledgeRepo/10-Projects/进行中项目/二轮平衡车/assets",
     "knowledgeRepo/10-Projects/计划-独立线-Linux通用内核机制.md",
-    "knowledgeRepo/10-Projects/计划-2026Q4-双主线学习-O-DU-L1与嵌入式系统.md",
-    "knowledgeRepo/面试题/C++/C++面试-vptr与vtable详解.md",
-    "knowledgeRepo/10-Projects/已完成项目/6449/Pasted Image 20261012145806_937.png",
-    "knowledgeRepo/10-Projects/已完成项目/6449/Pasted Image 20261012145736_432.png",
-    "knowledgeRepo/30-Resources/书籍/书籍-Linux内核设计与实现（LKD）.md",
+    "knowledgeRepo/30-Resources/RTOS/概念-STM32F407-FreeRTOS启动与内存布局.md",
     "knowledgeRepo/30-Resources/RTOS/概念-ARM内核架构与FreeRTOS移植.md",
+    "knowledgeRepo/30-Resources/RTOS/学习-RTOS-面经八股汇总.md",
+    "knowledgeRepo/30-Resources/RTOS/仓库-FreeRTOS-Kernel.md",
+    "knowledgeRepo/30-Resources/RTOS/仓库-FreeRTOS-Kernel-核心层API与原理.md",
     "knowledgeRepo/30-Resources/RTOS/仓库-FreeRTOS-Kernel-M4移植层解析.md",
-    "knowledgeRepo/10-Projects/已完成项目/6449/Pasted image 20261012145619.png",
-    "未命名 1.base",
-    "未命名.base",
+    "knowledgeRepo/30-Resources/RTOS/仓库-FreeRTOS-Kernel-FreeRTOSConfig配置详解.md",
+    "未命名 2.base",
+    "knowledgeRepo/30-Resources/FPGA/概念-Verilog-wire-reg-assign.md",
+    "knowledgeRepo/30-Resources/FPGA/概念-AXI-Stream握手与SystemVerilog.md",
+    "knowledgeRepo/30-Resources/FPGA/学习-Verilog-Top.v顶层语法精读.md",
+    "knowledgeRepo/30-Resources/FPGA/图-GAO_325T-工程结构与远程升级-drawio.md",
+    "knowledgeRepo/30-Resources/FPGA/图-GAO_325T-多卡采集系统框图.excalidraw",
+    "knowledgeRepo/30-Resources/FPGA/仓库-GAO_325T-系统架构与数据通路.md",
+    "knowledgeRepo/30-Resources/FPGA/仓库-GAO_325T-工程总览.md",
+    "knowledgeRepo/30-Resources/FPGA",
+    "knowledgeRepo/10-Projects/项目-colotrum-BOM与副板接口清单.md",
+    "knowledgeRepo/10-Projects/计划-FPGA学习-GAO多卡采集工程.md",
+    "90-Attachments/GAO_325T/远程升级.svg",
+    "90-Attachments/GAO_325T/远程升级.drawio",
+    "90-Attachments/GAO_325T/开发模块.svg",
+    "90-Attachments/GAO_325T/开发模块.drawio",
+    "90-Attachments/GAO_325T/new_struct.svg",
+    "90-Attachments/GAO_325T/new_struct.drawio",
+    "knowledgeRepo/10-Projects/期望未来做的项目/自研DAPLink主板.md",
+    "knowledgeRepo/10-Projects/已完成项目/luxshare-zcu670/资源-ZCU670文档索引.md",
+    "knowledgeRepo/10-Projects/已完成项目/luxshare-zcu670/简历-ZCU670项目.md",
+    "knowledgeRepo/10-Projects/已完成项目/luxshare-zcu670/实践-ZCU670-Linux与RPU-AMP.md",
+    "knowledgeRepo/10-Projects/已完成项目/luxshare-zcu670/概念-高端radio软件架构-Linux与RTOS分工.md",
+    "knowledgeRepo/10-Projects/已完成项目/luxshare-zcu670/概念-ZynqMP-PS-APU与RPU.md",
     "未命名.canvas",
-    "knowledgeRepo/10-Projects/已完成项目/luxshare-zcu670",
-    "knowledgeRepo/10-Projects/已完成项目/6449",
-    "knowledgeRepo/10-Projects/已完成项目",
-    "knowledgeRepo/10-Projects/期望未来做的项目",
-    "knowledgeRepo/10-Projects/6449/Pasted image 20261012145619.png",
-    "未命名",
-    "knowledgeRepo/30-Resources/sedQ1Fh8D",
-    "knowledgeRepo/30-Resources/sed8VivXX",
-    "6449/未命名.canvas",
     "knowledgeRepo/30-Resources/嵌入式Linux/图-设备驱动框架-lab_chardev.svg",
     "knowledgeRepo/90-Attachments/图-零中频接收机-IQ框图.png"
   ]

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1470" height="1050" viewBox="-125.0 75.0 1470.0 1050.0">
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="context-stroke"/>
+</marker>
+</defs>
+<rect x="-125.0" y="75.0" width="1470.0" height="1050.0" fill="#ffffff"/>
+<polyline points="600.0,940.0 610.0,340.0" fill="none" stroke="#555555" stroke-width="2.00" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 5"/>
+<polyline points="920.0,940.0 919.7,150.0" fill="none" stroke="#555555" stroke-width="2.00" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 5"/>
+<polyline points="600.0,230.0 910.0,230.0" fill="none" stroke="#555555" stroke-width="1.50" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="600.0,230.0 910.0,230.0" fill="none" stroke="#555555" stroke-width="1.50" marker-end="url(#arrow)"/>
+<polyline points="920.0,330.0 600.0,330.0" fill="none" stroke="#555555" stroke-width="1.50" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="920.0,330.0 600.0,330.0" fill="none" stroke="#555555" stroke-width="1.50" marker-end="url(#arrow)"/>
+<polyline points="600.0,430.0 910.0,430.0" fill="none" stroke="#555555" stroke-width="1.50" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="600.0,430.0 910.0,430.0" fill="none" stroke="#555555" stroke-width="1.50" marker-end="url(#arrow)"/>
+<polyline points="920.0,510.0 600.0,510.0" fill="none" stroke="#555555" stroke-width="1.50" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="920.0,510.0 600.0,510.0" fill="none" stroke="#555555" stroke-width="1.50" marker-end="url(#arrow)"/>
+<polyline points="600.0,590.0 910.0,590.0" fill="none" stroke="#555555" stroke-width="1.50" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="600.0,590.0 910.0,590.0" fill="none" stroke="#555555" stroke-width="1.50" marker-end="url(#arrow)"/>
+<polyline points="920.0,780.0 610.0,780.0" fill="none" stroke="#555555" stroke-width="1.50" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="920.0,780.0 610.0,780.0" fill="none" stroke="#555555" stroke-width="1.50" marker-end="url(#arrow)"/>
+<polyline points="600.0,840.0 920.0,840.0" fill="none" stroke="#555555" stroke-width="1.50" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="600.0,840.0 920.0,840.0" fill="none" stroke="#555555" stroke-width="1.50" marker-end="url(#arrow)"/>
+<polyline points="920.0,920.0 610.0,920.0" fill="none" stroke="#555555" stroke-width="1.50" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="920.0,920.0 610.0,920.0" fill="none" stroke="#555555" stroke-width="1.50" marker-end="url(#arrow)"/>
+<rect x="580.0" y="550.0" width="580.0" height="250.0" fill="#1ba1e2" stroke="#006EAF" stroke-width="1.40" opacity="0.10"/>
+<rect x="80.0" y="120.0" width="200.0" height="960.0" fill="#ffffff" stroke="#1c1f26" stroke-width="1.40"/>
+<rect x="80.0" y="120.0" width="200.0" height="210.0" fill="#ffe6cc" stroke="#d79b00" stroke-width="1.40"/>
+<text x="180.0" y="229.6" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="180.0" dy="0.0">GOLDEN</tspan>
+</text>
+<rect x="80.0" y="360.0" width="200.0" height="20.0" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.40"/>
+<text x="180.0" y="374.6" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="180.0" dy="0.0">TIMER 1</tspan>
+</text>
+<rect x="80.0" y="400.0" width="200.0" height="150.0" fill="#d5e8d4" stroke="#82b366" stroke-width="1.40"/>
+<text x="180.0" y="479.6" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="180.0" dy="0.0">USER</tspan>
+</text>
+<rect x="80.0" y="640.0" width="200.0" height="20.0" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.40"/>
+<text x="180.0" y="654.5" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="180.0" dy="0.0">TIMER 2</tspan>
+</text>
+<text x="0.0" y="129.6" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="0.0" dy="0.0">0x0000000</tspan>
+</text>
+<text x="-40.0" y="129.6" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="-40.0" dy="0.0">base_addr</tspan>
+</text>
+<text x="0.0" y="369.6" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="0.0" dy="0.0">0x0C00000</tspan>
+</text>
+<text x="0.0" y="409.6" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="0.0" dy="0.0">0x0C10000</tspan>
+</text>
+<text x="0.0" y="649.5" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="0.0" dy="0.0">0x1810000</tspan>
+</text>
+<rect x="80.0" y="1030.0" width="200.0" height="50.0" fill="#f5f5f5" stroke="#666666" stroke-width="1.40"/>
+<text x="180.0" y="1059.5" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#333333">
+<tspan x="180.0" dy="0.0">sw parameter</tspan>
+</text>
+<text x="-55.0" y="1079.5" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="-55.0" dy="0.0">top_addr</tspan>
+</text>
+<text x="0.0" y="1079.5" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="0.0" dy="0.0">0x10000000</tspan>
+</text>
+<text x="0.0" y="1039.5" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="0.0" dy="0.0">0x8000000</tspan>
+</text>
+<rect x="550.0" y="130.0" width="100.0" height="30.0" fill="#ffffff" stroke="#1c1f26" stroke-width="1.40"/>
+<text x="600.0" y="149.6" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="600.0" dy="0.0">PC</tspan>
+</text>
+<rect x="880.0" y="130.0" width="80.0" height="30.0" fill="#ffffff" stroke="#1c1f26" stroke-width="1.40"/>
+<text x="920.0" y="149.6" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="920.0" dy="0.0">board</tspan>
+</text>
+<rect x="700.0" y="300.0" width="110.0" height="25.0" fill="#d5e8d4" stroke="#82b366" stroke-width="1.40"/>
+<text x="755.0" y="317.1" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="755.0" dy="0.0">ack(ok)</tspan>
+</text>
+<rect x="710.0" y="200.0" width="70.0" height="25.0" fill="#ffffff" stroke="#1c1f26" stroke-width="1.40"/>
+<text x="745.0" y="207.6" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="745.0" dy="0.0">sector </tspan>
+<tspan x="745.0" dy="18.9">idC1</tspan>
+</text>
+<rect x="800.0" y="200.0" width="70.0" height="25.0" fill="#ffffff" stroke="#1c1f26" stroke-width="1.40"/>
+<text x="835.0" y="207.6" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="835.0" dy="0.0">num</tspan>
+<tspan x="835.0" dy="18.9">192</tspan>
+</text>
+<text x="310.0" y="129.6" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="310.0" dy="0.0">sector</tspan>
+</text>
+<text x="345.0" y="129.6" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="345.0" dy="0.0">0</tspan>
+</text>
+<text x="350.0" y="369.6" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="350.0" dy="0.0">C0</tspan>
+</text>
+<text x="350.0" y="409.6" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="350.0" dy="0.0">C1</tspan>
+</text>
+<text x="350.0" y="649.5" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="350.0" dy="0.0">181</tspan>
+</text>
+<rect x="940.0" y="260.0" width="90.0" height="30.0" fill="#ffffff" stroke="#1c1f26" stroke-width="1.40"/>
+<text x="946.0" y="270.1" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#000000">
+<tspan x="946.0" dy="0.0">1. erase </tspan>
+<tspan x="946.0" dy="18.9">op</tspan>
+</text>
+<rect x="640.0" y="200.0" width="50.0" height="25.0" fill="#d5e8d4" stroke="#82b366" stroke-width="1.40"/>
+<text x="665.0" y="207.6" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="665.0" dy="0.0">eras</tspan>
+<tspan x="665.0" dy="18.9">e</tspan>
+</text>
+<rect x="720.0" y="400.0" width="70.0" height="25.0" fill="#ffffff" stroke="#1c1f26" stroke-width="1.40"/>
+<text x="755.0" y="407.6" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="755.0" dy="0.0">sector </tspan>
+<tspan x="755.0" dy="18.9">idC1</tspan>
+</text>
+<rect x="810.0" y="400.0" width="70.0" height="25.0" fill="#ffffff" stroke="#1c1f26" stroke-width="1.40"/>
+<text x="845.0" y="398.1" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="845.0" dy="0.0">num</tspan>
+<tspan x="845.0" dy="18.9">sector </tspan>
+<tspan x="845.0" dy="18.9">num</tspan>
+</text>
+<rect x="620.0" y="400.0" width="80.0" height="25.0" fill="#d5e8d4" stroke="#82b366" stroke-width="1.40"/>
+<text x="660.0" y="417.1" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="660.0" dy="0.0">start</tspan>
+</text>
+<text x="413.7" y="479.6" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="413.7" dy="0.0">sector num = File Size / 64KB</tspan>
+</text>
+<rect x="280.0" y="400.0" width="20.0" height="150.0" fill="#ffffff" stroke="#1c1f26" stroke-width="1.40" rx="8" ry="8"/>
+<rect x="940.0" y="860.0" width="110.0" height="40.0" fill="#ffffff" stroke="#1c1f26" stroke-width="1.40"/>
+<text x="946.0" y="865.6" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#000000">
+<tspan x="946.0" dy="0.0">1. release m</tspan>
+<tspan x="946.0" dy="18.9">em2. set pro</tspan>
+<tspan x="946.0" dy="18.9">g flag 0</tspan>
+</text>
+<rect x="700.0" y="480.0" width="110.0" height="25.0" fill="#d5e8d4" stroke="#82b366" stroke-width="1.40"/>
+<text x="755.0" y="497.1" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="755.0" dy="0.0">ack(ok)</tspan>
+</text>
+<rect x="680.0" y="560.0" width="50.0" height="25.0" fill="#ffffff" stroke="#1c1f26" stroke-width="1.40"/>
+<text x="705.0" y="558.1" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="705.0" dy="0.0">sect</tspan>
+<tspan x="705.0" dy="18.9">or i</tspan>
+<tspan x="705.0" dy="18.9">dC1</tspan>
+</text>
+<rect x="740.0" y="560.0" width="60.0" height="25.0" fill="#ffffff" stroke="#1c1f26" stroke-width="1.40"/>
+<text x="770.0" y="567.6" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="770.0" dy="0.0">sub id</tspan>
+<tspan x="770.0" dy="18.9">i</tspan>
+</text>
+<rect x="610.0" y="560.0" width="60.0" height="25.0" fill="#d5e8d4" stroke="#82b366" stroke-width="1.40"/>
+<text x="640.0" y="567.6" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="640.0" dy="0.0">write </tspan>
+<tspan x="640.0" dy="18.9">data</tspan>
+</text>
+<rect x="810.0" y="560.0" width="60.0" height="25.0" fill="#ffffff" stroke="#1c1f26" stroke-width="1.40"/>
+<text x="840.0" y="567.6" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="840.0" dy="0.0">data(1</tspan>
+<tspan x="840.0" dy="18.9">K)</tspan>
+</text>
+<rect x="880.0" y="560.0" width="20.0" height="25.0" fill="#ffffff" stroke="#1c1f26" stroke-width="1.40"/>
+<text x="890.0" y="558.1" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="890.0" dy="0.0">c</tspan>
+<tspan x="890.0" dy="18.9">r</tspan>
+<tspan x="890.0" dy="18.9">c</tspan>
+</text>
+<rect x="930.0" y="600.0" width="200.0" height="160.0" fill="#ffffff" stroke="#1c1f26" stroke-width="1.40"/>
+<text x="936.0" y="590.0" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#000000">
+<tspan x="936.0" dy="0.0">1. check prog flag</tspan>
+<tspan x="936.0" dy="18.9">2. check crc3. check se</tspan>
+<tspan x="936.0" dy="18.9">ctorId subId</tspan>
+<tspan x="936.0" dy="18.9">4. write data to mem</tspan>
+<tspan x="936.0" dy="18.9">5. if(subId =63)</tspan>
+<tspan x="936.0" dy="18.9">write data to sectorId </tspan>
+<tspan x="936.0" dy="18.9">of flash</tspan>
+<tspan x="936.0" dy="18.9">sectorId + 1</tspan>
+<tspan x="936.0" dy="18.9">subId = 0</tspan>
+<tspan x="936.0" dy="18.9">else</tspan>
+<tspan x="936.0" dy="18.9">subId + 1</tspan>
+</text>
+<rect x="700.0" y="750.0" width="110.0" height="25.0" fill="#d5e8d4" stroke="#82b366" stroke-width="1.40"/>
+<text x="755.0" y="767.0" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="755.0" dy="0.0">ack(ok)</tspan>
+</text>
+<text x="773.7" y="669.5" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="773.7" dy="0.0">repeat until file send finish</tspan>
+</text>
+<rect x="625.0" y="810.0" width="80.0" height="25.0" fill="#d5e8d4" stroke="#82b366" stroke-width="1.40"/>
+<text x="665.0" y="827.0" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="665.0" dy="0.0">finish</tspan>
+</text>
+<rect x="940.0" y="450.0" width="140.0" height="50.0" fill="#ffffff" stroke="#1c1f26" stroke-width="1.40"/>
+<text x="946.0" y="451.2" text-anchor="start" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#000000">
+<tspan x="946.0" dy="0.0">1. request mem2.</tspan>
+<tspan x="946.0" dy="18.9"> set prog flag 1</tspan>
+<tspan x="946.0" dy="18.9">3. sectorId(0) s</tspan>
+<tspan x="946.0" dy="18.9">ubId(0)</tspan>
+</text>
+<rect x="700.0" y="890.0" width="110.0" height="25.0" fill="#d5e8d4" stroke="#82b366" stroke-width="1.40"/>
+<text x="755.0" y="907.0" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="755.0" dy="0.0">ack(ok)</tspan>
+</text>
+<text x="1268.0" y="654.5" text-anchor="middle" font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="14.0" fill="#1c1f26">
+<tspan x="1268.0" dy="0.0">if ack failed, pls repeat</tspan>
+</text>
+</svg>
